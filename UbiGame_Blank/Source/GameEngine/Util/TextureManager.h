@@ -13,8 +13,9 @@ namespace GameEngine
 		{
 			None = -1,
 			Player,
+			Obstacle,
 			BackgroundHome,
-			Count,
+			Count
 		};
 	}	
 
@@ -22,7 +23,8 @@ namespace GameEngine
 	{
 		switch (texture)
 		{
-		case eTexture::Player: return "george.png"; //<-- The name of the image on disk
+		case eTexture::Player: return "george.png";
+		case eTexture::Obstacle: return "jackie.png";
 		case eTexture::BackgroundHome: return "BackgroundHome.png";
 		}
 		return "UnknownTexType";

@@ -19,6 +19,8 @@ namespace Game
 		bool IsGameOver() { return false; }
 	private:
 		void CreatePlayer();
+		void CreateObstacle();
+		GameEngine::Entity* obstacle;
 		GameEngine::Entity* m_player;
 		void SetBackground(int screen);
 	};
