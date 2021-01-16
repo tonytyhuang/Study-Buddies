@@ -42,8 +42,6 @@ void PlayerMovementComponent::Update() {
                 
                 animate->SetIsLooping(true);
                 animate->PlayAnim(GameEngine::EAnimationId::PlayerWalkLeft);
-            
-
         }
     }
 
