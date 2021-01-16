@@ -14,7 +14,7 @@
 
 using namespace Game;
 
-GameBoard::GameBoard() : m_player(nullptr), pet(nullptr), check{false}
+GameBoard::GameBoard() : m_player(nullptr), pet(nullptr), check{false}, checklist{nullptr}
 {
 	boardx = 900.f;
 	boardy = 300.f;
@@ -68,6 +68,12 @@ void GameBoard::UpdatePosition() {
 			}
 		}
 		else if (check) {
+			if (checklist != nullptr) {
+				//checklist = nullptr;
+				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
+				checklist = nullptr;
+				check = false;
+			}
 			//GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
 			//delete checklist;
 			
