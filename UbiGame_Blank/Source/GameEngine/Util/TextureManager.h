@@ -15,6 +15,7 @@ namespace GameEngine
 			Player,
 			Obstacle,
 			BackgroundHome,
+			BackgroundHall,
 			Count
 		};
 	}	
@@ -26,6 +27,7 @@ namespace GameEngine
 		case eTexture::Player: return "george.png";
 		case eTexture::Obstacle: return "jackie.png";
 		case eTexture::BackgroundHome: return "BackgroundHome.png";
+		case eTexture::BackgroundHall: return "BackgroundHall.png";
 		}
 		return "UnknownTexType";
 	}

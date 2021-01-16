@@ -15,8 +15,10 @@ using namespace Game;
 
 GameBoard::GameBoard()
 {
-	
-	SetBackground(1);
+	boardx = 900.f;
+	boardy = 300.f;
+	screen = 1;
+	SetBackground();
 	CreatePlayer();
 	CreateObstacle();
 }
@@ -27,21 +29,6 @@ GameBoard::~GameBoard()
 	
 }
 
-void GameBoard::SetBackground(int screen) {
-	GameEngine::Entity* background = new GameEngine::Entity();
-	GameEngine::GameEngineMain::GetInstance()->AddEntity(background);
-
-	background->SetPos(sf::Vector2f(450.f, 150.f));
-	background->SetSize(sf::Vector2f(900.f, 300.f));
-
-	GameEngine::SpriteRenderComponent* render = background->AddComponent<GameEngine::SpriteRenderComponent>();
-	if (screen == 1) {
-		render->SetTexture(GameEngine::eTexture::BackgroundHome);
-	}
-	
-	render->SetFillColor(sf::Color::Transparent);
-	render->SetZLevel(-1);
-}
 
 void GameBoard::CreatePlayer() {
 	m_player = new GameEngine::Entity();
@@ -61,11 +48,12 @@ void GameBoard::CreatePlayer() {
 	m_player->AddComponent<GameEngine::CollidablePhysicsComponent>();
 }
 
+
 void GameBoard::CreateObstacle() {
 	obstacle = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(obstacle);
 
-	obstacle->SetPos(sf:: Vector2f(350.f, 150.f));
+	obstacle->SetPos(sf::Vector2f(350.f, 150.f));
 	obstacle->SetSize(sf::Vector2f(100.0f, 120.0f));
 
 	// Render
@@ -78,7 +66,47 @@ void GameBoard::CreateObstacle() {
 
 }
 
+
+void GameBoard::SetBackground() {
+	background = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(background);
+
+	background->SetPos(sf::Vector2f(450.f, 150.f));
+	background->SetSize(sf::Vector2f(900.f, 300.f));
+
+	GameEngine::SpriteRenderComponent* render = background->AddComponent<GameEngine::SpriteRenderComponent>();
+	if (screen == 1) {
+		render->SetTexture(GameEngine::eTexture::BackgroundHome);
+	}
+	else if (screen == 2) {
+		render->SetTexture(GameEngine::eTexture::BackgroundHall);
+	}
+
+	render->SetFillColor(sf::Color::Transparent);
+	render->SetZLevel(-1);
+}
+
+void GameBoard::UpdatePosition() {
+	float xpos = m_player->GetPos().x;
+	float ypos = m_player->GetPos().y;
+
+	if (screen == 1) {
+		if (xpos < 0.f) {
+			screen = 2;
+			SetBackground();
+			m_player->SetPos(sf::Vector2f(boardx, 150.f));
+		}
+	}
+	else if (screen == 2) {
+		if (xpos > boardx) {
+			screen = 1;
+			SetBackground();
+			m_player->SetPos(sf::Vector2f(0.f, 150.f));
+		}
+	}
+}
+
 void GameBoard::Update()
 {	
-	
+	UpdatePosition();
 }

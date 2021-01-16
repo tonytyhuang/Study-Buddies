@@ -20,9 +20,16 @@ namespace Game
 	private:
 		void CreatePlayer();
 		void CreateObstacle();
+		void SetBackground();
+		void UpdatePosition();
+
+		float boardx;
+		float boardy;
+		int screen;
+		
 		GameEngine::Entity* obstacle;
 		GameEngine::Entity* m_player;
-		void SetBackground(int screen);
+		GameEngine::Entity* background;
 	};
 }
 
