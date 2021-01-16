@@ -92,6 +92,11 @@ void GameEngineMain::RemoveEntity(Entity* entity)
 	}
 }
 
+void GameEngineMain::RemoveAllEntities() {
+	for (auto entity : m_entities) {
+		GameEngineMain::RemoveEntity(entity);
+	}
+}
 
 void GameEngineMain::Update()
 {

@@ -10,7 +10,7 @@ namespace GameEngine
 	namespace EAnimationId
 	{
 		enum type
-		{			
+		{
 			None,
 			PlayerWalkDown,
 			PlayerWalkUp,
