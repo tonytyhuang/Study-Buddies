@@ -25,7 +25,7 @@ void TextureManager::LoadTextures()
 	{
 		sf::Texture* texture = new sf::Texture();
 		std::string filePath;
-		filePath.append("Resources/img/");
+		filePath.append("Resources/");
 		filePath.append(GetPath((eTexture::type)a));
 		texture->loadFromFile(filePath);
 

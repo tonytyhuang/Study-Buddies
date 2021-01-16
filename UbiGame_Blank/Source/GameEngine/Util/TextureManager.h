@@ -3,6 +3,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 
+
 namespace GameEngine
 {
 	//TODO - if needed, move out of Engine part to some sort of loader on the game side of things
@@ -11,15 +12,17 @@ namespace GameEngine
 		enum type
 		{
 			None = -1,
-
-			AddYourTexturesEnumerationsHere, // Replace this for your own enumerations
-
+			Player,     //<-- Add a new entry for our new texture
 			Count,
 		};
 	}	
 
 	inline const char* GetPath(eTexture::type texture)
 	{
+		switch (texture)
+		{
+		case eTexture::Player: return "george.png"; //<-- The name of the image on disk
+		}
 		return "UnknownTexType";
 	}
 
