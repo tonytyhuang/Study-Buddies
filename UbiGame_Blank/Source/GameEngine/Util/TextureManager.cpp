@@ -51,6 +51,7 @@ namespace TextureHelper
 		{
 		case eTexture::Player: return sf::Vector2f(0.0f, 0.0f);
 			//Add here the tile sizes
+		case eTexture::Obstacle: return sf::Vector2f(280.0f, 275.0f);
 		}
 		return sf::Vector2f(-1.f, -1.f);
 	}
