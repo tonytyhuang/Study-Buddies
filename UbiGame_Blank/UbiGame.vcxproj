@@ -176,6 +176,7 @@ XCOPY "$(SolutionDir)..\SFML-2.5.0\bin" "$(TargetDir)" /S /Y /I</Command>
     <ClCompile Include="Source\GameEngine\Util\SoundManager.cpp" />
     <ClCompile Include="Source\Game\Components\PetMovementComponent.cpp" />
     <ClCompile Include="Source\Game\Components\PlayerMovementComponent.cpp" />
+    <ClCompile Include="Source\Game\Entities\PetEntity.cpp" />
     <ClCompile Include="Source\Game\Entities\PlayerEntity.cpp" />
     <ClCompile Include="Source\Game\GameBoard.cpp" />
     <ClCompile Include="Source\GameEngine\EntitySystem\Components\RenderComponent.cpp" />
@@ -200,6 +201,7 @@ XCOPY "$(SolutionDir)..\SFML-2.5.0\bin" "$(TargetDir)" /S /Y /I</Command>
     <ClInclude Include="Source\GameEngine\Util\SoundManager.h" />
     <ClInclude Include="Source\Game\Components\PetMovementComponent.h" />
     <ClInclude Include="Source\Game\Components\PlayerMovementComponent.h" />
+    <ClInclude Include="Source\Game\Entities\PetEntity.h" />
     <ClInclude Include="Source\Game\Entities\PlayerEntity.h" />
     <ClInclude Include="Source\Game\GameBoard.h" />
     <ClInclude Include="Source\GameEngine\EntitySystem\Components\RenderComponent.h" />

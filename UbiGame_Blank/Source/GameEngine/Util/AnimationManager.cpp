@@ -108,8 +108,8 @@ void AnimationManager::InitStaticGameAnimations()
 		SAnimationDefinition(
 			EAnimationId::DogIdle,
 			eTexture::Dog,
-			sf::Vector2i(0, 6),
-			3,
+			sf::Vector2i(2, 4),
+			2,
 			1)
 	);
 	m_animDefinitions.push_back
@@ -156,6 +156,15 @@ void AnimationManager::InitStaticGameAnimations()
 			sf::Vector2i(0, 7),
 			2,
 			1)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::DogSit,
+			eTexture::Dog,
+			sf::Vector2i(0, 4),
+			4,
+			4)
 	);
 }
 

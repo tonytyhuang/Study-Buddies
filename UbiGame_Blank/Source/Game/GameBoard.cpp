@@ -19,10 +19,10 @@ GameBoard::GameBoard() : m_player(nullptr), pet(nullptr), check{false}, checklis
 	boardx = 900.f;
 	boardy = 300.f;
 	screen = 1;
-	SetBackground();
-	CreatePlayer();
-	CreatePet();
-	CreateObstacle();
+	startx = 150.f;
+	starty = 150.f;
+	init = false;
+	CreateBackground();
 	CreatePtsCounter();
 
 	// set tasks
@@ -38,7 +38,9 @@ GameBoard::~GameBoard()
 	
 }
 
-void GameBoard::SetBackground() {
+void GameBoard::CreateBackground() {
+	GameEngine::GameEngineMain::GetInstance()->RemoveAllEntities();
+
 	background = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(background);
 
@@ -48,9 +50,20 @@ void GameBoard::SetBackground() {
 	GameEngine::SpriteRenderComponent* render = background->AddComponent<GameEngine::SpriteRenderComponent>();
 	if (screen == 1) {
 		render->SetTexture(GameEngine::eTexture::BackgroundHome);
+		CreateObstacle();
+		if (!init) {
+			CreatePlayer(startx, starty);
+			
+			init = true;
+		}
+		else {
+			CreatePlayer(0.f, 150.f);
+		}
+		CreatePet();
 	}
 	else if (screen == 2) {
 		render->SetTexture(GameEngine::eTexture::BackgroundHall);
+		CreatePlayer(boardx, 150.f);
 	}
 
 	render->SetFillColor(sf::Color::Transparent);
@@ -64,10 +77,9 @@ void GameBoard::UpdatePosition() {
 	if (screen == 1) {
 		if (xpos < 0.f) {
 			screen = 2;
-			SetBackground();
-			m_player->SetPos(sf::Vector2f(boardx, 150.f));
+			CreateBackground();
 		}
-		else if (xpos > 900.f){
+		else if (xpos > 900.f) {
 			if (!check) {
 				CreateChecklist();
 				for (int i = 0; i < taskLength; ++i) {
@@ -88,13 +100,18 @@ void GameBoard::UpdatePosition() {
 					it = tasks.erase(it);
 				}
 			}
+<<<<<<< HEAD
+=======
+			//GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
+			//delete checklist;
+
+>>>>>>> 846274b483c35930e80649bc55fdfebe755f2f1d
 		}
 	}
 	else if (screen == 2) {
 		if (xpos > boardx) {
 			screen = 1;
-			SetBackground();
-			m_player->SetPos(sf::Vector2f(0.f, 150.f));
+			CreateBackground();
 		}
 	}
 }
@@ -133,11 +150,11 @@ void GameBoard::CreateTasks(int id) {
 	tasks.push_back(task);
 }
 
-void GameBoard::CreatePlayer() {
+void GameBoard::CreatePlayer(float x, float y) {
 	m_player = new PlayerEntity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(m_player);
 
-	m_player->SetPos(sf::Vector2f(150.0f, 150.0f));
+	m_player->SetPos(sf::Vector2f(x, y));
 	m_player->SetSize(sf::Vector2f(50.0f, 75.0f));
 
 	//Render
@@ -154,7 +171,7 @@ void GameBoard::CreatePlayer() {
 }
 
 void GameBoard::CreatePet() {
-	pet = new GameEngine::Entity();
+	pet = new PetEntity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(pet);
 
 	pet->SetPos(sf::Vector2f(700.0f, 150.0f));

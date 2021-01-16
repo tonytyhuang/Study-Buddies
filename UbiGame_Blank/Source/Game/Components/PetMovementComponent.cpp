@@ -16,6 +16,7 @@ PetMovementComponent::PetMovementComponent() {
     initialState = true;
     radiusOuter = 200.f;
     radiusInner = 40.f;
+    isSitting = false;
 }
 
 PetMovementComponent::~PetMovementComponent()
@@ -31,7 +32,6 @@ void PetMovementComponent::OnAddToWorld()
 
 void PetMovementComponent::Update() {
     Component::Update();
-
     //Grabs how much time has passed since last frame
     const float dt = GameEngine::GameEngineMain::GetTimeDelta();
     
@@ -56,6 +56,7 @@ void PetMovementComponent::Update() {
      }
     
     if (getDistance(distance) < radiusOuter && getDistance(distance) > radiusInner) {
+        isSitting = false;
         initialState = false;
          if (abs(displacement.y) > abs(displacement.x)) {
                 if (displacement.y > 0) {
@@ -85,20 +86,19 @@ void PetMovementComponent::Update() {
                     }
                 }
             }
-            /*
-               if(animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle)
-            {
-                animate->SetIsLooping(true);
-                animate->PlayAnim(GameEngine::EAnimationId::DogIdle);
-            }
-            */
  
 
             //Update the entity position
             GetEntity()->SetPos(GetEntity()->GetPos() + displacement);
     }
     else if (getDistance(distance) <= radiusInner) {
-        if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle) {
+        if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogSit && !isSitting) {
+            isSitting = true;
+            animate->SetIsLooping(false);
+            animate->PlayAnim(GameEngine::EAnimationId::DogSit);
+        }
+        else if (animate && isSitting && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogSit && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle ) {
+            printf("sitting");
             animate->SetIsLooping(true);
             animate->PlayAnim(GameEngine::EAnimationId::DogIdle);
         }

@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEngine/EntitySystem/Entity.h"
 #include "Game/Entities/PlayerEntity.h"
+#include "Game/Entities/PetEntity.h"
 
 #include <SFML/System/Vector2.hpp>
 #include <vector>
@@ -20,9 +21,9 @@ namespace Game
 		bool IsGameOver() { return false; }
 		GameEngine::Entity* getPlayer();
 	private:
-		void CreatePlayer();
+		void CreatePlayer(float x, float y);
 		void CreateObstacle();
-		void SetBackground();
+		void CreateBackground();
 		void UpdatePosition();
 		void CreateChecklist();
 		void CreatePet();
@@ -32,11 +33,14 @@ namespace Game
 		float boardx;
 		float boardy;
 		int screen;
+		float startx;
+		float starty;
+		bool init;
 		bool check;
 		int taskLength;
 		std::vector<std::string> taskList;
 
-		GameEngine::Entity* pet;
+		PetEntity* pet;
 		GameEngine::Entity* obstacle;
 		PlayerEntity* m_player;
 		GameEngine::Entity* background;

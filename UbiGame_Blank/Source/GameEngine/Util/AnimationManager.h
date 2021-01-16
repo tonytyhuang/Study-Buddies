@@ -10,7 +10,7 @@ namespace GameEngine
 	namespace EAnimationId
 	{
 		enum type
-		{			
+		{
 			None,
 			PlayerWalkDown,
 			PlayerWalkUp,
@@ -26,6 +26,7 @@ namespace GameEngine
 			DogWalkLeft,
 			DogWalkRight,
 			DogSleep,
+			DogSit,
 		};
 	}
 

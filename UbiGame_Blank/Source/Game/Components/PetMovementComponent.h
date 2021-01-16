@@ -22,5 +22,6 @@ namespace Game
         float radiusOuter;
         float radiusInner;
         bool initialState;
+        bool isSitting;
     };
 }
