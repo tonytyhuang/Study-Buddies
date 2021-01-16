@@ -6,14 +6,14 @@
 
 #include "GameEngine/EntitySystem/Components/SpriteRenderComponent.h"
 #include <string>
-
+#include "GameEngine\EntitySystem\Components\AnimationComponent.h"
 #include "GameEngine/EntitySystem/Components/CollidablePhysicsComponent.h"
 
 #include "GameEngine/EntitySystem/Components/CollidableComponent.h"
 
 using namespace Game;
 
-GameBoard::GameBoard()
+GameBoard::GameBoard() : m_player(nullptr)
 {
 	
 	SetBackground(1);
@@ -51,13 +51,14 @@ void GameBoard::CreatePlayer() {
 	m_player->SetSize(sf::Vector2f(100.0f, 150.0f));
 
 	//Render
-	GameEngine::SpriteRenderComponent* render = m_player->AddComponent<GameEngine::SpriteRenderComponent>();
+	GameEngine::SpriteRenderComponent* render = static_cast<GameEngine::SpriteRenderComponent*>(m_player->AddComponent<GameEngine::SpriteRenderComponent>());
 
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetTexture(GameEngine::eTexture::Player);
 
 	//Movement
 	m_player->AddComponent<Game::PlayerMovementComponent>();  // <-- Added the movement component to the player
+	m_player->AddComponent<GameEngine::AnimationComponent>();
 	m_player->AddComponent<GameEngine::CollidablePhysicsComponent>();
 }
 
