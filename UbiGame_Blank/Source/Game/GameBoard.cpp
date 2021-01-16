@@ -104,7 +104,7 @@ void GameBoard::CreatePet() {
 	pet->AddComponent<GameEngine::AnimationComponent>();
 	Game::PetMovementComponent* temp =  pet->AddComponent<Game::PetMovementComponent>();
 
-
+	temp->SetPlayerEntity(m_player);
 }
 
 void GameBoard::CreateObstacle() {

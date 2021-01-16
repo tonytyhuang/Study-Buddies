@@ -32,9 +32,18 @@ void PetMovementComponent::Update() {
     sf::Vector2f displacement{ 0.0f,0.0f };
 
     //The amount of speed that we will apply when input is received
-    const float inputAmount = 100.0f;
+    const float inputAmount = 10.0f;
     if (player != nullptr) {
-        player->GetPos();
+        
+        displacement = (player->GetPos() - GetEntity()->GetPos())*dt;
+    }
+    if (abs(displacement.y) > abs(displacement.x)) {
+        if (displacement.y > 0) {
+
+        }
+        else {
+
+        }
     }
     
     if(animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle)
@@ -47,6 +56,6 @@ void PetMovementComponent::Update() {
     GetEntity()->SetPos(GetEntity()->GetPos() + displacement);
 }
 
-void PetMovementComponent::SetPlayerEntity(GameEngine::Entity* player) {
-    player = player;
+void PetMovementComponent::SetPlayerEntity(GameEngine::Entity* setPlayer) {
+    player = setPlayer;
 }
