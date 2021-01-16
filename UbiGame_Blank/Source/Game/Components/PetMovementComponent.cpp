@@ -7,8 +7,16 @@
 
 using namespace Game;
 
-PetMovementComponent::PetMovementComponent() {
+float getDistance(sf::Vector2f vector) {
+    float distance = abs(sqrt(vector.x * vector.x + vector.y * vector.y));
+    return distance;
+}
 
+PetMovementComponent::PetMovementComponent() {
+    initialState = true;
+    radiusOuter = 200.f;
+    radiusInner = 40.f;
+    isSitting = false;
 }
 
 PetMovementComponent::~PetMovementComponent()
@@ -30,23 +38,83 @@ void PetMovementComponent::Update() {
 
     //By default the displacement is 0,0
     sf::Vector2f displacement{ 0.0f,0.0f };
-
+    sf::Vector2f distance{ 1000.f,1000.f };
     //The amount of speed that we will apply when input is received
-    const float inputAmount = 100.0f;
+    const float inputAmount = 10.0f;
+
+
+
     if (player != nullptr) {
-        player->GetPos();
-    }
-    
-    if(animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle)
-    {
-        animate->SetIsLooping(true);
-        animate->PlayAnim(GameEngine::EAnimationId::DogIdle);
+        distance = (player->GetPos() - GetEntity()->GetPos());
+        displacement = (player->GetPos() - GetEntity()->GetPos()) * dt;
     }
 
-    //Update the entity position
-    GetEntity()->SetPos(GetEntity()->GetPos() + displacement);
+    if (initialState) {
+        if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogSleep) {
+            animate->SetIsLooping(true);
+            animate->PlayAnim(GameEngine::EAnimationId::DogSleep);
+        }
+    }
+
+    if (getDistance(distance) < radiusOuter && getDistance(distance) > radiusInner) {
+        isSitting = false;
+        initialState = false;
+        if (abs(displacement.y) > abs(displacement.x)) {
+            if (displacement.y > 0) {
+                if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogWalkDown) {
+                    animate->SetIsLooping(true);
+                    animate->PlayAnim(GameEngine::EAnimationId::DogWalkDown);
+                }
+            }
+            else {
+                if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogWalkUp) {
+                    animate->SetIsLooping(true);
+                    animate->PlayAnim(GameEngine::EAnimationId::DogWalkUp);
+                }
+            }
+        }
+        else {
+            if (displacement.x > 0) {
+                if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogWalkRight) {
+                    animate->SetIsLooping(true);
+                    animate->PlayAnim(GameEngine::EAnimationId::DogWalkRight);
+                }
+            }
+            else {
+                if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogWalkLeft) {
+                    animate->SetIsLooping(true);
+                    animate->PlayAnim(GameEngine::EAnimationId::DogWalkLeft);
+                }
+            }
+        }
+        /*
+           if(animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle)
+        {
+            animate->SetIsLooping(true);
+            animate->PlayAnim(GameEngine::EAnimationId::DogIdle);
+        }
+        */
+
+
+        //Update the entity position
+        GetEntity()->SetPos(GetEntity()->GetPos() + displacement);
+    }
+    else if (getDistance(distance) <= radiusInner) {
+        if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogSit && !isSitting) {
+            isSitting = true;
+            animate->SetIsLooping(false);
+            animate->PlayAnim(GameEngine::EAnimationId::DogSit);
+        }
+        else if (animate && isSitting && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogSit && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle) {
+            printf("sitting");
+            animate->SetIsLooping(true);
+            animate->PlayAnim(GameEngine::EAnimationId::DogIdle);
+        }
+    }
+
+
 }
 
-void PetMovementComponent::SetPlayerEntity(GameEngine::Entity* player) {
-    player = player;
+void PetMovementComponent::SetPlayerEntity(GameEngine::Entity* setPlayer) {
+    player = setPlayer;
 }

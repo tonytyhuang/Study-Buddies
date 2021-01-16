@@ -14,7 +14,7 @@
 
 using namespace Game;
 
-GameBoard::GameBoard() : pet(nullptr)
+GameBoard::GameBoard() : m_player(nullptr), pet(nullptr), check{false}, checklist{nullptr}
 {
 	boardx = 900.f;
 	boardy = 300.f;
@@ -64,27 +64,58 @@ void GameBoard::CreateBackground() {
 }
 
 void GameBoard::UpdatePosition() {
-	if (m_player) {
-		float xpos = m_player->GetPos().x;
-		float ypos = m_player->GetPos().y;
-		
-		if (screen == 1) {
-			if (xpos < 0.f) {
-				screen = 2;
-				CreateBackground();
+	float xpos = m_player->GetPos().x;
+	float ypos = m_player->GetPos().y;
+
+	if (screen == 1) {
+		if (xpos < 0.f) {
+			screen = 2;
+			CreateBackground();
+		}
+		else if (xpos > 900.f) {
+			if (!check) {
+				CreateChecklist();
+				check = true;
 			}
 		}
-		else if (screen == 2) {
-			if (xpos > boardx) {
-				screen = 1;
-				CreateBackground();
+		else if (check) {
+			if (checklist != nullptr) {
+				//checklist = nullptr;
+				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
+				checklist = nullptr;
+				check = false;
 			}
+			//GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
+			//delete checklist;
+
 		}
 	}
-	
-
-	
+	else if (screen == 2) {
+		if (xpos > boardx) {
+			screen = 1;
+			CreateBackground();
+		}
+	}
 }
+
+
+void GameBoard::CreateChecklist() {
+	checklist = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(checklist);
+
+	checklist->SetPos(sf::Vector2f(400.0f, 150.0f));
+	checklist->SetSize(sf::Vector2f(275.0f, 300.0f));
+
+	// Render
+
+	GameEngine::SpriteRenderComponent* render = static_cast<GameEngine::SpriteRenderComponent*>(checklist->AddComponent<GameEngine::SpriteRenderComponent>());
+
+	render->SetTexture(GameEngine::eTexture::Checklist);
+	render->SetFillColor(sf::Color::Transparent);
+	render->SetZLevel(101);
+
+}
+
 
 void GameBoard::CreatePlayer(float x, float y) {
 	m_player = new PlayerEntity();
@@ -121,7 +152,7 @@ void GameBoard::CreatePet() {
 	pet->AddComponent<GameEngine::AnimationComponent>();
 	Game::PetMovementComponent* temp =  pet->AddComponent<Game::PetMovementComponent>();
 
-
+	temp->SetPlayerEntity(m_player);
 }
 
 void GameBoard::CreateObstacle() {

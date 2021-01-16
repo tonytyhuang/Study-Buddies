@@ -17,6 +17,7 @@ namespace GameEngine
 			BackgroundHome,
 			BackgroundHall,
 			Dog,
+			Checklist,
 			Count
 		};
 	}	
@@ -25,11 +26,12 @@ namespace GameEngine
 	{
 		switch (texture)
 		{
-		case eTexture::Player: return "player.png";
+		case eTexture::Player: return "player1.png";
 		case eTexture::Obstacle: return "jackie.png";
 		case eTexture::BackgroundHome: return "BackgroundHome.png";
 		case eTexture::BackgroundHall: return "BackgroundHall.png";
 		case eTexture::Dog: return "George.png";
+		case eTexture::Checklist: return "checklist.png";
 		}
 		return "UnknownTexType";
 	}
