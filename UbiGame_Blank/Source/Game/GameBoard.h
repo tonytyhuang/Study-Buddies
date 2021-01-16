@@ -2,6 +2,7 @@
 #include "GameEngine/EntitySystem/Entity.h"
 #include "Game/Entities/PlayerEntity.h"
 #include "Game/Entities/PetEntity.h"
+#include "GameEngine/EntitySystem/Components/SpriteRenderComponent.h"
 
 #include <SFML/System/Vector2.hpp>
 #include <vector>
@@ -27,6 +28,7 @@ namespace Game
 		void CreateChecklist();
 		void CreatePet();
 		void CreatePtsCounter();
+		void UpdateLevel();
 		
 		float boardx;
 		float boardy;
@@ -42,6 +44,9 @@ namespace Game
 		GameEngine::Entity* background;
 		GameEngine::Entity* checklist;
 		GameEngine::Entity* ptscounter;
+
+		GameEngine::SpriteRenderComponent* playerRender;
+		GameEngine::SpriteRenderComponent* petRender;
 	};
 }
 

@@ -126,11 +126,11 @@ void GameBoard::CreatePlayer(float x, float y) {
 	m_player->SetSize(sf::Vector2f(50.0f, 75.0f));
 
 	//Render
-	GameEngine::SpriteRenderComponent* render = static_cast<GameEngine::SpriteRenderComponent*>(m_player->AddComponent<GameEngine::SpriteRenderComponent>());
+	playerRender = static_cast<GameEngine::SpriteRenderComponent*>(m_player->AddComponent<GameEngine::SpriteRenderComponent>());
 
-	render->SetFillColor(sf::Color::Transparent);
-	render->SetTexture(GameEngine::eTexture::Player);
-	render->SetZLevel(100); // Player in front of everything
+	playerRender->SetFillColor(sf::Color::Transparent);
+	playerRender->SetTexture(GameEngine::eTexture::Player);
+	playerRender->SetZLevel(100); // Player in front of everything
 
 	//Movement
 	m_player->AddComponent<Game::PlayerMovementComponent>();  // <-- Added the movement component to the player
@@ -145,10 +145,11 @@ void GameBoard::CreatePet() {
 	pet->SetPos(sf::Vector2f(700.0f, 150.0f));
 	pet->SetSize(sf::Vector2f(50.0f, 50.0f));
 
-	GameEngine::SpriteRenderComponent* render = static_cast<GameEngine::SpriteRenderComponent*>(pet->AddComponent<GameEngine::SpriteRenderComponent>());
+	petRender = static_cast<GameEngine::SpriteRenderComponent*>(pet->AddComponent<GameEngine::SpriteRenderComponent>());
 
-	render->SetFillColor(sf::Color::Transparent);
-	render->SetTexture(GameEngine::eTexture::Dog);
+	petRender->SetFillColor(sf::Color::Transparent);
+	petRender->SetTexture(GameEngine::eTexture::Dog);
+	petRender->SetZLevel(99);
 
 	pet->AddComponent<GameEngine::AnimationComponent>();
 	Game::PetMovementComponent* temp =  pet->AddComponent<Game::PetMovementComponent>();
@@ -185,9 +186,20 @@ void GameBoard::CreatePtsCounter() {
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetCharacterSizePixels(20);
 }
+void GameBoard::UpdateLevel() {
+	if (m_player->GetPos().y < (pet->GetPos().y - 12.f)) {
+		playerRender->SetZLevel(99);
+		petRender->SetZLevel(100);
+	}
+	else {
+		playerRender->SetZLevel(100);
+		petRender->SetZLevel(99);
+	}
+}
 
 void GameBoard::Update()
 {	
+	UpdateLevel();
 	UpdatePosition();
 }
 
