@@ -19,5 +19,8 @@ namespace Game
     private:
         GameEngine::AnimationComponent* animate;
         GameEngine::Entity* player;
+        float radiusOuter;
+        float radiusInner;
+        bool initialState;
     };
 }

@@ -112,6 +112,51 @@ void AnimationManager::InitStaticGameAnimations()
 			3,
 			1)
 	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::DogWalkDown,
+			eTexture::Dog,
+			sf::Vector2i(0, 0),
+			4,
+			10)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::DogWalkUp,
+			eTexture::Dog,
+			sf::Vector2i(0, 2),
+			4,
+			10)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::DogWalkRight,
+			eTexture::Dog,
+			sf::Vector2i(0, 1),
+			4,
+			10)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::DogWalkLeft,
+			eTexture::Dog,
+			sf::Vector2i(0, 3),
+			4,
+			10)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::DogSleep,
+			eTexture::Dog,
+			sf::Vector2i(0, 7),
+			2,
+			1)
+	);
 }
 
 
