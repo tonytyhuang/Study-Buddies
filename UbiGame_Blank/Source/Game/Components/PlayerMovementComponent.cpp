@@ -77,7 +77,6 @@ void PlayerMovementComponent::Update() {
     }
     else 
     {
-        printf("%d", direction);
         if (direction == 1) {
             if (animate) {
                 animate->SetIsLooping(true);
