@@ -116,7 +116,7 @@ void GameBoard::UpdatePosition() {
 			screen = 1;
 			CreateBackground();
 		} 
-		if (px > 400.f && px < 500.f && py < 140.f && sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+		if (px > 400.f && px < 500.f && py < 160.f && sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 			screen = 3;
 			CreateBackground();
 		}
