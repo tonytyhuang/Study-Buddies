@@ -3,7 +3,7 @@
 #include "GameEngine/GameEngineMain.h"
 
 #include "Game/Components/PlayerMovementComponent.h"
-
+#include "Game/Components/PetMovementComponent.h"
 #include "GameEngine/EntitySystem/Components/SpriteRenderComponent.h"
 #include <string>
 #include "GameEngine\EntitySystem\Components\AnimationComponent.h"
@@ -14,7 +14,7 @@
 
 using namespace Game;
 
-GameBoard::GameBoard() : m_player(nullptr), pet(nullptr)
+GameBoard::GameBoard() : pet(nullptr)
 {
 	boardx = 900.f;
 	boardy = 300.f;
@@ -95,13 +95,18 @@ void GameBoard::CreatePet() {
 	pet = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(pet);
 
-	pet->SetPos(sf::Vector2f(200.0f, 150.0f));
+	pet->SetPos(sf::Vector2f(700.0f, 150.0f));
 	pet->SetSize(sf::Vector2f(50.0f, 50.0f));
 
 	GameEngine::SpriteRenderComponent* render = static_cast<GameEngine::SpriteRenderComponent*>(pet->AddComponent<GameEngine::SpriteRenderComponent>());
 
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetTexture(GameEngine::eTexture::Dog);
+
+	pet->AddComponent<GameEngine::AnimationComponent>();
+	Game::PetMovementComponent* temp =  pet->AddComponent<Game::PetMovementComponent>();
+
+
 }
 
 void GameBoard::CreateObstacle() {
@@ -137,4 +142,8 @@ void GameBoard::CreatePtsCounter() {
 void GameBoard::Update()
 {	
 	UpdatePosition();
+}
+
+GameEngine::Entity* GameBoard::getPlayer() {
+	return m_player;
 }

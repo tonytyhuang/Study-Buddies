@@ -15,10 +15,9 @@ namespace Game
 	public:
 		GameBoard();
 		virtual ~GameBoard();
-
 		void Update();		
 		bool IsGameOver() { return false; }
-
+		GameEngine::Entity* getPlayer();
 	private:
 		void CreatePlayer();
 		void CreateObstacle();
