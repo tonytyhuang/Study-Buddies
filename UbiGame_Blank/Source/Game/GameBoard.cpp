@@ -16,8 +16,7 @@ GameBoard::GameBoard()
 
 GameBoard::~GameBoard()
 {
-	m_player = new GameEngine::Entity();
-	GameEngine::GameEngineMain::GetInstance()->AddEntity(m_player);
+	
 }
 
 void GameBoard::CreatePlayer() {
