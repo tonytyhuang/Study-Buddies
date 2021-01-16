@@ -20,6 +20,8 @@ namespace Game
 	private:
 		void CreatePlayer();
 		void CreateObstacle();
+		void CreatePet();
+		GameEngine::Entity* pet;
 		GameEngine::Entity* obstacle;
 		GameEngine::Entity* m_player;
 		void SetBackground(int screen);

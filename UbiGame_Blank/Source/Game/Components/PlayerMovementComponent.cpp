@@ -103,9 +103,6 @@ void PlayerMovementComponent::Update() {
         }
     }
 
-    
-
-
     //Update the entity position
     GetEntity()->SetPos(GetEntity()->GetPos() + displacement);
 }
