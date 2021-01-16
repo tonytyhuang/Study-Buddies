@@ -22,16 +22,19 @@ namespace Game
 		void CreateObstacle();
 		void SetBackground();
 		void UpdatePosition();
+		void CreateChecklist();
 		void CreatePet();
 		GameEngine::Entity* pet;
 
 		float boardx;
 		float boardy;
 		int screen;
+		bool check;
 		
 		GameEngine::Entity* obstacle;
 		GameEngine::Entity* m_player;
 		GameEngine::Entity* background;
+		GameEngine::Entity* checklist;
 	};
 }
 

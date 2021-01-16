@@ -66,8 +66,9 @@ void GameBoard::UpdatePosition() {
 			}
 		}
 		else if (check) {
-			//GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
-			//delete checklist;
+			GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
+			delete checklist;
+			checklist = nullptr;
 			
 		}
 	}
