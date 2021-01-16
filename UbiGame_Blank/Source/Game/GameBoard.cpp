@@ -44,15 +44,16 @@ void GameBoard::CreateBackground() {
 	GameEngine::SpriteRenderComponent* render = background->AddComponent<GameEngine::SpriteRenderComponent>();
 	if (screen == 1) {
 		render->SetTexture(GameEngine::eTexture::BackgroundHome);
-		CreatePet();
 		CreateObstacle();
 		if (!init) {
 			CreatePlayer(startx, starty);
+			
 			init = true;
 		}
 		else {
 			CreatePlayer(0.f, 150.f);
 		}
+		CreatePet();
 	}
 	else if (screen == 2) {
 		render->SetTexture(GameEngine::eTexture::BackgroundHall);
