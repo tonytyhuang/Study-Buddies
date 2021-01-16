@@ -47,6 +47,11 @@ namespace TextureHelper
 {
 	sf::Vector2f GetTextureTileSize(GameEngine::eTexture::type texture)
 	{
+		switch (texture)
+		{
+		case eTexture::Player: return sf::Vector2f(0.0f, 0.0f);
+			//Add here the tile sizes
+		}
 		return sf::Vector2f(-1.f, -1.f);
 	}
 }

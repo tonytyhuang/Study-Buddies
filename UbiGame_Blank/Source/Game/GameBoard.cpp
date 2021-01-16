@@ -30,7 +30,7 @@ void GameBoard::CreatePlayer() {
 	//Render
 	GameEngine::SpriteRenderComponent* render = m_player->AddComponent<GameEngine::SpriteRenderComponent>();
 
-	render->SetFillColor(sf::Color::Red);
+	render->SetFillColor(sf::Color::Transparent);
 	render->SetTexture(GameEngine::eTexture::Player);
 
 	//Movement
