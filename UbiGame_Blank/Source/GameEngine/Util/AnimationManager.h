@@ -26,6 +26,7 @@ namespace GameEngine
 			DogWalkLeft,
 			DogWalkRight,
 			DogSleep,
+			DogSit,
 		};
 	}
 
