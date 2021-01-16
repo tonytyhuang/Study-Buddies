@@ -15,8 +15,10 @@ using namespace Game;
 
 GameBoard::GameBoard() : m_player(nullptr), pet(nullptr)
 {
-	
-	SetBackground(1);
+	boardx = 900.f;
+	boardy = 300.f;
+	screen = 1;
+	SetBackground();
 	CreatePlayer();
 	CreatePet();
 	CreateObstacle();
@@ -28,8 +30,8 @@ GameBoard::~GameBoard()
 	
 }
 
-void GameBoard::SetBackground(int screen) {
-	GameEngine::Entity* background = new GameEngine::Entity();
+void GameBoard::SetBackground() {
+	background = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(background);
 
 	background->SetPos(sf::Vector2f(450.f, 150.f));
@@ -39,9 +41,32 @@ void GameBoard::SetBackground(int screen) {
 	if (screen == 1) {
 		render->SetTexture(GameEngine::eTexture::BackgroundHome);
 	}
-	
+	else if (screen == 2) {
+		render->SetTexture(GameEngine::eTexture::BackgroundHall);
+	}
+
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetZLevel(-1);
+}
+
+void GameBoard::UpdatePosition() {
+	float xpos = m_player->GetPos().x;
+	float ypos = m_player->GetPos().y;
+
+	if (screen == 1) {
+		if (xpos < 0.f) {
+			screen = 2;
+			SetBackground();
+			m_player->SetPos(sf::Vector2f(boardx, 150.f));
+		}
+	}
+	else if (screen == 2) {
+		if (xpos > boardx) {
+			screen = 1;
+			SetBackground();
+			m_player->SetPos(sf::Vector2f(0.f, 150.f));
+		}
+	}
 }
 
 void GameBoard::CreatePlayer() {
@@ -99,5 +124,5 @@ void GameBoard::CreateObstacle() {
 
 void GameBoard::Update()
 {	
-	
+	UpdatePosition();
 }
