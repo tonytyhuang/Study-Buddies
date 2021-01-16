@@ -17,6 +17,7 @@ namespace GameEngine
 			BackgroundHome,
 			BackgroundHall,
 			Dog,
+			Checklist,
 			Count
 		};
 	}	
@@ -30,6 +31,7 @@ namespace GameEngine
 		case eTexture::BackgroundHome: return "BackgroundHome.png";
 		case eTexture::BackgroundHall: return "BackgroundHall.png";
 		case eTexture::Dog: return "George.png";
+		case eTexture::Checklist: return "checklist.png";
 		}
 		return "UnknownTexType";
 	}

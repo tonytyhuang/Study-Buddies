@@ -1,5 +1,14 @@
 {
   "ExpandedNodes": [
+    "",
+    "\\UbiGame_Blank",
+    "\\UbiGame_Blank\\Source",
+    "\\UbiGame_Blank\\Source\\Game",
+    "\\UbiGame_Blank\\Source\\GameEngine",
+    "\\UbiGame_Blank\\Source\\GameEngine\\EntitySystem",
+    "\\UbiGame_Blank\\Source\\GameEngine\\EntitySystem\\Components",
+    "\\UbiGame_Blank\\Source\\GameEngine\\Util",
+    "\\UbiGame_Blank\\Source\\Game\\Components",
     ""
   ],
   "SelectedNode": "\\UbiGame.sln",

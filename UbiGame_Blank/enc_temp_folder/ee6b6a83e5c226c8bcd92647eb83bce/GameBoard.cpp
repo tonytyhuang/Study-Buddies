@@ -3,14 +3,13 @@
 #include "GameEngine/GameEngineMain.h"
 
 #include "Game/Components/PlayerMovementComponent.h"
-#include "Game/Components/PetMovementComponent.h"
+
 #include "GameEngine/EntitySystem/Components/SpriteRenderComponent.h"
 #include <string>
 #include "GameEngine\EntitySystem\Components\AnimationComponent.h"
 #include "GameEngine/EntitySystem/Components/CollidablePhysicsComponent.h"
 
 #include "GameEngine/EntitySystem/Components/CollidableComponent.h"
-#include "GameEngine/EntitySystem/Components/TextRenderComponent.h"
 
 using namespace Game;
 
@@ -23,7 +22,6 @@ GameBoard::GameBoard() : m_player(nullptr), pet(nullptr), check{false}
 	CreatePlayer();
 	CreatePet();
 	CreateObstacle();
-	CreatePtsCounter();
 }
 
 
@@ -68,8 +66,9 @@ void GameBoard::UpdatePosition() {
 			}
 		}
 		else if (check) {
-			//GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
-			//delete checklist;
+			GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
+			delete checklist;
+			checklist = nullptr;
 			
 		}
 	}
@@ -101,7 +100,7 @@ void GameBoard::CreateChecklist() {
 }
 
 void GameBoard::CreatePlayer() {
-	m_player = new PlayerEntity();
+	m_player = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(m_player);
 
 	m_player->SetPos(sf::Vector2f(150.0f, 150.0f));
@@ -124,7 +123,7 @@ void GameBoard::CreatePet() {
 	pet = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(pet);
 
-	pet->SetPos(sf::Vector2f(700.0f, 150.0f));
+	pet->SetPos(sf::Vector2f(200.0f, 150.0f));
 	pet->SetSize(sf::Vector2f(50.0f, 50.0f));
 
 	GameEngine::SpriteRenderComponent* render = static_cast<GameEngine::SpriteRenderComponent*>(pet->AddComponent<GameEngine::SpriteRenderComponent>());
@@ -132,17 +131,15 @@ void GameBoard::CreatePet() {
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetTexture(GameEngine::eTexture::Dog);
 
-	pet->AddComponent<GameEngine::AnimationComponent>();
-	Game::PetMovementComponent* temp =  pet->AddComponent<Game::PetMovementComponent>();
 
-	temp->SetPlayerEntity(m_player);
+
 }
 
 void GameBoard::CreateObstacle() {
 	obstacle = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(obstacle);
 
-	obstacle->SetPos(sf::Vector2f(350.f, 150.f));
+	obstacle->SetPos(sf:: Vector2f(350.f, 150.f));
 	obstacle->SetSize(sf::Vector2f(100.0f, 120.0f));
 
 	// Render
@@ -155,24 +152,7 @@ void GameBoard::CreateObstacle() {
 
 }
 
-void GameBoard::CreatePtsCounter() {
-	ptscounter = new GameEngine::Entity();
-	GameEngine::GameEngineMain::GetInstance()->AddEntity(ptscounter);
-
-	ptscounter->SetPos(sf::Vector2f(0.f, 0.f));
-	GameEngine::TextRenderComponent* render = ptscounter->AddComponent<GameEngine::TextRenderComponent>();
-	render->SetString("Fun Points! : " + std::to_string(m_player->GetScore()));
-	render->SetFont("joystix.ttf");
-	render->SetColor(sf::Color::Black);
-	render->SetFillColor(sf::Color::Transparent);
-	render->SetCharacterSizePixels(20);
-}
-
 void GameBoard::Update()
 {	
 	UpdatePosition();
-}
-
-GameEngine::Entity* GameBoard::getPlayer() {
-	return m_player;
 }
