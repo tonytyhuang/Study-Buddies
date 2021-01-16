@@ -3,7 +3,7 @@
 #include "GameEngine/GameEngineMain.h"
 
 #include "Game/Components/PlayerMovementComponent.h"
-
+#include "Game/Components/PetMovementComponent.h"
 #include "GameEngine/EntitySystem/Components/SpriteRenderComponent.h"
 #include <string>
 #include "GameEngine\EntitySystem\Components\AnimationComponent.h"
@@ -100,6 +100,9 @@ void GameBoard::CreatePet() {
 
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetTexture(GameEngine::eTexture::Dog);
+
+	pet->AddComponent<GameEngine::AnimationComponent>();
+	pet->AddComponent<Game::PetMovementComponent>();
 
 
 

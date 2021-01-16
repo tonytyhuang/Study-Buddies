@@ -1,4 +1,4 @@
-#include "PlayerMovementComponent.h"
+#include "PetMovementComponent.h"
 
 #include <SFML/Window/Keyboard.hpp>   //<-- Add the keyboard include in order to get keyboard inputs
 #include "GameEngine\EntitySystem\\Components\SpriteRenderComponent.h"
@@ -34,6 +34,12 @@ void PetMovementComponent::Update() {
     //The amount of speed that we will apply when input is received
     const float inputAmount = 100.0f;
 
+    
+    
+    if(animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle)
+    {
+        animate->SetIsLooping(true);
+        animate->PlayAnim(GameEngine::EAnimationId::DogIdle);
     }
 
     //Update the entity position

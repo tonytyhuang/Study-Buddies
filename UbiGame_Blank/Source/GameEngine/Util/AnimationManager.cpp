@@ -103,6 +103,15 @@ void AnimationManager::InitStaticGameAnimations()
 			1,
 			3)
 	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::DogIdle,
+			eTexture::Dog,
+			sf::Vector2i(0, 6),
+			3,
+			1)
+	);
 }
 
 
