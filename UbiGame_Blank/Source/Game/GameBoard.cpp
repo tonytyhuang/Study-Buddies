@@ -19,10 +19,10 @@ GameBoard::GameBoard() : pet(nullptr)
 	boardx = 900.f;
 	boardy = 300.f;
 	screen = 1;
-	SetBackground();
-	CreatePlayer();
-	CreatePet();
-	CreateObstacle();
+	startx = 150.f;
+	starty = 150.f;
+	init = false;
+	CreateBackground();
 	CreatePtsCounter();
 }
 
@@ -32,7 +32,9 @@ GameBoard::~GameBoard()
 	
 }
 
-void GameBoard::SetBackground() {
+void GameBoard::CreateBackground() {
+	GameEngine::GameEngineMain::GetInstance()->RemoveAllEntities();
+
 	background = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(background);
 
@@ -42,9 +44,19 @@ void GameBoard::SetBackground() {
 	GameEngine::SpriteRenderComponent* render = background->AddComponent<GameEngine::SpriteRenderComponent>();
 	if (screen == 1) {
 		render->SetTexture(GameEngine::eTexture::BackgroundHome);
+		CreatePet();
+		CreateObstacle();
+		if (!init) {
+			CreatePlayer(startx, starty);
+			init = true;
+		}
+		else {
+			CreatePlayer(0.f, 150.f);
+		}
 	}
 	else if (screen == 2) {
 		render->SetTexture(GameEngine::eTexture::BackgroundHall);
+		CreatePlayer(boardx, 150.f);
 	}
 
 	render->SetFillColor(sf::Color::Transparent);
@@ -52,30 +64,33 @@ void GameBoard::SetBackground() {
 }
 
 void GameBoard::UpdatePosition() {
-	float xpos = m_player->GetPos().x;
-	float ypos = m_player->GetPos().y;
+	if (m_player) {
+		float xpos = m_player->GetPos().x;
+		float ypos = m_player->GetPos().y;
+		
+		if (screen == 1) {
+			if (xpos < 0.f) {
+				screen = 2;
+				CreateBackground();
+			}
+		}
+		else if (screen == 2) {
+			if (xpos > boardx) {
+				screen = 1;
+				CreateBackground();
+			}
+		}
+	}
+	
 
-	if (screen == 1) {
-		if (xpos < 0.f) {
-			screen = 2;
-			SetBackground();
-			m_player->SetPos(sf::Vector2f(boardx, 150.f));
-		}
-	}
-	else if (screen == 2) {
-		if (xpos > boardx) {
-			screen = 1;
-			SetBackground();
-			m_player->SetPos(sf::Vector2f(0.f, 150.f));
-		}
-	}
+	
 }
 
-void GameBoard::CreatePlayer() {
+void GameBoard::CreatePlayer(float x, float y) {
 	m_player = new PlayerEntity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(m_player);
 
-	m_player->SetPos(sf::Vector2f(150.0f, 150.0f));
+	m_player->SetPos(sf::Vector2f(x, y));
 	m_player->SetSize(sf::Vector2f(50.0f, 75.0f));
 
 	//Render

@@ -26,6 +26,7 @@ namespace GameEngine
 
 		void AddEntity(Entity* entity);
 		void RemoveEntity(Entity* entity);
+		void RemoveAllEntities();
 
 		void OnInitialised();
 		bool IsGameOver() const { return m_gameBoard && m_gameBoard->IsGameOver(); }

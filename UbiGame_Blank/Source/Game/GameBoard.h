@@ -19,9 +19,9 @@ namespace Game
 		bool IsGameOver() { return false; }
 		GameEngine::Entity* getPlayer();
 	private:
-		void CreatePlayer();
+		void CreatePlayer(float x, float y);
 		void CreateObstacle();
-		void SetBackground();
+		void CreateBackground();
 		void UpdatePosition();
 		void CreatePet();
 		void CreatePtsCounter();
@@ -29,6 +29,9 @@ namespace Game
 		float boardx;
 		float boardy;
 		int screen;
+		float startx;
+		float starty;
+		bool init;
 
 		GameEngine::Entity* pet;
 		GameEngine::Entity* obstacle;
