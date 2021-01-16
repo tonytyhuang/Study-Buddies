@@ -100,13 +100,7 @@ void PetMovementComponent::Update() {
         GetEntity()->SetPos(GetEntity()->GetPos() + displacement);
     }
     else if (getDistance(distance) <= radiusInner) {
-        if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogSit && !isSitting) {
-            isSitting = true;
-            animate->SetIsLooping(false);
-            animate->PlayAnim(GameEngine::EAnimationId::DogSit);
-        }
-        else if (animate && isSitting && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogSit && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle) {
-            printf("sitting");
+        if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle) {
             animate->SetIsLooping(true);
             animate->PlayAnim(GameEngine::EAnimationId::DogIdle);
         }
