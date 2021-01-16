@@ -15,7 +15,7 @@
 using namespace Game;
 
 GameBoard::GameBoard() : boardx(900.f), boardy(300.f), pastscreen(1), screen(1),
-						 init(false), px(150), py(150),
+						init(false), px(150), py(150), hapwidth(208.f), haplength(18.f), pastHappiness(1.f),
 						 m_player(nullptr), pet(nullptr), check{false}, checklist{nullptr}
 {
 	CreateBackground();
@@ -66,12 +66,13 @@ void GameBoard::CreateBackground() {
 		else if (pastscreen == 3) {
 			CreatePlayer(450.f, 150.f);
 		}
+		CreateHappinessBar();
 		pastscreen = 2;
 	}
 	else if (screen == 3) {
 		render->SetTexture(GameEngine::eTexture::BackgroundPet);
 
-
+		CreateHappinessBar();
 		pastscreen = 3;
 	}
 	render->SetFillColor(sf::Color::Transparent);
@@ -81,8 +82,6 @@ void GameBoard::CreateBackground() {
 void GameBoard::UpdatePosition() {
 	px = m_player->GetPos().x;
 	py = m_player->GetPos().y;
-	printf("%f\n", px);
-	printf("%f\n", py);
 	if (screen == 1) {
 		if (px < 0.f) {
 			screen = 2;
@@ -237,17 +236,52 @@ void GameBoard::CreateHappinessBar() {
 	happinessBar = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(happinessBar);
 
-	happinessBar->SetPos(sf::Vector2f(750.f, 10.f));
-	happinessBar->SetSize(sf::Vector2f(208.f, 18.f));
+	happinessMeter = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(happinessMeter);
+
+	happinessBar->SetPos(sf::Vector2f(750.f, 20.f));
+	happinessBar->SetSize(sf::Vector2f(hapwidth, haplength));
 	GameEngine::SpriteRenderComponent* render = happinessBar->AddComponent<GameEngine::SpriteRenderComponent>();
+
+	happinessMeter->SetPos(sf::Vector2f(750.f, 20.f));
+	happinessMeter->SetSize(sf::Vector2f(hapwidth, haplength));
+	GameEngine::RenderComponent* meter = static_cast<GameEngine::RenderComponent*>(happinessMeter->AddComponent<GameEngine::RenderComponent>());
 
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetTexture(GameEngine::eTexture::HappinessBar);
-	render->SetZLevel(100);
+	render->SetZLevel(300);
 
+	meter->SetFillColor(sf::Color::Green);
+	render->SetZLevel(200);
+}
 
-
-
+void GameBoard::UpdateHappinessBar() {
+	if (pet->GetHappiness() != pastHappiness) {
+		
+		float happiness = pet->GetHappiness();
+		printf("%f", happiness);
+		if (happiness > 0.79) {
+			happinessMeter->SetPos(sf::Vector2f(750.f, 20.f));
+			happinessMeter->SetSize(sf::Vector2f(hapwidth*0.8, haplength));
+		}
+		else if(happiness > 0.59){
+			happinessMeter->SetPos(sf::Vector2f(750.f, 20.f));
+			happinessMeter->SetSize(sf::Vector2f(hapwidth*0.6, haplength));
+		}
+		else if (happiness > 0.39) {
+			happinessMeter->SetPos(sf::Vector2f(750.f, 20.f));
+			happinessMeter->SetSize(sf::Vector2f(hapwidth*0.4, haplength));
+		}
+		else if (happiness > 0.19) {
+			happinessMeter->SetPos(sf::Vector2f(750.f, 20.f));
+			happinessMeter->SetSize(sf::Vector2f(hapwidth*0.2, haplength));
+		}
+		else if (happiness == 0) {
+			happinessMeter->SetPos(sf::Vector2f(750.f, 20.f));
+			happinessMeter->SetSize(sf::Vector2f(0, haplength));
+		}
+		pastHappiness = pet->GetHappiness();
+	}
 }
 
 void GameBoard::UpdateLevel() {
@@ -263,6 +297,7 @@ void GameBoard::UpdateLevel() {
 
 void GameBoard::Update()
 {	
+	UpdateHappinessBar();
 	UpdateLevel();
 	UpdatePosition();
 }
