@@ -90,7 +90,6 @@ void GameBoard::UpdatePosition() {
 		}
 		else if (check) {
 			if (checklist != nullptr) {
-				//checklist = nullptr;
 				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
 				checklist = nullptr;
 				check = false;
@@ -100,12 +99,6 @@ void GameBoard::UpdatePosition() {
 					it = tasks.erase(it);
 				}
 			}
-<<<<<<< HEAD
-=======
-			//GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
-			//delete checklist;
-
->>>>>>> 846274b483c35930e80649bc55fdfebe755f2f1d
 		}
 	}
 	else if (screen == 2) {
