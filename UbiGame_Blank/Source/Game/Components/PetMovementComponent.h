@@ -11,10 +11,13 @@ namespace Game
         PetMovementComponent();
         ~PetMovementComponent();
 
+        void SetPlayerEntity(GameEngine::Entity* player);
+
         virtual void Update() override;
         virtual void OnAddToWorld() override;
+
     private:
         GameEngine::AnimationComponent* animate;
-
+        GameEngine::Entity* player;
     };
 }

@@ -36,9 +36,9 @@ void AnimationManager::InitStaticGameAnimations()
 		SAnimationDefinition(
 			EAnimationId::PlayerIdleDown,
 			eTexture::Player,
-			sf::Vector2i(0, 0),
-			1,
-			3)
+			sf::Vector2i(4, 0),
+			2,
+			2)
 	);
 	m_animDefinitions.push_back
 	(
@@ -63,9 +63,9 @@ void AnimationManager::InitStaticGameAnimations()
 		SAnimationDefinition(
 			EAnimationId::PlayerIdleUp,
 			eTexture::Player,
-			sf::Vector2i(0, 3),
-			1,
-			3)
+			sf::Vector2i(4, 3),
+			2,
+			2)
 	);
 	m_animDefinitions.push_back
 	(
@@ -81,9 +81,9 @@ void AnimationManager::InitStaticGameAnimations()
 		SAnimationDefinition(
 			EAnimationId::PlayerIdleLeft,
 			eTexture::Player,
-			sf::Vector2i(0, 1),
-			1,
-			3)
+			sf::Vector2i(4, 1),
+			2,
+			2)
 	);
 	m_animDefinitions.push_back
 	(
@@ -99,9 +99,18 @@ void AnimationManager::InitStaticGameAnimations()
 		SAnimationDefinition(
 			EAnimationId::PlayerIdleRight,
 			eTexture::Player,
-			sf::Vector2i(0, 2),
-			1,
-			3)
+			sf::Vector2i(4, 2),
+			2,
+			2)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::DogIdle,
+			eTexture::Dog,
+			sf::Vector2i(0, 6),
+			3,
+			1)
 	);
 }
 

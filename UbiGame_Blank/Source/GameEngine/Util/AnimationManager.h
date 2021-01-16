@@ -20,6 +20,11 @@ namespace GameEngine
 			PlayerIdleUp,
 			PlayerIdleRight,
 			PlayerIdleLeft,
+			DogIdle,
+			DogWalkUp,
+			DogWalkDown,
+			DogWalkLeft,
+			DogWalkRight,
 		};
 	}
 

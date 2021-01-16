@@ -42,8 +42,6 @@ void PlayerMovementComponent::Update() {
                 
                 animate->SetIsLooping(true);
                 animate->PlayAnim(GameEngine::EAnimationId::PlayerWalkLeft);
-            
-
         }
     }
 
@@ -78,25 +76,25 @@ void PlayerMovementComponent::Update() {
     else 
     {
         if (direction == 1) {
-            if (animate) {
+            if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::PlayerIdleLeft) {
                 animate->SetIsLooping(true);
                 animate->PlayAnim(GameEngine::EAnimationId::PlayerIdleLeft);
             }
         }
         else if(direction ==2){
-            if (animate) {
+            if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::PlayerIdleRight) {
                 animate->SetIsLooping(true);
                 animate->PlayAnim(GameEngine::EAnimationId::PlayerIdleRight);
             }
         }
         else if (direction == 3) {
-            if (animate) {
+            if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::PlayerIdleUp) {
                 animate->SetIsLooping(true);
                 animate->PlayAnim(GameEngine::EAnimationId::PlayerIdleUp);
             }
         }
         else if (direction == 4) {
-            if (animate) {
+            if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::PlayerIdleDown) {
                 animate->SetIsLooping(true);
                 animate->PlayAnim(GameEngine::EAnimationId::PlayerIdleDown);
             }
