@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngine/EntitySystem/Entity.h"
+#include "Game/Entities/PlayerEntity.h"
 
 #include <SFML/System/Vector2.hpp>
 #include <vector>
@@ -7,7 +8,7 @@
 namespace Game
 {
 	//Used for storing and controlling all game related entities, as well as providing an entry point for the "game" side of application	
-	class PlayerEntity;	
+	//class PlayerEntity;	
 
 	class GameBoard
 	{
@@ -17,21 +18,24 @@ namespace Game
 
 		void Update();		
 		bool IsGameOver() { return false; }
+
 	private:
 		void CreatePlayer();
 		void CreateObstacle();
 		void SetBackground();
 		void UpdatePosition();
 		void CreatePet();
-		GameEngine::Entity* pet;
-
+		void CreatePtsCounter();
+		
 		float boardx;
 		float boardy;
 		int screen;
-		
+
+		GameEngine::Entity* pet;
 		GameEngine::Entity* obstacle;
-		GameEngine::Entity* m_player;
+		PlayerEntity* m_player;
 		GameEngine::Entity* background;
+		GameEngine::Entity* ptscounter;
 	};
 }
 
