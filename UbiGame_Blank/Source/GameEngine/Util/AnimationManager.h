@@ -12,6 +12,14 @@ namespace GameEngine
 		enum type
 		{			
 			None,
+			PlayerWalkDown,
+			PlayerWalkUp,
+			PlayerWalkRight,
+			PlayerWalkLeft,
+			PlayerIdleDown,
+			PlayerIdleUp,
+			PlayerIdleRight,
+			PlayerIdleLeft,
 		};
 	}
 

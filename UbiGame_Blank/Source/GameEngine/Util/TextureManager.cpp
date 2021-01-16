@@ -49,7 +49,7 @@ namespace TextureHelper
 	{
 		switch (texture)
 		{
-		case eTexture::Player: return sf::Vector2f(0.0f, 0.0f);
+		case eTexture::Player: return sf::Vector2f(32.0f, 48.0f);
 			//Add here the tile sizes
 		case eTexture::Obstacle: return sf::Vector2f(280.0f, 275.0f);
 		}
