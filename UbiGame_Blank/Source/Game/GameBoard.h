@@ -19,7 +19,8 @@ namespace Game
 		bool IsGameOver() { return false; }
 	private:
 		void CreatePlayer();
-		GameEngine::Entity* m_player; 
+		GameEngine::Entity* m_player;
+		void SetBackground(int screen);
 	};
 }
 

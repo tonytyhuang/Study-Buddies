@@ -12,7 +12,8 @@ namespace GameEngine
 		enum type
 		{
 			None = -1,
-			Player,     //<-- Add a new entry for our new texture
+			Player,
+			BackgroundHome,
 			Count,
 		};
 	}	
@@ -22,6 +23,7 @@ namespace GameEngine
 		switch (texture)
 		{
 		case eTexture::Player: return "george.png"; //<-- The name of the image on disk
+		case eTexture::BackgroundHome: return "BackgroundHome.png";
 		}
 		return "UnknownTexType";
 	}
