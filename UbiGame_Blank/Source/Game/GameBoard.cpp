@@ -55,6 +55,7 @@ void GameBoard::CreateBackground() {
 			CreatePlayer(0.f, py);
 		}
 		CreatePet();
+		CreateHappinessBar();
 		pastscreen = 1;
 	}
 	else if (screen == 2) {
@@ -73,7 +74,6 @@ void GameBoard::CreateBackground() {
 
 		pastscreen = 3;
 	}
-
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetZLevel(-1);
 }
@@ -127,6 +127,7 @@ void GameBoard::UpdatePosition() {
 			CreateBackground();
 		}
 	}
+	
 }
 
 
@@ -231,6 +232,24 @@ void GameBoard::CreatePtsCounter() {
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetCharacterSizePixels(20);
 }
+
+void GameBoard::CreateHappinessBar() {
+	happinessBar = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(happinessBar);
+
+	happinessBar->SetPos(sf::Vector2f(750.f, 10.f));
+	happinessBar->SetSize(sf::Vector2f(208.f, 18.f));
+	GameEngine::SpriteRenderComponent* render = happinessBar->AddComponent<GameEngine::SpriteRenderComponent>();
+
+	render->SetFillColor(sf::Color::Transparent);
+	render->SetTexture(GameEngine::eTexture::HappinessBar);
+	render->SetZLevel(100);
+
+
+
+
+}
+
 void GameBoard::UpdateLevel() {
 	if (m_player->GetPos().y < (pet->GetPos().y - 12.f)) {
 		playerRender->SetZLevel(99);

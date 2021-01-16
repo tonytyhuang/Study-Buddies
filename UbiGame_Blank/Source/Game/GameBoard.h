@@ -30,6 +30,7 @@ namespace Game
 		void CreatePtsCounter();
 		void CreateTasks(int id);
 		void UpdateLevel();
+		void CreateHappinessBar();
 		
 		float boardx;
 		float boardy;
@@ -50,6 +51,8 @@ namespace Game
 		GameEngine::Entity* background;
 		GameEngine::Entity* checklist;
 		GameEngine::Entity* ptscounter;
+		GameEngine::Entity* happinessBar;
+		
 		std::vector<GameEngine::Entity*> tasks;
 
 		GameEngine::SpriteRenderComponent* playerRender;

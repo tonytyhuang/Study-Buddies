@@ -19,6 +19,7 @@ namespace GameEngine
 			BackgroundPet,
 			Dog,
 			Checklist,
+			HappinessBar,
 			Count
 		};
 	}	
@@ -34,6 +35,7 @@ namespace GameEngine
 		case eTexture::BackgroundPet: return "BackgroundPet.jpg";
 		case eTexture::Dog: return "George.png";
 		case eTexture::Checklist: return "checklist.png";
+		case eTexture::HappinessBar: return "Bar.png";
 		}
 		return "UnknownTexType";
 	}
