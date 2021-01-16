@@ -14,9 +14,9 @@ namespace Game
 	public:
 		GameBoard();
 		virtual ~GameBoard();
-
 		void Update();		
 		bool IsGameOver() { return false; }
+		GameEngine::Entity* getPlayer();
 	private:
 		void CreatePlayer();
 		void CreateObstacle();
@@ -24,13 +24,13 @@ namespace Game
 		void UpdatePosition();
 		void CreatePet();
 		GameEngine::Entity* pet;
-
+		GameEngine::Entity* m_player;
 		float boardx;
 		float boardy;
 		int screen;
 		
 		GameEngine::Entity* obstacle;
-		GameEngine::Entity* m_player;
+		
 		GameEngine::Entity* background;
 	};
 }

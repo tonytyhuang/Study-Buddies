@@ -7,8 +7,7 @@
 
 using namespace Game;
 
-PetMovementComponent::PetMovementComponent() : animate(nullptr)
-{
+PetMovementComponent::PetMovementComponent() {
 
 }
 
@@ -20,6 +19,7 @@ PetMovementComponent::~PetMovementComponent()
 void PetMovementComponent::OnAddToWorld()
 {
     animate = GetEntity()->GetComponent<GameEngine::AnimationComponent>();
+
 }
 
 void PetMovementComponent::Update() {
@@ -33,8 +33,9 @@ void PetMovementComponent::Update() {
 
     //The amount of speed that we will apply when input is received
     const float inputAmount = 100.0f;
-
-    
+    if (player != nullptr) {
+        player->GetPos();
+    }
     
     if(animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle)
     {
@@ -44,4 +45,8 @@ void PetMovementComponent::Update() {
 
     //Update the entity position
     GetEntity()->SetPos(GetEntity()->GetPos() + displacement);
+}
+
+void PetMovementComponent::SetPlayerEntity(GameEngine::Entity* player) {
+    player = player;
 }
