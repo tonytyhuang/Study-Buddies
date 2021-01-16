@@ -16,7 +16,10 @@ namespace GameEngine
 			PlayerWalkUp,
 			PlayerWalkRight,
 			PlayerWalkLeft,
-			PlayerIdle,
+			PlayerIdleDown,
+			PlayerIdleUp,
+			PlayerIdleRight,
+			PlayerIdleLeft,
 		};
 	}
 

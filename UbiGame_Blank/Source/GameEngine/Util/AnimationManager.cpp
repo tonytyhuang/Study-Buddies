@@ -34,10 +34,10 @@ void AnimationManager::InitStaticGameAnimations()
 	m_animDefinitions.push_back
 	(
 		SAnimationDefinition(
-			EAnimationId::PlayerIdle,
+			EAnimationId::PlayerIdleDown,
 			eTexture::Player,
 			sf::Vector2i(0, 0),
-			4,
+			1,
 			3)
 	);
 	m_animDefinitions.push_back
@@ -61,6 +61,15 @@ void AnimationManager::InitStaticGameAnimations()
 	m_animDefinitions.push_back
 	(
 		SAnimationDefinition(
+			EAnimationId::PlayerIdleUp,
+			eTexture::Player,
+			sf::Vector2i(0, 3),
+			1,
+			3)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
 			EAnimationId::PlayerWalkLeft,
 			eTexture::Player,
 			sf::Vector2i(0, 1),
@@ -70,11 +79,29 @@ void AnimationManager::InitStaticGameAnimations()
 	m_animDefinitions.push_back
 	(
 		SAnimationDefinition(
+			EAnimationId::PlayerIdleLeft,
+			eTexture::Player,
+			sf::Vector2i(0, 1),
+			1,
+			3)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
 			EAnimationId::PlayerWalkRight,
 			eTexture::Player,
 			sf::Vector2i(0, 2),
 			4,
 			10)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::PlayerIdleRight,
+			eTexture::Player,
+			sf::Vector2i(0, 2),
+			1,
+			3)
 	);
 }
 

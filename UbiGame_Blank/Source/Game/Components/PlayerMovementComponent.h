@@ -15,6 +15,7 @@ namespace Game
         virtual void OnAddToWorld() override;
     private:
         GameEngine::AnimationComponent* animate;
+        int direction;
 
     };
 }

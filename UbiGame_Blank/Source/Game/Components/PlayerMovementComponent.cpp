@@ -36,10 +36,10 @@ void PlayerMovementComponent::Update() {
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
-
+        direction = 1;
         displacement.x -= inputAmount * dt;
         if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::PlayerWalkLeft) {
-
+                
                 animate->SetIsLooping(true);
                 animate->PlayAnim(GameEngine::EAnimationId::PlayerWalkLeft);
             
@@ -49,6 +49,7 @@ void PlayerMovementComponent::Update() {
 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
+        direction = 2;
         displacement.x += inputAmount * dt;
         if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::PlayerWalkRight) {
             animate->SetIsLooping(true);
@@ -57,6 +58,7 @@ void PlayerMovementComponent::Update() {
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
+        direction = 3;
         displacement.y -= inputAmount * dt;
         if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::PlayerWalkUp) {
             animate->SetIsLooping(true);
@@ -66,6 +68,7 @@ void PlayerMovementComponent::Update() {
 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
+        direction = 4;
         displacement.y += inputAmount * dt;
         if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::PlayerWalkDown) {
             animate->SetIsLooping(true);
@@ -74,10 +77,30 @@ void PlayerMovementComponent::Update() {
     }
     else 
     {
-
-        if (animate) {
-            animate->SetIsLooping(true);
-            animate->PlayAnim(GameEngine::EAnimationId::PlayerIdle);
+        printf("%d", direction);
+        if (direction == 1) {
+            if (animate) {
+                animate->SetIsLooping(true);
+                animate->PlayAnim(GameEngine::EAnimationId::PlayerIdleLeft);
+            }
+        }
+        else if(direction ==2){
+            if (animate) {
+                animate->SetIsLooping(true);
+                animate->PlayAnim(GameEngine::EAnimationId::PlayerIdleRight);
+            }
+        }
+        else if (direction == 3) {
+            if (animate) {
+                animate->SetIsLooping(true);
+                animate->PlayAnim(GameEngine::EAnimationId::PlayerIdleUp);
+            }
+        }
+        else if (direction == 4) {
+            if (animate) {
+                animate->SetIsLooping(true);
+                animate->PlayAnim(GameEngine::EAnimationId::PlayerIdleDown);
+            }
         }
     }
 
