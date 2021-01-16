@@ -14,14 +14,10 @@
 
 using namespace Game;
 
-GameBoard::GameBoard() : m_player(nullptr), pet(nullptr), check{false}, checklist{nullptr}
+GameBoard::GameBoard() : boardx(900.f), boardy(300.f), pastscreen(1), screen(1),
+						 init(false), px(150), py(150),
+						 m_player(nullptr), pet(nullptr), check{false}, checklist{nullptr}
 {
-	boardx = 900.f;
-	boardy = 300.f;
-	screen = 1;
-	startx = 150.f;
-	starty = 150.f;
-	init = false;
 	CreateBackground();
 	CreatePtsCounter();
 }
@@ -46,18 +42,30 @@ void GameBoard::CreateBackground() {
 		render->SetTexture(GameEngine::eTexture::BackgroundHome);
 		CreateObstacle();
 		if (!init) {
-			CreatePlayer(startx, starty);
-			
+			CreatePlayer(px, py);
 			init = true;
 		}
 		else {
-			CreatePlayer(0.f, 150.f);
+			CreatePlayer(0.f, py);
 		}
 		CreatePet();
+		pastscreen = 1;
 	}
 	else if (screen == 2) {
 		render->SetTexture(GameEngine::eTexture::BackgroundHall);
-		CreatePlayer(boardx, 150.f);
+		if (pastscreen == 1) {
+			CreatePlayer(boardx, py);
+		}
+		else if (pastscreen == 3) {
+			CreatePlayer(450.f, 150.f);
+		}
+		pastscreen = 2;
+	}
+	else if (screen == 3) {
+		render->SetTexture(GameEngine::eTexture::BackgroundPet);
+
+
+		pastscreen = 3;
 	}
 
 	render->SetFillColor(sf::Color::Transparent);
@@ -65,15 +73,16 @@ void GameBoard::CreateBackground() {
 }
 
 void GameBoard::UpdatePosition() {
-	float xpos = m_player->GetPos().x;
-	float ypos = m_player->GetPos().y;
-
+	px = m_player->GetPos().x;
+	py = m_player->GetPos().y;
+	printf("%f\n", px);
+	printf("%f\n", py);
 	if (screen == 1) {
-		if (xpos < 0.f) {
+		if (px < 0.f) {
 			screen = 2;
 			CreateBackground();
 		}
-		else if (xpos > 900.f) {
+		else if (px > 900.f) {
 			if (!check) {
 				CreateChecklist();
 				check = true;
@@ -81,19 +90,26 @@ void GameBoard::UpdatePosition() {
 		}
 		else if (check) {
 			if (checklist != nullptr) {
-				//checklist = nullptr;
 				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
 				checklist = nullptr;
 				check = false;
 			}
-			//GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
-			//delete checklist;
-
 		}
 	}
 	else if (screen == 2) {
-		if (xpos > boardx) {
+		
+		if (px > boardx) {
 			screen = 1;
+			CreateBackground();
+		} 
+		if (px > 400.f && px < 500.f && py < 140.f && sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+			screen = 3;
+			CreateBackground();
+		}
+	}
+	else if (screen == 3) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)) {
+			screen = 2;
 			CreateBackground();
 		}
 	}

@@ -46,3 +46,4 @@ namespace Game
 		GameEngine::Entity* ptscounter;
 	};
 }
+
