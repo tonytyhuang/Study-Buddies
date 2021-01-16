@@ -24,6 +24,12 @@ GameBoard::GameBoard() : m_player(nullptr), pet(nullptr), check{false}, checklis
 	init = false;
 	CreateBackground();
 	CreatePtsCounter();
+
+	// set tasks
+	taskLength = 3;
+	for (int i = 0; i < taskLength; ++i) {
+		taskList.emplace_back("Finish probability homework");
+	}
 }
 
 
@@ -76,19 +82,23 @@ void GameBoard::UpdatePosition() {
 		else if (xpos > 900.f) {
 			if (!check) {
 				CreateChecklist();
+				for (int i = 0; i < taskLength; ++i) {
+					CreateTasks(i);
+				}
 				check = true;
 			}
 		}
 		else if (check) {
 			if (checklist != nullptr) {
-				//checklist = nullptr;
 				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
 				checklist = nullptr;
 				check = false;
+				for (std::vector<GameEngine::Entity*>::iterator it = tasks.begin(); it != tasks.end();) {
+					GameEngine::Entity* task = (*it);
+					GameEngine::GameEngineMain::GetInstance()->RemoveEntity(task);
+					it = tasks.erase(it);
+				}
 			}
-			//GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
-			//delete checklist;
-
 		}
 	}
 	else if (screen == 2) {
@@ -117,6 +127,21 @@ void GameBoard::CreateChecklist() {
 
 }
 
+void GameBoard::CreateTasks(int id) {
+	GameEngine::Entity* task = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(task);
+
+	task->SetPos(sf::Vector2f(300.f, 100.f + id * 40.f));
+	GameEngine::TextRenderComponent* render = task->AddComponent<GameEngine::TextRenderComponent>();
+	render->SetString(taskList[id]);
+	render->SetFont("joystix.ttf");
+	render->SetColor(sf::Color::Black);
+	render->SetFillColor(sf::Color::Transparent);
+	render->SetCharacterSizePixels(20);
+	render->SetZLevel(102);
+
+	tasks.push_back(task);
+}
 
 void GameBoard::CreatePlayer(float x, float y) {
 	m_player = new PlayerEntity();
