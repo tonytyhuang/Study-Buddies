@@ -32,7 +32,6 @@ void PetMovementComponent::OnAddToWorld()
 
 void PetMovementComponent::Update() {
     Component::Update();
-
     //Grabs how much time has passed since last frame
     const float dt = GameEngine::GameEngineMain::GetTimeDelta();
     
@@ -87,13 +86,6 @@ void PetMovementComponent::Update() {
                     }
                 }
             }
-            /*
-               if(animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle)
-            {
-                animate->SetIsLooping(true);
-                animate->PlayAnim(GameEngine::EAnimationId::DogIdle);
-            }
-            */
  
 
             //Update the entity position

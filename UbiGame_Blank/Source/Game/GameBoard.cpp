@@ -127,7 +127,7 @@ void GameBoard::CreatePlayer() {
 }
 
 void GameBoard::CreatePet() {
-	pet = new GameEngine::Entity();
+	pet = new PetEntity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(pet);
 
 	pet->SetPos(sf::Vector2f(700.0f, 150.0f));
