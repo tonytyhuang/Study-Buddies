@@ -6,6 +6,8 @@
 #include <SFML/System/Vector2.hpp>
 #include <vector>
 #include <string>
+#include <iostream>
+#include <ctime>
 
 namespace Game
 {
@@ -32,6 +34,7 @@ namespace Game
 		void UpdateLevel();
 		void CreateHappinessBar();
 		void UpdateHappinessBar();
+		void HappinessDepletion();
 		
 		float boardx;
 		float boardy;
@@ -46,8 +49,9 @@ namespace Game
 		int taskLength;
 		float hapwidth;
 		float haplength;
-		float
-			pastHappiness;
+		float pastHappiness;
+		float happinessTime;
+		
 		std::vector<std::string> taskList;
 
 		PetEntity* pet;

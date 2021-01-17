@@ -16,6 +16,11 @@ namespace Game
 				happiness += 0.2;
 			}
 		}
+		void removeHappiness() {
+			if (happiness > 0.19) {
+				happiness -= 0.2;
+			}
+		}
 	private:
 		float happiness;
 	};
