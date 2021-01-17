@@ -40,6 +40,8 @@ namespace Game
 		void CreateCoin();
 		void addHapiness();
 		void MouseClick();
+		void CreateAgenda(bool highlight);
+		void UpdateMousePosition();
 		void CreateCoinCounter(std::string text, int xpos, int ypos);
 		void StartText();
 
@@ -55,6 +57,7 @@ namespace Game
 		float starty;
 		bool init;
 		bool check;
+		bool agendaHover;
 		int taskLength;
 		float hapwidth;
 		float haplength;
@@ -79,10 +82,13 @@ namespace Game
 		GameEngine::Entity* happinessBar;
 		GameEngine::Entity* happinessMeter;
 		GameEngine::Entity* curText;
+		GameEngine::Entity* agenda;
 
 		std::vector<GameEngine::Entity*> tasks;
 
 		GameEngine::SpriteRenderComponent* playerRender;
 		GameEngine::SpriteRenderComponent* petRender;
+
+
 	};
 }

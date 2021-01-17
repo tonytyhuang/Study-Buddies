@@ -14,7 +14,7 @@
 
 using namespace Game;
 
-GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1),
+GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1), agendaHover(false),
 init(false), px(500), py(500), hapwidth(416.0), haplength(32.0), pastHappiness(1.f),
 m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(30.f),
 lastrecord(time(NULL)), ispressed(false), score(100), happiness(0.2), enter2(false)
@@ -48,6 +48,7 @@ void GameBoard::CreateBackground() {
 	if (screen == 1) {
 		lastrecord = time(NULL);
 		render->SetTexture(GameEngine::eTexture::BackgroundHome);
+		CreateAgenda(false);
 		for (int i = 0; i < 4; ++i) {
 			SpawnBackgroundObstacles(100 + i);
 		}
@@ -91,7 +92,25 @@ void GameBoard::CreateBackground() {
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetZLevel(-1);
 }
+void GameBoard::CreateAgenda(bool highlight){
+	agenda = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(agenda);
 
+	agenda->SetPos(sf::Vector2f(900.0f, 430.0f));
+	agenda->SetSize(sf::Vector2f(1600.0f, 800.0f));
+
+	GameEngine::SpriteRenderComponent* render = agenda->AddComponent<GameEngine::SpriteRenderComponent>();
+
+	render->SetFillColor(sf::Color::Transparent);
+
+	render->SetZLevel(1);
+	if (highlight) {
+		render->SetTexture(GameEngine::eTexture::AgendaHover);
+	}
+	else {
+		render->SetTexture(GameEngine::eTexture::Agenda);
+	}
+}
 void GameBoard::SpawnBackgroundObstacles(int id) {
 	GameEngine::Entity* obst = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(obst);
@@ -106,7 +125,7 @@ void GameBoard::SpawnBackgroundObstacles(int id) {
 	}
 	else if (id == 202) {
 		obst->SetPos(sf::Vector2f(0, 0.f));
-		obst->SetSize(sf::Vector2f(1.0f, 3000.0f));
+		obst->SetSize(sf::Vector2f(5.0f, 4000.0f));
 	}
 	else if (id == 100) {
 		obst->SetPos(sf::Vector2f(0, 0.f));
@@ -137,27 +156,49 @@ void GameBoard::SpawnBackgroundObstacles(int id) {
 	obst->AddComponent<GameEngine::CollidableComponent>();
 	//roomObstacles.push_back(obst);
 }
-
-void GameBoard::UpdatePosition() {
-	px = m_player->GetPos().x;
-	py = m_player->GetPos().y;
+void GameBoard::UpdateMousePosition() {
+	//GameEngine::Entity* window = new GameEngine::Entity();
+	sf::RenderWindow* window = GameEngine::GameEngineMain::GetInstance()->GetRenderWindow();
+	sf::Event event;
 
 	if (screen == 1) {
-		if (px < 0.f) {
-			screen = 2;
-			CreateBackground();
-		}
-		else if (px > 900.f) {
-			if (!check) {
-				CreateChecklist();
-				for (int i = 0; i < taskLength; ++i) {
-					CreateTasks(i);
-				}
-				check = true;
+		// while there are pending events...
+		while (window->pollEvent(event))
+		{
+
+			if ((sf::Mouse::getPosition().x > 700 && sf::Mouse::getPosition().x < 1200) && (sf::Mouse::getPosition().y > 160 && sf::Mouse::getPosition().y < 400)) {
+				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(agenda);
+				agenda = nullptr;
+				CreateAgenda(true);
+				agendaHover = true;
+			}
+			else if (agendaHover) {
+				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(agenda);
+				agenda = nullptr;
+				CreateAgenda(false);
+				agendaHover = false;
 			}
 		}
-		else if (check) {
-			if (checklist != nullptr) {
+
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			std::cout << "the right button was pressed" << std::endl;
+			std::cout << "mouse x: " << sf::Mouse::getPosition().x << std::endl;
+			std::cout << "mouse y: " << sf::Mouse::getPosition().y << std::endl;
+			if (agendaHover) {
+				if (!check) {
+					CreateChecklist();
+					for (int i = 0; i < taskLength; ++i) {
+						CreateTasks(i);
+					}
+					check = true;
+				}
+			}
+
+		}
+
+		if (check && sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)) {
+			
 				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
 				checklist = nullptr;
 				check = false;
@@ -166,7 +207,17 @@ void GameBoard::UpdatePosition() {
 					GameEngine::GameEngineMain::GetInstance()->RemoveEntity(task);
 					it = tasks.erase(it);
 				}
-			}
+		}
+	}
+}
+void GameBoard::UpdatePosition() {
+	px = m_player->GetPos().x;
+	py = m_player->GetPos().y;
+
+	if (screen == 1) {
+		if (px < 0.f) {
+			screen = 2;
+			CreateBackground();
 		}
 	}
 	else if (screen == 2) {
@@ -495,6 +546,7 @@ void GameBoard::Update()
 	UpdateLevel();
 	UpdatePosition();
 	StartText();
+	UpdateMousePosition();
 }
 
 GameEngine::Entity* GameBoard::getPlayer() {
