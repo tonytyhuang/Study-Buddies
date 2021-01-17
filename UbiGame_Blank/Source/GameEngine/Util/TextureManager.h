@@ -20,8 +20,9 @@ namespace GameEngine
 			Dog,
 			DogFood,
 			Checklist,
-			Count,
+			HappinessBar,
 			Coin,
+			Count
 		};
 	}	
 
@@ -37,6 +38,7 @@ namespace GameEngine
 		case eTexture::Dog: return "George.png";
 		case eTexture::DogFood: return "DogFood.png";
 		case eTexture::Checklist: return "checklist.png";
+		case eTexture::HappinessBar: return "Bar.png";
 		case eTexture::Coin: return "Coin.png";
 		}
 		return "UnknownTexType";
