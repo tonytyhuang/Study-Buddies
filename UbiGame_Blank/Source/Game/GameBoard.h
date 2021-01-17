@@ -31,7 +31,7 @@ namespace Game
 		void CreateBackground();
 		void UpdatePosition();
 		void CreateChecklist();
-		void CreatePet();
+		void CreatePet(float xpos, float ypos);
 		void CreateText(std::string text, float xpos, float ypos, int size, std::string font);
 		void CreateTasks(int id);
 		void UpdateLevel();

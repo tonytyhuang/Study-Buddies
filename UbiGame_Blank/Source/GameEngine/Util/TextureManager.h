@@ -20,6 +20,7 @@ namespace GameEngine
 			BackgroundHome,
 			BackgroundHall,
 			BackgroundPet,
+			BackgroundWalk,
 			Dog,
 			DogFood,
 			Checklist,
@@ -49,6 +50,7 @@ namespace GameEngine
 		case eTexture::BackgroundHome: return "main.jpg";
 		case eTexture::BackgroundHall: return "BackgroundHall.png";
 		case eTexture::BackgroundPet: return "BackgroundPet.jpg";
+		case eTexture::BackgroundWalk: return "BackgroundWalk.png";
 		case eTexture::Dog: return "George.png";
 		case eTexture::HallObstacle: return "Hallwayobstacle.png";
 		case eTexture::DogFood: return "DogFood.png";

@@ -29,7 +29,7 @@ ispressed(false), score(100), happiness(0.2), taskLength(3)
 
 	// set tasks
 	// done manually for now
-	taskList.emplace_back("Attend lecture 1");
+	taskList.emplace_back("Attend morning class");
 	taskList.emplace_back("Finish probability homework");
 	taskList.emplace_back("Math Club!");
 	for (int i = 0; i < taskLength; ++i) {
@@ -64,13 +64,16 @@ void GameBoard::CreateBackground() {
 		//CreateObstacle();
 		if (!init) {
 			CreatePlayer(px, py);
-			CreateText("Welcome to VPets! Use the arrow keys to move around.", 250.f, 825.f, 25, "pokemon.ttf");
+			CreateText("Welcome to StudyBuddies! Use the arrow keys to move around.", 250.f, 825.f, 25, "pokemon.ttf");
 			init = true;
 		}
-		else {
+		else if (pastscreen == 2) {
 			CreatePlayer(0.f, py);
 		}
-		CreatePet();
+		else if (pastscreen == 4) {
+			CreatePlayer(boardx, py);
+		}
+		CreatePet(1390.0f, 410.0f);
 		CreateHappinessBar();
 		pastscreen = 1;
 	}
@@ -98,6 +101,15 @@ void GameBoard::CreateBackground() {
 		CreateCoin();
 		CreateBigDog();
 		pastscreen = 3;
+	}
+	else if (screen == 4) {
+		render->SetTexture(GameEngine::eTexture::BackgroundWalk);
+		CreatePlayer(0.f, py);
+		pastscreen = 4;
+		if (happiness > 0.3f) {
+			CreatePet(0.f, py - 75.f);
+			CreateHappinessBar();
+		}
 	}
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetZLevel(-1);
@@ -310,6 +322,8 @@ void GameBoard::UpdateMousePosition() {
 		}
 	}
 }
+
+
 void GameBoard::UpdatePosition() {
 	px = m_player->GetPos().x;
 	py = m_player->GetPos().y;
@@ -317,6 +331,10 @@ void GameBoard::UpdatePosition() {
 	if (screen == 1) {
 		if (px < 0.f) {
 			screen = 2;
+			CreateBackground();
+		}
+		else if (px > boardx) {
+			screen = 4;
 			CreateBackground();
 		}
 	}
@@ -358,6 +376,12 @@ void GameBoard::UpdatePosition() {
 			else {
 				CreateText("Not enough coins! Complete more tasks :)", 200.f, 850.f, 25, "joystix.ttf");
 			}
+		}
+	}
+	else if (screen == 4) {
+		if (px < 0.f) {
+			screen = 1;
+			CreateBackground();
 		}
 	}
 }
@@ -417,11 +441,11 @@ void GameBoard::CreatePlayer(float x, float y) {
 	m_player->AddComponent<GameEngine::CollidablePhysicsComponent>();
 }
 
-void GameBoard::CreatePet() {
+void GameBoard::CreatePet(float xpos, float ypos) {
 	pet = new PetEntity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(pet);
 
-	pet->SetPos(sf::Vector2f(1390.0f, 410.0f));
+	pet->SetPos(sf::Vector2f(xpos, ypos));
 	pet->SetSize(sf::Vector2f(100.0f, 100.0f));
 
 	petRender = static_cast<GameEngine::SpriteRenderComponent*>(pet->AddComponent<GameEngine::SpriteRenderComponent>());
