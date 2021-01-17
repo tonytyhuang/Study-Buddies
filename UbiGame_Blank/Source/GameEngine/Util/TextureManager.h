@@ -25,12 +25,17 @@ namespace GameEngine
 			Checklist,
 			HappinessBar,
 			Coin,
+
+			BigDog,
+
 			Table1,
 			Table2,
 			Table3,
 			Desk,
+			DogPillow,
 			Check,
 			Cross,
+
 			Count
 		};
 	}	
@@ -54,10 +59,16 @@ namespace GameEngine
 		case eTexture::Cross: return "cross.png";
 		case eTexture::Agenda: return "Agenda.png";
 		case eTexture::AgendaHover: return "AgendaHover.png";
+
+		case eTexture::BigDog: return "bigdog.png";
+
 		case eTexture::Table1: return "table1.png";
 		case eTexture::Table2: return "table2.png";
 		case eTexture::Table3: return "table3.png";
 		case eTexture::Desk: return "desk.png";
+
+		case eTexture::DogPillow: return "DogPillow.png";
+
 		}
 		return "UnknownTexType";
 	}

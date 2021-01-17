@@ -27,6 +27,12 @@ namespace GameEngine
 			DogWalkRight,
 			DogSleep,
 			DogSit,
+			BigDog1,
+			BigDog2,
+			BigDog3,
+			BigDog4,
+			BigDog5,
+			BigDog0,
 		};
 	}
 

@@ -8,7 +8,8 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <ctime>
+#include <chrono>
+#include <thread>
 
 
 namespace Game
@@ -40,10 +41,16 @@ namespace Game
 		void CreateFoodButton();
 		void CreateCoin();
 		void addHapiness();
+		void delHappiness();
 		void MouseClick();
 		void CreateAgenda(bool highlight);
 		void UpdateMousePosition();
 		void CreateCoinCounter(std::string text, int xpos, int ypos);
+
+		void CreateBigDog();
+		void UpdateHappiness();
+		
+
 		void CreateCheck(bool complete, int id);
 
 
@@ -71,12 +78,17 @@ namespace Game
 		int score;
 		bool ispressed;
 		std::vector<std::string> taskList;
+
+		sf::Clock clock;
+
 		std::vector<bool> completed;
 		std::vector<bool> firstpressed;
+
 
 		PetEntity* pet;
 		GameEngine::Entity* obstacle;
 		PlayerEntity* m_player;
+		GameEngine::Entity* bigDog;
 		GameEngine::Entity* background;
 		GameEngine::Entity* coincounter;
 		GameEngine::Entity* checklist;
@@ -92,6 +104,10 @@ namespace Game
 
 		GameEngine::SpriteRenderComponent* playerRender;
 		GameEngine::SpriteRenderComponent* petRender;
+
+		GameEngine::SpriteRenderComponent* bigDogRender;
+
+
 
 	};
 }

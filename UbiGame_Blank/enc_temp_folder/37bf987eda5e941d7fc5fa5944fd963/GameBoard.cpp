@@ -4,7 +4,6 @@
 
 #include "Game/Components/PlayerMovementComponent.h"
 #include "Game/Components/PetMovementComponent.h"
-#include "Game/Components/BigDogComponent.h"
 #include "GameEngine/EntitySystem/Components/SpriteRenderComponent.h"
 #include "GameEngine\EntitySystem\Components\AnimationComponent.h"
 #include "GameEngine/EntitySystem/Components/CollidablePhysicsComponent.h"
@@ -12,9 +11,6 @@
 #include "GameEngine/EntitySystem/Components/CollidableComponent.h"
 #include "GameEngine/EntitySystem/Components/TextRenderComponent.h"
 
-#include <iostream>
-#include <chrono>
-#include <thread>
 
 using namespace Game;
 
@@ -24,7 +20,6 @@ m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happiness
 ispressed(false), score(100), happiness(0.2), taskLength(3)
 
 {
-	sf::Time time1 = clock.restart();
 	CreateBackground();
 
 	// set tasks
@@ -34,7 +29,6 @@ ispressed(false), score(100), happiness(0.2), taskLength(3)
 	taskList.emplace_back("Math Club!");
 	for (int i = 0; i < taskLength; ++i) {
 		completed.emplace_back(false);
-		firstpressed.emplace_back(true);
 	}
 }
 
@@ -96,7 +90,6 @@ void GameBoard::CreateBackground() {
 		CreateText("Feed Pet (10C)", 175.f, 275.f, 35, "joystix.ttf");
 		CreateFoodButton();
 		CreateCoin();
-		CreateBigDog();
 		pastscreen = 3;
 	}
 	render->SetFillColor(sf::Color::Transparent);
@@ -290,23 +283,29 @@ void GameBoard::UpdateMousePosition() {
 			}
 		}
 		else if (check) {
+			bool checkpressed = false;
 			while (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 				float xmcur = sf::Mouse::getPosition().x;
 				float ymcur = sf::Mouse::getPosition().y;
+				std::cout << xmcur << "     " << ymcur << std::endl;
 				
 				if (xmcur > 600 && xmcur < 1300) {
 					for (int i = 0; i < taskLength; ++i) {
 						if (ymcur > (410 + i * 90) && ymcur < (460 + i * 90)) {
-							if (firstpressed[i]) {
-								score += 10;
-							}
-							firstpressed[i] = false;
 							completed[i] = true;
+							//GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checks[i]);
 							CreateCheck(completed[i], i);
+							checkpressed = true;
+							//checks[i] = nullptr;
+							
 						}
 					}
 				}
 			}
+			if (checkpressed) {
+				score += 10;
+			}
+			
 		}
 	}
 }
@@ -435,25 +434,6 @@ void GameBoard::CreatePet() {
 
 	temp->SetPlayerEntity(m_player);
 	temp->GetHappiness(happiness);
-}
-
-void GameBoard::CreateBigDog() {
-	bigDog = new GameEngine::Entity();
-	GameEngine::GameEngineMain::GetInstance()->AddEntity(bigDog);
-
-	bigDog->SetPos(sf::Vector2f(1150.f, 400.f));
-	bigDog->SetSize(sf::Vector2f(450.f, 750.f));
-
-	bigDogRender = static_cast<GameEngine::SpriteRenderComponent*>(bigDog->AddComponent<GameEngine::SpriteRenderComponent>());
-
-	bigDogRender->SetFillColor(sf::Color::Transparent);
-	bigDogRender->SetTexture(GameEngine::eTexture::BigDog);
-	bigDogRender->SetZLevel(200);
-
-	bigDog->AddComponent<GameEngine::AnimationComponent>();
-	Game::BigDogComponent* temp = bigDog->AddComponent<Game::BigDogComponent>();
-
-	temp->SetHappiness(happiness);
 }
 
 
@@ -641,25 +621,9 @@ void GameBoard::UpdateLevel() {
 	}
 
 }
-void GameBoard::delHappiness() {
-	if (happiness > 0.39) {
-		happiness -= 0.2;
-	}
-}
-
-void GameBoard::UpdateHappiness() {
-	sf::Time time1 = clock.getElapsedTime();
-	if (time1.asSeconds() > happinessTime) {
-		delHappiness();
-		clock.restart();
-	}
-}
-//void GameBoard::StartText() {
-
-
-
-
 /*
+void GameBoard::StartText() {
+
 	if (!enter2) {
 		CreateText("Welcome to VPets! Use the arrow keys to move around.", 250.f, 825.f, 25, "pokemon.ttf");
 		//CreateText("Your pet tired and sleeping. Move left of the screen to feed it.", 200.f, 850.f, 25, "pokemon.ttf");
@@ -695,7 +659,6 @@ void GameBoard::MouseClick() {
 
 void GameBoard::Update()
 {
-	UpdateHappiness();
 	UpdateHappinessBar();
 	UpdateLevel();
 	UpdatePosition();

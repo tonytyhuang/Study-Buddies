@@ -166,6 +166,60 @@ void AnimationManager::InitStaticGameAnimations()
 			4,
 			4)
 	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::BigDog1,
+			eTexture::BigDog,
+			sf::Vector2i(0, 2),
+			6,
+			3)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::BigDog2,
+			eTexture::BigDog,
+			sf::Vector2i(0, 0),
+			3,
+			2)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::BigDog3,
+			eTexture::BigDog,
+			sf::Vector2i(0, 4),
+			2,
+			2)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::BigDog4,
+			eTexture::BigDog,
+			sf::Vector2i(0, 3),
+			3,
+			2)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::BigDog5,
+			eTexture::BigDog,
+			sf::Vector2i(0, 1),
+			2,
+			2)
+	);
+	m_animDefinitions.push_back
+	(
+		SAnimationDefinition(
+			EAnimationId::BigDog0,
+			eTexture::BigDog,
+			sf::Vector2i(4, 2),
+			2,
+			1)
+	);
 }
 
 
