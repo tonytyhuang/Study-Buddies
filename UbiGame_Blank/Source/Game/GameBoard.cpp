@@ -71,6 +71,8 @@ void GameBoard::CreateBackground() {
 		}
 		CreatePet();
 		CreateHappinessBar();
+		CreateCoinCounter("Coins: " + std::to_string(score), 150.f, 50.f);
+		CreateCoin(true);
 		pastscreen = 1;
 	}
 	else if (screen == 2) {
@@ -85,6 +87,8 @@ void GameBoard::CreateBackground() {
 			CreatePlayer(880.f, 500.f);
 		}
 		CreateHappinessBar();
+		CreateCoinCounter("Coins: " + std::to_string(score), 150.f, 50.f);
+		CreateCoin(true);
 		pastscreen = 2;
 	}
 	else if (screen == 3) {
@@ -94,7 +98,7 @@ void GameBoard::CreateBackground() {
 		CreateCoinCounter("Coins: " + std::to_string(score), 175.f, 75.f);
 		CreateText("Feed Pet (10C)", 175.f, 275.f, 35, "joystix.ttf");
 		CreateFoodButton();
-		CreateCoin();
+		CreateCoin(false);
 		CreateBigDog();
 		pastscreen = 3;
 	}
@@ -299,17 +303,17 @@ void GameBoard::UpdateMousePosition() {
 					for (int i = 0; i < taskLength; ++i) {
 						if (ymcur > (410 + i * 90) && ymcur < (460 + i * 90)) {
 							completed[i] = true;
-							//GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checks[i]);
 							CreateCheck(completed[i], i);
 							checkpressed = true;
-							//checks[i] = nullptr;
-							
 						}
 					}
 				}
 			}
 			if (checkpressed) {
 				score += 10;
+				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(coincounter);
+				coincounter = nullptr;
+				CreateCoinCounter("Coins: " + std::to_string(score), 150.f, 50.f);
 			}
 			
 		}
@@ -512,11 +516,17 @@ void GameBoard::CreateFoodButton() {
 }
 
 
-void GameBoard::CreateCoin() {
+void GameBoard::CreateCoin(bool main) {
 	coinicon = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(coinicon);
-	coinicon->SetPos(sf::Vector2f(100.f, 100.f));
-	coinicon->SetSize(sf::Vector2f(175.f, 175.f));
+	if (!main) {
+		coinicon->SetPos(sf::Vector2f(100.f, 100.f));
+		coinicon->SetSize(sf::Vector2f(175.f, 175.f));
+	}
+	else {
+		coinicon->SetPos(sf::Vector2f(90.f, 75.f));
+		coinicon->SetSize(sf::Vector2f(100.f, 100.f));
+	}
 	GameEngine::SpriteRenderComponent* render = static_cast<GameEngine::SpriteRenderComponent*>(coinicon->AddComponent<GameEngine::SpriteRenderComponent>());
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetTexture(GameEngine::eTexture::Coin);

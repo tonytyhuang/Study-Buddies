@@ -39,7 +39,7 @@ namespace Game
 		void CreateHappinessBar();
 		void UpdateHappinessBar();
 		void CreateFoodButton();
-		void CreateCoin();
+		void CreateCoin(bool main);
 		void addHapiness();
 		void delHappiness();
 		void MouseClick();
