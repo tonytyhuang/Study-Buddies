@@ -12,6 +12,7 @@ namespace Game
         ~PetMovementComponent();
 
         void SetPlayerEntity(GameEngine::Entity* player);
+        void GetHappiness(float haps);
 
         virtual void Update() override;
         virtual void OnAddToWorld() override;
@@ -23,5 +24,6 @@ namespace Game
         float radiusInner;
         bool initialState;
         bool isSitting;
+        float happiness;
     };
 }

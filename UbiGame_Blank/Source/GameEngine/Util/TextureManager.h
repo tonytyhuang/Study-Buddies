@@ -13,6 +13,8 @@ namespace GameEngine
 		{
 			None = -1,
 			Player,
+			Agenda,
+			AgendaHover,
 			Obstacle,
 			HallObstacle,
 			BackgroundHome,
@@ -33,7 +35,7 @@ namespace GameEngine
 		{
 		case eTexture::Player: return "player1.png";
 		case eTexture::Obstacle: return "jackie.png";
-		case eTexture::BackgroundHome: return "BackgroundHome.png";
+		case eTexture::BackgroundHome: return "main.jpg";
 		case eTexture::BackgroundHall: return "BackgroundHall.png";
 		case eTexture::BackgroundPet: return "BackgroundPet.jpg";
 		case eTexture::Dog: return "George.png";
@@ -42,6 +44,8 @@ namespace GameEngine
 		case eTexture::Checklist: return "checklist.png";
 		case eTexture::HappinessBar: return "Bar.png";
 		case eTexture::Coin: return "Coin.png";
+		case eTexture::Agenda: return "Agenda.png";
+		case eTexture::AgendaHover: return "AgendaHover.png";
 		}
 		return "UnknownTexType";
 	}
