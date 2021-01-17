@@ -41,6 +41,7 @@ namespace Game
 		void HappinessDepletion();
 		void MouseClick();
 		void CreateCoinCounter(std::string text, int xpos, int ypos);
+		void CreateRoom1Obstacles();
 		
 		float boardx;
 		float boardy;
