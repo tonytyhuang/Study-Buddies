@@ -99,21 +99,25 @@ void GameBoard::CreateRoom1Obstacles() {
 	GameEngine::Entity* table2 = new GameEngine::Entity();
 	GameEngine::Entity* table3 = new GameEngine::Entity();
 	GameEngine::Entity* desk = new GameEngine::Entity();
+	GameEngine::Entity* dogPillow = new GameEngine::Entity();
 
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(table1);
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(table2);
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(table3);
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(desk);
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(dogPillow);
 
 	table1->SetPos(sf::Vector2f(620.0f, 375.0f));
 	table2->SetPos(sf::Vector2f(770.0f, 375.0f));
 	table3->SetPos(sf::Vector2f(920.0f, 375.0f));
 	desk->SetPos(sf::Vector2f(800.0f, 450.0f));
+	dogPillow->SetPos(sf::Vector2f(1400.0f, 430.0f));
 	
 	table1->SetSize(sf::Vector2f(1600.0f, 800.0f));
 	table2->SetSize(sf::Vector2f(1600.0f, 800.0f));
 	table3->SetSize(sf::Vector2f(1600.0f, 800.0f));
 	desk->SetSize(sf::Vector2f(1600.0f, 800.0f));
+	dogPillow->SetSize(sf::Vector2f(300.0f, 300.0f));
 
 	// Render
 
@@ -121,21 +125,25 @@ void GameBoard::CreateRoom1Obstacles() {
 	GameEngine::SpriteRenderComponent* render2 = static_cast<GameEngine::SpriteRenderComponent*>(table2->AddComponent<GameEngine::SpriteRenderComponent>());
 	GameEngine::SpriteRenderComponent* render3 = static_cast<GameEngine::SpriteRenderComponent*>(table3->AddComponent<GameEngine::SpriteRenderComponent>());
 	GameEngine::SpriteRenderComponent* render4 = static_cast<GameEngine::SpriteRenderComponent*>(desk->AddComponent<GameEngine::SpriteRenderComponent>());
+	GameEngine::SpriteRenderComponent* render5 = static_cast<GameEngine::SpriteRenderComponent*>(dogPillow->AddComponent<GameEngine::SpriteRenderComponent>());
 
 	render1->SetTexture(GameEngine::eTexture::Table1);
 	render2->SetTexture(GameEngine::eTexture::Table2);
 	render3->SetTexture(GameEngine::eTexture::Table3);
 	render4->SetTexture(GameEngine::eTexture::Desk);
+	render5->SetTexture(GameEngine::eTexture::DogPillow);
 
 	render1->SetFillColor(sf::Color::Transparent);
 	render2->SetFillColor(sf::Color::Transparent);
 	render3->SetFillColor(sf::Color::Transparent);
 	render4->SetFillColor(sf::Color::Transparent);
+	render5->SetFillColor(sf::Color::Transparent);
 
 	render1->SetZLevel(100);
 	render2->SetZLevel(100);
 	render3->SetZLevel(100);
 	render4->SetZLevel(100);
+	render5->SetZLevel(50);
 }
 
 void GameBoard::CreateAgenda(bool highlight) {
@@ -386,7 +394,7 @@ void GameBoard::CreatePet() {
 	pet = new PetEntity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(pet);
 
-	pet->SetPos(sf::Vector2f(700.0f, 600.0f));
+	pet->SetPos(sf::Vector2f(1390.0f, 410.0f));
 	pet->SetSize(sf::Vector2f(100.0f, 100.0f));
 
 	petRender = static_cast<GameEngine::SpriteRenderComponent*>(pet->AddComponent<GameEngine::SpriteRenderComponent>());
