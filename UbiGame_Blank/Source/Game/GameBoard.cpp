@@ -16,6 +16,7 @@
 #include <ctime>
 
 using namespace Game;
+sf::Event event;
 
 GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1),
 						 init(false), px(150), py(150), hapwidth(208.f), haplength(18.f), pastHappiness(1.f),
@@ -69,7 +70,7 @@ void GameBoard::CreateBackground() {
 			CreatePlayer(boardx, py);
 		}
 		else if (pastscreen == 3) {
-			CreatePlayer(450.f, 150.f);
+			CreatePlayer(880.f, 500.f);
 		}
 		CreateHappinessBar();
 		pastscreen = 2;
@@ -78,7 +79,8 @@ void GameBoard::CreateBackground() {
 		render->SetTexture(GameEngine::eTexture::BackgroundPet);
 
 		CreateHappinessBar();
-		CreatePtsCounter();
+		CreateText("Coins: " + std::to_string(m_player->GetScore()), 175.f, 75.f);
+		CreateText("Feed Pet (10C)", 175.f, 275.f);
 		CreateFoodButton();
 		CreateCoin();
 		pastscreen = 3;
@@ -93,15 +95,15 @@ void GameBoard::SpawnBackgroundObstacles(int id) {
 
 	if (id == 200) {
 		obst->SetPos(sf::Vector2f(0, 0.f));
-		obst->SetSize(sf::Vector2f(1800.0f, 255.0f));
+		obst->SetSize(sf::Vector2f(3600.0f, 900.0f));
 	}
 	else if (id == 201) {
-		obst->SetPos(sf::Vector2f(0, 420.f));
-		obst->SetSize(sf::Vector2f(1800.0f, 255.0f));
+		obst->SetPos(sf::Vector2f(0, 1000.f));
+		obst->SetSize(sf::Vector2f(3600.0f, 100.0f));
 	}
 	else if (id == 202) {
 		obst->SetPos(sf::Vector2f(0, 0.f));
-		obst->SetSize(sf::Vector2f(1.0f, 700.0f));
+		obst->SetSize(sf::Vector2f(1.0f, 1800.0f));
 	}else if (id == 100){
 		obst->SetPos(sf::Vector2f(0, 0.f));
 		obst->SetSize(sf::Vector2f(1.0f, 700.0f));
@@ -163,6 +165,12 @@ void GameBoard::UpdatePosition() {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)) {
 			screen = 2;
 			CreateBackground();
+		}
+		if (event.type == sf::Event::MouseButtonPressed) {
+			if (event.mouseButton.button == sf::Mouse::Left) {
+				printf((char*)event.mouseButton.x);
+				printf((char*)event.mouseButton.y);
+			}
 		}
 	}
 	
@@ -236,10 +244,9 @@ void GameBoard::CreatePet() {
 	petRender->SetZLevel(99);
 
 	pet->AddComponent<GameEngine::AnimationComponent>();
-	Game::PetMovementComponent*  temp = pet->AddComponent<Game::PetMovementComponent>();
+	Game::PetMovementComponent* temp =  pet->AddComponent<Game::PetMovementComponent>();
 
 	temp->SetPlayerEntity(m_player);
-	temp->GetHappiness(pet->GetHappiness());
 }
 
 
@@ -265,8 +272,8 @@ void GameBoard::CreateObstacle() {
 void GameBoard::CreateFoodButton() {
 	foodbutton = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(foodbutton);
-	foodbutton->SetPos(sf::Vector2f(50.0f, 650.0f));
-	foodbutton->SetSize(sf::Vector2f(125.f, 75.f));
+	foodbutton->SetPos(sf::Vector2f(100.0f, 300.0f));
+	foodbutton->SetSize(sf::Vector2f(200.f, 200.f));
 	GameEngine::SpriteRenderComponent* render = foodbutton->AddComponent<GameEngine::SpriteRenderComponent>();
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetTexture(GameEngine::eTexture::DogFood);
@@ -276,21 +283,21 @@ void GameBoard::CreateFoodButton() {
 void GameBoard::CreateCoin() {
 	coinicon = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(coinicon);
-	coinicon->SetPos(sf::Vector2f(50.f, 800.f));
-	coinicon->SetSize(sf::Vector2f(125.f, 75.f));
+	coinicon->SetPos(sf::Vector2f(100.f, 100.f));
+	coinicon->SetSize(sf::Vector2f(175.f, 175.f));
 	GameEngine::SpriteRenderComponent* render = static_cast<GameEngine::SpriteRenderComponent*>(coinicon->AddComponent<GameEngine::SpriteRenderComponent>());
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetTexture(GameEngine::eTexture::Coin);
 }
 
 
-void GameBoard::CreatePtsCounter() {
-	ptscounter = new GameEngine::Entity();
+void GameBoard::CreateText(std::string text, int xpos, int ypos) {
+	GameEngine::Entity* ptscounter = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(ptscounter);
 
-	ptscounter->SetPos(sf::Vector2f(30.f, 800.f)); 
+	ptscounter->SetPos(sf::Vector2f(xpos, ypos)); 
 	GameEngine::TextRenderComponent* render = ptscounter->AddComponent<GameEngine::TextRenderComponent>();
-	render->SetString("Points: " + std::to_string(m_player->GetScore()));
+	render->SetString(text);
 	render->SetFont("joystix.ttf");
 	render->SetColor(sf::Color::Black);
 	render->SetFillColor(sf::Color::Transparent);
@@ -360,8 +367,10 @@ void GameBoard::UpdateLevel() {
 	}
 }
 
-//memory consuming function, can delete
 
+void GameBoard::MouseClick() {
+
+}
 
 void GameBoard::Update()
 {	
