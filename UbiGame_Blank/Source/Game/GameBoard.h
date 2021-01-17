@@ -54,6 +54,7 @@ namespace Game
 		int taskLength;
 		float hapwidth;
 		float haplength;
+		float happiness;
 		float pastHappiness;
 		float happinessTime;
 		std::vector<std::string> taskList;
