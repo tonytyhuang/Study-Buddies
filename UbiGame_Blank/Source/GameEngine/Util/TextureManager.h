@@ -25,7 +25,16 @@ namespace GameEngine
 			Checklist,
 			HappinessBar,
 			Coin,
+
 			BigDog,
+
+			Table1,
+			Table2,
+			Table3,
+			Desk,
+			Check,
+			Cross,
+
 			Count
 		};
 	}	
@@ -42,12 +51,21 @@ namespace GameEngine
 		case eTexture::Dog: return "George.png";
 		case eTexture::HallObstacle: return "Hallwayobstacle.png";
 		case eTexture::DogFood: return "DogFood.png";
-		case eTexture::Checklist: return "checklist.png";
+		case eTexture::Checklist: return "chalkboard.png";
 		case eTexture::HappinessBar: return "Bar.png";
 		case eTexture::Coin: return "Coin.png";
+		case eTexture::Check: return "check.png";
+		case eTexture::Cross: return "cross.png";
 		case eTexture::Agenda: return "Agenda.png";
 		case eTexture::AgendaHover: return "AgendaHover.png";
+
 		case eTexture::BigDog: return "bigdog.png";
+
+		case eTexture::Table1: return "table1.png";
+		case eTexture::Table2: return "table2.png";
+		case eTexture::Table3: return "table3.png";
+		case eTexture::Desk: return "desk.png";
+
 		}
 		return "UnknownTexType";
 	}
