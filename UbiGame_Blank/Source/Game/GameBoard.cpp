@@ -50,8 +50,9 @@ void GameBoard::CreateBackground() {
 	GameEngine::SpriteRenderComponent* render = background->AddComponent<GameEngine::SpriteRenderComponent>();
 	if (screen == 1) {
 		render->SetTexture(GameEngine::eTexture::BackgroundHome);
+		CreateRoom1Obstacles();
 		CreateAgenda(false);
-		for (int i = 0; i < 4; ++i) {
+		for (int i = 0; i < 8; ++i) {
 			SpawnBackgroundObstacles(100 + i);
 		}
 		//CreateObstacle();
@@ -94,7 +95,52 @@ void GameBoard::CreateBackground() {
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetZLevel(-1);
 }
-void GameBoard::CreateAgenda(bool highlight){
+
+void GameBoard::CreateRoom1Obstacles() {
+	GameEngine::Entity* table1 = new GameEngine::Entity();
+	GameEngine::Entity* table2 = new GameEngine::Entity();
+	GameEngine::Entity* table3 = new GameEngine::Entity();
+	GameEngine::Entity* desk = new GameEngine::Entity();
+
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(table1);
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(table2);
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(table3);
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(desk);
+
+	table1->SetPos(sf::Vector2f(620.0f, 375.0f));
+	table2->SetPos(sf::Vector2f(770.0f, 375.0f));
+	table3->SetPos(sf::Vector2f(920.0f, 375.0f));
+	desk->SetPos(sf::Vector2f(800.0f, 450.0f));
+	
+	table1->SetSize(sf::Vector2f(1600.0f, 800.0f));
+	table2->SetSize(sf::Vector2f(1600.0f, 800.0f));
+	table3->SetSize(sf::Vector2f(1600.0f, 800.0f));
+	desk->SetSize(sf::Vector2f(1600.0f, 800.0f));
+
+	// Render
+
+	GameEngine::SpriteRenderComponent* render1 = static_cast<GameEngine::SpriteRenderComponent*>(table1->AddComponent<GameEngine::SpriteRenderComponent>());
+	GameEngine::SpriteRenderComponent* render2 = static_cast<GameEngine::SpriteRenderComponent*>(table2->AddComponent<GameEngine::SpriteRenderComponent>());
+	GameEngine::SpriteRenderComponent* render3 = static_cast<GameEngine::SpriteRenderComponent*>(table3->AddComponent<GameEngine::SpriteRenderComponent>());
+	GameEngine::SpriteRenderComponent* render4 = static_cast<GameEngine::SpriteRenderComponent*>(desk->AddComponent<GameEngine::SpriteRenderComponent>());
+
+	render1->SetTexture(GameEngine::eTexture::Table1);
+	render2->SetTexture(GameEngine::eTexture::Table2);
+	render3->SetTexture(GameEngine::eTexture::Table3);
+	render4->SetTexture(GameEngine::eTexture::Desk);
+
+	render1->SetFillColor(sf::Color::Transparent);
+	render2->SetFillColor(sf::Color::Transparent);
+	render3->SetFillColor(sf::Color::Transparent);
+	render4->SetFillColor(sf::Color::Transparent);
+
+	render1->SetZLevel(100);
+	render2->SetZLevel(100);
+	render3->SetZLevel(100);
+	render4->SetZLevel(100);
+}
+
+void GameBoard::CreateAgenda(bool highlight) {
 	agenda = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(agenda);
 
@@ -113,10 +159,10 @@ void GameBoard::CreateAgenda(bool highlight){
 		render->SetTexture(GameEngine::eTexture::Agenda);
 	}
 }
+
 void GameBoard::SpawnBackgroundObstacles(int id) {
 	GameEngine::Entity* obst = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(obst);
-
 	if (id == 200) {
 		obst->SetPos(sf::Vector2f(0, 0.f));
 		obst->SetSize(sf::Vector2f(3600.0f, 900.0f));
@@ -145,6 +191,22 @@ void GameBoard::SpawnBackgroundObstacles(int id) {
 		obst->SetPos(sf::Vector2f(0.f, 960.f));
 		obst->SetSize(sf::Vector2f(4000.0f, 10.0f));
 	}
+	else if (id == 104) {
+		obst->SetPos(sf::Vector2f(375.f, 680.f));
+		obst->SetSize(sf::Vector2f(240.0f, 40.0f));
+	}
+	else if (id == 105) {
+		obst->SetPos(sf::Vector2f(855.f, 680.f));
+		obst->SetSize(sf::Vector2f(240.0f, 40.0f));
+	}
+	else if (id == 106) {
+		obst->SetPos(sf::Vector2f(1355.f, 680.f));
+		obst->SetSize(sf::Vector2f(240.0f, 40.0f));
+	}
+	else if (id == 107) {
+		obst->SetPos(sf::Vector2f(500.f, 440.f));
+		obst->SetSize(sf::Vector2f(300.0f, 30.0f));
+	}
 
 	// Render
 	GameEngine::SpriteRenderComponent* render = obst->AddComponent<GameEngine::SpriteRenderComponent>();
@@ -158,6 +220,7 @@ void GameBoard::SpawnBackgroundObstacles(int id) {
 	obst->AddComponent<GameEngine::CollidableComponent>();
 	//roomObstacles.push_back(obst);
 }
+
 void GameBoard::UpdateMousePosition() {
 	//GameEngine::Entity* window = new GameEngine::Entity();
 	sf::RenderWindow* window = GameEngine::GameEngineMain::GetInstance()->GetRenderWindow();
@@ -323,6 +386,7 @@ void GameBoard::CreateTasks(int id) {
 
 	tasks.push_back(task);
 }
+
 
 void GameBoard::CreatePlayer(float x, float y) {
 	m_player = new PlayerEntity();

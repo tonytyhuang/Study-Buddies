@@ -10,6 +10,7 @@
 #include <iostream>
 #include <ctime>
 
+
 namespace Game
 {
 	//Used for storing and controlling all game related entities, as well as providing an entry point for the "game" side of application	
@@ -44,6 +45,9 @@ namespace Game
 		void UpdateMousePosition();
 		void CreateCoinCounter(std::string text, int xpos, int ypos);
 		void CreateCheck(bool complete, int id);
+
+
+		void CreateRoom1Obstacles();
 
 		float boardx;
 		float boardy;
@@ -87,7 +91,6 @@ namespace Game
 
 		GameEngine::SpriteRenderComponent* playerRender;
 		GameEngine::SpriteRenderComponent* petRender;
-
 
 	};
 }

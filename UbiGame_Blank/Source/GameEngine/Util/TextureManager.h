@@ -25,6 +25,10 @@ namespace GameEngine
 			Checklist,
 			HappinessBar,
 			Coin,
+			Table1,
+			Table2,
+			Table3,
+			Desk,
 			Check,
 			Cross,
 			Count
@@ -50,6 +54,10 @@ namespace GameEngine
 		case eTexture::Cross: return "cross.png";
 		case eTexture::Agenda: return "Agenda.png";
 		case eTexture::AgendaHover: return "AgendaHover.png";
+		case eTexture::Table1: return "table1.png";
+		case eTexture::Table2: return "table2.png";
+		case eTexture::Table3: return "table3.png";
+		case eTexture::Desk: return "desk.png";
 		}
 		return "UnknownTexType";
 	}
