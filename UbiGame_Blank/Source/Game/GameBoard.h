@@ -57,6 +57,7 @@ namespace Game
 		float haplength;
 		float pastHappiness;
 		float happinessTime;
+		time_t lastClicked;
 		std::vector<std::string> taskList;
 
 		PetEntity* pet;
