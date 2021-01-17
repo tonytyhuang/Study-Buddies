@@ -12,11 +12,14 @@
 #include "GameEngine/EntitySystem/Components/CollidableComponent.h"
 #include "GameEngine/EntitySystem/Components/TextRenderComponent.h"
 
+#include <iostream>
+#include <ctime>
+
 using namespace Game;
 
 GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1),
 						 init(false), px(150), py(150), hapwidth(208.f), haplength(18.f), pastHappiness(1.f),
-						 m_player(nullptr), pet(nullptr), check{false}, checklist{nullptr}
+						m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(30.f)
 {
 	CreateBackground();
 
@@ -52,13 +55,16 @@ void GameBoard::CreateBackground() {
 		}
 		else {
 			CreatePlayer(0.f, py);
-		}
+		} 
 		CreatePet();
 		CreateHappinessBar();
 		pastscreen = 1;
 	}
 	else if (screen == 2) {
 		render->SetTexture(GameEngine::eTexture::BackgroundHall);
+		for (int i = 0; i < 3; ++i) {
+			SpawnBackgroundObstacles(200 + i);
+		}
 		if (pastscreen == 1) {
 			CreatePlayer(boardx, py);
 		}
@@ -79,6 +85,36 @@ void GameBoard::CreateBackground() {
 	}
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetZLevel(-1);
+}
+
+void GameBoard::SpawnBackgroundObstacles(int id) {
+	GameEngine::Entity* obst = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(obst);
+
+	if (id == 200) {
+		obst->SetPos(sf::Vector2f(0, 0.f));
+		obst->SetSize(sf::Vector2f(1800.0f, 255.0f));
+	}
+	else if (id == 201) {
+		obst->SetPos(sf::Vector2f(0, 420.f));
+		obst->SetSize(sf::Vector2f(1800.0f, 255.0f));
+	}
+	else if (id == 202) {
+		obst->SetPos(sf::Vector2f(0, 0.f));
+		obst->SetSize(sf::Vector2f(1.0f, 700.0f));
+	}else if (id == 100){
+		obst->SetPos(sf::Vector2f(0, 0.f));
+		obst->SetSize(sf::Vector2f(1.0f, 700.0f));
+	}
+
+	// Render
+	GameEngine::SpriteRenderComponent* render = obst->AddComponent<GameEngine::SpriteRenderComponent>();
+
+	render->SetFillColor(sf::Color::Transparent);
+	render->SetTexture(GameEngine::eTexture::HallObstacle);
+
+	obst->AddComponent<GameEngine::CollidableComponent>();
+	//roomObstacles.push_back(obst);
 }
 
 void GameBoard::UpdatePosition() {
