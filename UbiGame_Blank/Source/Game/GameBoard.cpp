@@ -29,6 +29,7 @@ ispressed(false), score(100), happiness(0.2), taskLength(3)
 	taskList.emplace_back("Math Club!");
 	for (int i = 0; i < taskLength; ++i) {
 		completed.emplace_back(false);
+		firstpressed.emplace_back(true);
 	}
 }
 
@@ -275,29 +276,23 @@ void GameBoard::UpdateMousePosition() {
 			}
 		}
 		else if (check) {
-			bool checkpressed = false;
 			while (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 				float xmcur = sf::Mouse::getPosition().x;
 				float ymcur = sf::Mouse::getPosition().y;
-				std::cout << xmcur << "     " << ymcur << std::endl;
 				
 				if (xmcur > 600 && xmcur < 1300) {
 					for (int i = 0; i < taskLength; ++i) {
 						if (ymcur > (410 + i * 90) && ymcur < (460 + i * 90)) {
+							if (firstpressed[i]) {
+								score += 10;
+							}
+							firstpressed[i] = false;
 							completed[i] = true;
-							//GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checks[i]);
 							CreateCheck(completed[i], i);
-							checkpressed = true;
-							//checks[i] = nullptr;
-							
 						}
 					}
 				}
 			}
-			if (checkpressed) {
-				score += 10;
-			}
-			
 		}
 	}
 }

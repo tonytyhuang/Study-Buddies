@@ -72,6 +72,7 @@ namespace Game
 		bool ispressed;
 		std::vector<std::string> taskList;
 		std::vector<bool> completed;
+		std::vector<bool> firstpressed;
 
 		PetEntity* pet;
 		GameEngine::Entity* obstacle;
