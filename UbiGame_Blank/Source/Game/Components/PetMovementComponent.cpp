@@ -13,6 +13,7 @@ float getDistance(sf::Vector2f vector) {
 }
 
 void PetMovementComponent::GetHappiness(float haps) {
+
     happiness = haps;
 }
 

@@ -21,7 +21,7 @@ using namespace Game;
 GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1), agendaHover(false),
 init(false), px(500), py(500), hapwidth(416.0), haplength(32.0), pastHappiness(1.f),
 m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(15.0),
-ispressed(false), score(100), happiness(0.6), taskLength(3), enteredwith(false)
+ispressed(false), score(100), happiness(1.f), taskLength(3), enteredwith(false)
 
 {
 	sf::Time time1 = clock.restart();
@@ -118,8 +118,9 @@ void GameBoard::CreateBackground() {
 		if (happiness > 0.3f) {
 			CreatePet(0.f, py - 75.f);
 			enteredwith = true;
+			CreateHappinessBar();
 		}
-		CreateHappinessBar();
+		
 	}
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetZLevel(-1);
@@ -709,7 +710,10 @@ void GameBoard::UpdateHappiness() {
 void GameBoard::UpdatePetHappiness() {
 	if (screen == 1 || screen == 4) {
 		Game::PetMovementComponent* temp = pet->GetComponent<Game::PetMovementComponent>();
-		temp->GetHappiness(happiness);
+		if (temp != nullptr) {
+			temp->GetHappiness(happiness);
+		}
+		
 	}
 	else if (screen == 3) {
 		Game::BigDogComponent* temp2 = bigDog->GetComponent<Game::BigDogComponent>();
