@@ -69,7 +69,7 @@ void GameBoard::CreateBackground() {
 			CreatePlayer(boardx, py);
 		}
 		else if (pastscreen == 3) {
-			CreatePlayer(450.f, 150.f);
+			CreatePlayer(880.f, 500.f);
 		}
 		CreateHappinessBar();
 		pastscreen = 2;
@@ -93,15 +93,15 @@ void GameBoard::SpawnBackgroundObstacles(int id) {
 
 	if (id == 200) {
 		obst->SetPos(sf::Vector2f(0, 0.f));
-		obst->SetSize(sf::Vector2f(1800.0f, 255.0f));
+		obst->SetSize(sf::Vector2f(3600.0f, 900.0f));
 	}
 	else if (id == 201) {
-		obst->SetPos(sf::Vector2f(0, 420.f));
-		obst->SetSize(sf::Vector2f(1800.0f, 255.0f));
+		obst->SetPos(sf::Vector2f(0, 1000.f));
+		obst->SetSize(sf::Vector2f(3600.0f, 100.0f));
 	}
 	else if (id == 202) {
 		obst->SetPos(sf::Vector2f(0, 0.f));
-		obst->SetSize(sf::Vector2f(1.0f, 700.0f));
+		obst->SetSize(sf::Vector2f(1.0f, 1800.0f));
 	}else if (id == 100){
 		obst->SetPos(sf::Vector2f(0, 0.f));
 		obst->SetSize(sf::Vector2f(1.0f, 700.0f));
