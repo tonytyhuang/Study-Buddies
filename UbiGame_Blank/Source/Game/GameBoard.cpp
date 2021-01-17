@@ -20,7 +20,7 @@ using namespace Game;
 
 GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1), agendaHover(false),
 init(false), px(500), py(500), hapwidth(416.0), haplength(32.0), pastHappiness(1.f),
-m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(15.f),
+m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(15.0),
 ispressed(false), score(100), happiness(0.6), taskLength(3)
 
 {
