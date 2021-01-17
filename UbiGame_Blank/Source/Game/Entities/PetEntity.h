@@ -7,16 +7,21 @@ namespace Game
 	class PetEntity : public GameEngine::Entity {
 	public:
 		PetEntity();
-		int GetHappiness() const { return happiness; }
+		float GetHappiness() const { return happiness; }
 		void addHappiness() {
-			if (happiness >= 80) {
-				happiness = 100;
+			if (happiness >= 0.8) {
+				happiness = 1.f;
 			}
 			else {
-				happiness += 20;
+				happiness += 0.2;
+			}
+		}
+		void removeHappiness() {
+			if (happiness > 0.19) {
+				happiness -= 0.2;
 			}
 		}
 	private:
-		int happiness;
+		float happiness;
 	};
 }

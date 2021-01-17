@@ -30,7 +30,14 @@ namespace Game
 		void CreatePtsCounter();
 		void CreateTasks(int id);
 		void UpdateLevel();
+<<<<<<< HEAD
 		void SpawnBackgroundObstacles(int room);
+=======
+		void CreateHappinessBar();
+		void UpdateHappinessBar();
+		void CreateFoodButton();
+		void CreateCoin();
+>>>>>>> e1e1709c08cd934a90f26dd9039d9463d147a619
 		
 		float boardx;
 		float boardy;
@@ -43,6 +50,9 @@ namespace Game
 		bool init;
 		bool check;
 		int taskLength;
+		float hapwidth;
+		float haplength;
+		float pastHappiness;
 		std::vector<std::string> taskList;
 
 		PetEntity* pet;
@@ -52,6 +62,11 @@ namespace Game
 		
 		GameEngine::Entity* checklist;
 		GameEngine::Entity* ptscounter;
+		GameEngine::Entity* foodbutton;
+		GameEngine::Entity* coinicon;
+		GameEngine::Entity* happinessBar;
+		GameEngine::Entity* happinessMeter;
+
 		std::vector<GameEngine::Entity*> tasks;
 
 		GameEngine::SpriteRenderComponent* playerRender;

@@ -19,7 +19,10 @@ namespace GameEngine
 			BackgroundHall,
 			BackgroundPet,
 			Dog,
+			DogFood,
 			Checklist,
+			HappinessBar,
+			Coin,
 			Count
 		};
 	}	
@@ -34,8 +37,14 @@ namespace GameEngine
 		case eTexture::BackgroundHall: return "BackgroundHall.png";
 		case eTexture::BackgroundPet: return "BackgroundPet.jpg";
 		case eTexture::Dog: return "George.png";
+<<<<<<< HEAD
 		case eTexture::HallObstacle: return "Hallwayobstacle.png";
+=======
+		case eTexture::DogFood: return "DogFood.png";
+>>>>>>> e1e1709c08cd934a90f26dd9039d9463d147a619
 		case eTexture::Checklist: return "checklist.png";
+		case eTexture::HappinessBar: return "Bar.png";
+		case eTexture::Coin: return "Coin.png";
 		}
 		return "UnknownTexType";
 	}

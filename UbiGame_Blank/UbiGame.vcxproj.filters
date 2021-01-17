@@ -166,5 +166,11 @@
     <Image Include="Resources\BackgroundHall.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\Bar2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Bar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

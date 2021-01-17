@@ -2,4 +2,4 @@
 
 using namespace Game;
 
-PetEntity::PetEntity() : happiness(100) {}
+PetEntity::PetEntity() : happiness(0.2) {}
