@@ -171,7 +171,7 @@ void GameBoard::CreatePlayer(float x, float y) {
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(m_player);
 
 	m_player->SetPos(sf::Vector2f(x, y));
-	m_player->SetSize(sf::Vector2f(50.0f, 75.0f));
+	m_player->SetSize(sf::Vector2f(100.0f, 150.0f));
 
 	//Render
 	playerRender = static_cast<GameEngine::SpriteRenderComponent*>(m_player->AddComponent<GameEngine::SpriteRenderComponent>());
@@ -191,7 +191,7 @@ void GameBoard::CreatePet() {
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(pet);
 
 	pet->SetPos(sf::Vector2f(700.0f, 150.0f));
-	pet->SetSize(sf::Vector2f(50.0f, 50.0f));
+	pet->SetSize(sf::Vector2f(100.0f, 100.0f));
 
 	petRender = static_cast<GameEngine::SpriteRenderComponent*>(pet->AddComponent<GameEngine::SpriteRenderComponent>());
 

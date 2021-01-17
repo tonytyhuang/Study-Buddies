@@ -14,8 +14,8 @@ float getDistance(sf::Vector2f vector) {
 
 PetMovementComponent::PetMovementComponent() {
     initialState = true;
-    radiusOuter = 200.f;
-    radiusInner = 40.f;
+    radiusOuter = 400.f;
+    radiusInner = 80.f;
     isSitting = false;
 }
 
