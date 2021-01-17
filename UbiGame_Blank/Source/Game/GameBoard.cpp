@@ -113,6 +113,9 @@ void GameBoard::CreateBackground() {
 	}
 	else if (screen == 4) {
 		render->SetTexture(GameEngine::eTexture::BackgroundWalk);
+		for (int i = 0; i < 5; ++i) {
+			SpawnBackgroundObstacles(400 + i);
+		}
 		CreatePlayer(0.f, py);
 		pastscreen = 4;
 		if (happiness > 0.3f) {
@@ -198,66 +201,6 @@ void GameBoard::CreateAgenda(bool highlight) {
 	}
 }
 
-void GameBoard::SpawnBackgroundObstacles(int id) {
-	GameEngine::Entity* obst = new GameEngine::Entity();
-	GameEngine::GameEngineMain::GetInstance()->AddEntity(obst);
-	if (id == 200) {
-		obst->SetPos(sf::Vector2f(0, 0.f));
-		obst->SetSize(sf::Vector2f(3600.0f, 900.0f));
-	}
-	else if (id == 201) {
-		obst->SetPos(sf::Vector2f(0, 1000.f));
-		obst->SetSize(sf::Vector2f(3600.0f, 100.0f));
-	}
-	else if (id == 202) {
-		obst->SetPos(sf::Vector2f(0, 0.f));
-		obst->SetSize(sf::Vector2f(5.0f, 4000.0f));
-	}
-	else if (id == 100) {
-		obst->SetPos(sf::Vector2f(0, 0.f));
-		obst->SetSize(sf::Vector2f(450.0f, 1000.0f));
-	}
-	else if (id == 101) {
-		obst->SetPos(sf::Vector2f(450.f, 0.f));
-		obst->SetSize(sf::Vector2f(2300.0f, 550.0f));
-	}
-	else if (id == 102) {
-		obst->SetPos(sf::Vector2f(1780.f, 0.f));
-		obst->SetSize(sf::Vector2f(450.0f, 1000.0f));
-	}
-	else if (id == 103) {
-		obst->SetPos(sf::Vector2f(0.f, 960.f));
-		obst->SetSize(sf::Vector2f(4000.0f, 10.0f));
-	}
-	else if (id == 104) {
-		obst->SetPos(sf::Vector2f(375.f, 680.f));
-		obst->SetSize(sf::Vector2f(240.0f, 40.0f));
-	}
-	else if (id == 105) {
-		obst->SetPos(sf::Vector2f(855.f, 680.f));
-		obst->SetSize(sf::Vector2f(240.0f, 40.0f));
-	}
-	else if (id == 106) {
-		obst->SetPos(sf::Vector2f(1355.f, 680.f));
-		obst->SetSize(sf::Vector2f(240.0f, 40.0f));
-	}
-	else if (id == 107) {
-		obst->SetPos(sf::Vector2f(500.f, 440.f));
-		obst->SetSize(sf::Vector2f(300.0f, 30.0f));
-	}
-
-	// Render
-	GameEngine::SpriteRenderComponent* render = obst->AddComponent<GameEngine::SpriteRenderComponent>();
-
-	render->SetFillColor(sf::Color::Transparent);
-	render->SetTexture(GameEngine::eTexture::HallObstacle);
-
-	//comment out to show the obstacle
-	render->SetZLevel(-8);
-
-	obst->AddComponent<GameEngine::CollidableComponent>();
-	//roomObstacles.push_back(obst);
-}
 
 void GameBoard::UpdateMousePosition() {
 	//GameEngine::Entity* window = new GameEngine::Entity();
@@ -461,6 +404,88 @@ void GameBoard::CreatePlayer(float x, float y) {
 	m_player->AddComponent<Game::PlayerMovementComponent>();  // <-- Added the movement component to the player
 	m_player->AddComponent<GameEngine::AnimationComponent>();
 	m_player->AddComponent<GameEngine::CollidablePhysicsComponent>();
+}
+
+void GameBoard::SpawnBackgroundObstacles(int id) {
+	GameEngine::Entity* obst = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(obst);
+	if (id == 200) {
+		obst->SetPos(sf::Vector2f(0, 0.f));
+		obst->SetSize(sf::Vector2f(3600.0f, 900.0f));
+	}
+	else if (id == 201) {
+		obst->SetPos(sf::Vector2f(0, 1000.f));
+		obst->SetSize(sf::Vector2f(3600.0f, 100.0f));
+	}
+	else if (id == 202) {
+		obst->SetPos(sf::Vector2f(0, 0.f));
+		obst->SetSize(sf::Vector2f(5.0f, 4000.0f));
+	}
+	else if (id == 100) {
+		obst->SetPos(sf::Vector2f(0, 0.f));
+		obst->SetSize(sf::Vector2f(450.0f, 1000.0f));
+	}
+	else if (id == 101) {
+		obst->SetPos(sf::Vector2f(450.f, 0.f));
+		obst->SetSize(sf::Vector2f(2300.0f, 550.0f));
+	}
+	else if (id == 102) {
+		obst->SetPos(sf::Vector2f(1780.f, 0.f));
+		obst->SetSize(sf::Vector2f(450.0f, 1000.0f));
+	}
+	else if (id == 103) {
+		obst->SetPos(sf::Vector2f(0.f, 960.f));
+		obst->SetSize(sf::Vector2f(4000.0f, 10.0f));
+	}
+	else if (id == 104) {
+		obst->SetPos(sf::Vector2f(375.f, 680.f));
+		obst->SetSize(sf::Vector2f(240.0f, 40.0f));
+	}
+	else if (id == 105) {
+		obst->SetPos(sf::Vector2f(855.f, 680.f));
+		obst->SetSize(sf::Vector2f(240.0f, 40.0f));
+	}
+	else if (id == 106) {
+		obst->SetPos(sf::Vector2f(1355.f, 680.f));
+		obst->SetSize(sf::Vector2f(240.0f, 40.0f));
+	}
+	else if (id == 107) {
+		obst->SetPos(sf::Vector2f(500.f, 440.f));
+		obst->SetSize(sf::Vector2f(300.0f, 30.0f));
+	}
+	else if (id == 400) {
+		obst->SetPos(sf::Vector2f(0.f, 0.f));
+		obst->SetSize(sf::Vector2f(4000.0f, 300.0f));
+	}
+	else if (id == 401) {
+		obst->SetPos(sf::Vector2f(0.f, 0.f));
+		obst->SetSize(sf::Vector2f(700.0f, 750.0f));
+	}
+	else if (id == 402) {
+		obst->SetPos(sf::Vector2f(400.f, 200.f));
+		obst->SetSize(sf::Vector2f(200.0f, 130.0f));
+	}
+	else if (id == 403) {
+		obst->SetPos(sf::Vector2f(1800.f, 0.f));
+		obst->SetSize(sf::Vector2f(300.0f, 750.0f));
+	}
+	else if (id == 404) {
+		obst->SetPos(sf::Vector2f(1500.f, 0.f));
+		obst->SetSize(sf::Vector2f(400.0f, 500.0f));
+	}
+	
+
+	// Render
+	GameEngine::SpriteRenderComponent* render = obst->AddComponent<GameEngine::SpriteRenderComponent>();
+
+	render->SetFillColor(sf::Color::Transparent);
+	render->SetTexture(GameEngine::eTexture::HallObstacle);
+
+	//comment out to show the obstacle
+	render->SetZLevel(-8);
+
+	obst->AddComponent<GameEngine::CollidableComponent>();
+	//roomObstacles.push_back(obst);
 }
 
 void GameBoard::CreatePet(float xpos, float ypos) {
