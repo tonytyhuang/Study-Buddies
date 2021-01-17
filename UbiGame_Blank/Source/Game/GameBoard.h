@@ -30,6 +30,8 @@ namespace Game
 		void CreatePtsCounter();
 		void CreateTasks(int id);
 		void UpdateLevel();
+		void CreateFoodButton();
+		void CreateCoin();
 		
 		float boardx;
 		float boardy;
@@ -50,6 +52,8 @@ namespace Game
 		GameEngine::Entity* background;
 		GameEngine::Entity* checklist;
 		GameEngine::Entity* ptscounter;
+		GameEngine::Entity* foodbutton;
+		GameEngine::Entity* coinicon;
 		std::vector<GameEngine::Entity*> tasks;
 
 		GameEngine::SpriteRenderComponent* playerRender;

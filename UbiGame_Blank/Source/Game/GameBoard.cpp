@@ -14,12 +14,11 @@
 
 using namespace Game;
 
-GameBoard::GameBoard() : boardx(900.f), boardy(300.f), pastscreen(1), screen(1),
+GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1),
 						 init(false), px(150), py(150),
 						 m_player(nullptr), pet(nullptr), check{false}, checklist{nullptr}
 {
 	CreateBackground();
-	CreatePtsCounter();
 
 	// set tasks
 	taskLength = 3;
@@ -40,8 +39,8 @@ void GameBoard::CreateBackground() {
 	background = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(background);
 
-	background->SetPos(sf::Vector2f(450.f, 150.f));
-	background->SetSize(sf::Vector2f(900.f, 300.f));
+	background->SetPos(sf::Vector2f(900, 450.f));
+	background->SetSize(sf::Vector2f(boardx, boardy));
 
 	GameEngine::SpriteRenderComponent* render = background->AddComponent<GameEngine::SpriteRenderComponent>();
 	if (screen == 1) {
@@ -69,8 +68,9 @@ void GameBoard::CreateBackground() {
 	}
 	else if (screen == 3) {
 		render->SetTexture(GameEngine::eTexture::BackgroundPet);
-
-
+		CreatePtsCounter();
+		CreateFoodButton();
+		CreateCoin();
 		pastscreen = 3;
 	}
 
@@ -81,8 +81,7 @@ void GameBoard::CreateBackground() {
 void GameBoard::UpdatePosition() {
 	px = m_player->GetPos().x;
 	py = m_player->GetPos().y;
-	printf("%f\n", px);
-	printf("%f\n", py);
+
 	if (screen == 1) {
 		if (px < 0.f) {
 			screen = 2;
@@ -116,7 +115,7 @@ void GameBoard::UpdatePosition() {
 			screen = 1;
 			CreateBackground();
 		} 
-		if (px > 400.f && px < 500.f && py < 160.f && sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+		if (px > 800.f && px < 1000.f && py < 600.f && sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 			screen = 3;
 			CreateBackground();
 		}
@@ -202,6 +201,8 @@ void GameBoard::CreatePet() {
 	temp->SetPlayerEntity(m_player);
 }
 
+
+
 void GameBoard::CreateObstacle() {
 	obstacle = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(obstacle);
@@ -219,18 +220,43 @@ void GameBoard::CreateObstacle() {
 
 }
 
+
+void GameBoard::CreateFoodButton() {
+	foodbutton = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(foodbutton);
+	foodbutton->SetPos(sf::Vector2f(50.0f, 650.0f));
+	foodbutton->SetSize(sf::Vector2f(125.f, 75.f));
+	GameEngine::SpriteRenderComponent* render = foodbutton->AddComponent<GameEngine::SpriteRenderComponent>();
+	render->SetFillColor(sf::Color::Transparent);
+	render->SetTexture(GameEngine::eTexture::DogFood);
+}
+
+
+void GameBoard::CreateCoin() {
+	coinicon = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(coinicon);
+	coinicon->SetPos(sf::Vector2f(50.f, 800.f));
+	coinicon->SetSize(sf::Vector2f(125.f, 75.f));
+	GameEngine::SpriteRenderComponent* render = static_cast<GameEngine::SpriteRenderComponent*>(coinicon->AddComponent<GameEngine::SpriteRenderComponent>());
+	render->SetFillColor(sf::Color::Transparent);
+	render->SetTexture(GameEngine::eTexture::Coin);
+}
+
+
 void GameBoard::CreatePtsCounter() {
 	ptscounter = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(ptscounter);
 
-	ptscounter->SetPos(sf::Vector2f(0.f, 0.f));
+	ptscounter->SetPos(sf::Vector2f(30.f, 800.f)); 
 	GameEngine::TextRenderComponent* render = ptscounter->AddComponent<GameEngine::TextRenderComponent>();
-	render->SetString("Fun Points! : " + std::to_string(m_player->GetScore()));
+	render->SetString("Points: " + std::to_string(m_player->GetScore()));
 	render->SetFont("joystix.ttf");
 	render->SetColor(sf::Color::Black);
 	render->SetFillColor(sf::Color::Transparent);
-	render->SetCharacterSizePixels(20);
+	render->SetCharacterSizePixels(35);
 }
+
+
 void GameBoard::UpdateLevel() {
 	if (m_player->GetPos().y < (pet->GetPos().y - 12.f)) {
 		playerRender->SetZLevel(99);
