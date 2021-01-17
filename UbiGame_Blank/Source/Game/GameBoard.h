@@ -44,7 +44,7 @@ namespace Game
 		void CreateAgenda(bool highlight);
 		void UpdateMousePosition();
 		void CreateCoinCounter(std::string text, int xpos, int ypos);
-		void StartText();
+		void CreateCheck(bool complete, int id);
 
 
 		void CreateRoom1Obstacles();
@@ -69,11 +69,9 @@ namespace Game
 		float pastHappiness;
 		float happinessTime;
 		int score;
-		bool enter2;
-		bool enter3;
-		time_t lastrecord;
 		bool ispressed;
 		std::vector<std::string> taskList;
+		std::vector<bool> completed;
 
 		PetEntity* pet;
 		GameEngine::Entity* obstacle;
@@ -89,6 +87,7 @@ namespace Game
 		GameEngine::Entity* agenda;
 
 		std::vector<GameEngine::Entity*> tasks;
+		std::vector<GameEngine::Entity*> checks;
 
 		GameEngine::SpriteRenderComponent* playerRender;
 		GameEngine::SpriteRenderComponent* petRender;

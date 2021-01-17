@@ -30,6 +30,8 @@ namespace GameEngine
 			Table3,
 			Desk,
 			DogPillow,
+			Check,
+			Cross,
 			Count
 		};
 	}	
@@ -49,6 +51,8 @@ namespace GameEngine
 		case eTexture::Checklist: return "chalkboard.png";
 		case eTexture::HappinessBar: return "Bar.png";
 		case eTexture::Coin: return "Coin.png";
+		case eTexture::Check: return "check.png";
+		case eTexture::Cross: return "cross.png";
 		case eTexture::Agenda: return "Agenda.png";
 		case eTexture::AgendaHover: return "AgendaHover.png";
 		case eTexture::Table1: return "table1.png";
