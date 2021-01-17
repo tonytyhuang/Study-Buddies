@@ -306,6 +306,7 @@ void GameBoard::UpdateMousePosition() {
 			}
 		}
 		else if (check) {
+			bool checkpressed = false;
 			while (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 				float xmcur = sf::Mouse::getPosition().x;
 				float ymcur = sf::Mouse::getPosition().y;

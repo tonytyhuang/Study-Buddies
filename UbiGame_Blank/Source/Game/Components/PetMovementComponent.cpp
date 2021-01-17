@@ -45,7 +45,6 @@ void PetMovementComponent::Update() {
     sf::Vector2f distance{ 1000.f,1000.f };
     //The amount of speed that we will apply when input is received
     const float inputAmount = 10.0f;
-    printf("%f", happiness);
     if (player != nullptr) {
         distance = (player->GetPos() - GetEntity()->GetPos());
         displacement = (player->GetPos() - GetEntity()->GetPos())*dt;
