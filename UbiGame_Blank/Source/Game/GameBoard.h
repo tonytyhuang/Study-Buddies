@@ -4,6 +4,7 @@
 #include "Game/Entities/PetEntity.h"
 #include "GameEngine/EntitySystem/Components/SpriteRenderComponent.h"
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
 #include <iostream>
@@ -29,7 +30,7 @@ namespace Game
 		void UpdatePosition();
 		void CreateChecklist();
 		void CreatePet();
-		void CreatePtsCounter();
+		void CreateText(std::string text, int xpos, int ypos);
 		void CreateTasks(int id);
 		void UpdateLevel();
 		void SpawnBackgroundObstacles(int room);
@@ -38,6 +39,7 @@ namespace Game
 		void CreateFoodButton();
 		void CreateCoin();
 		void HappinessDepletion();
+		void MouseClick();
 		
 		float boardx;
 		float boardy;
@@ -62,7 +64,6 @@ namespace Game
 		GameEngine::Entity* background;
 		
 		GameEngine::Entity* checklist;
-		GameEngine::Entity* ptscounter;
 		GameEngine::Entity* foodbutton;
 		GameEngine::Entity* coinicon;
 		GameEngine::Entity* happinessBar;
