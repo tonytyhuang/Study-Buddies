@@ -14,6 +14,7 @@ namespace GameEngine
 			None = -1,
 			Player,
 			Obstacle,
+			HallObstacle,
 			BackgroundHome,
 			BackgroundHall,
 			BackgroundPet,
@@ -36,6 +37,7 @@ namespace GameEngine
 		case eTexture::BackgroundHall: return "BackgroundHall.png";
 		case eTexture::BackgroundPet: return "BackgroundPet.jpg";
 		case eTexture::Dog: return "George.png";
+		case eTexture::HallObstacle: return "Hallwayobstacle.png";
 		case eTexture::DogFood: return "DogFood.png";
 		case eTexture::Checklist: return "checklist.png";
 		case eTexture::HappinessBar: return "Bar.png";
