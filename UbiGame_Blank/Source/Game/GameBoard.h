@@ -3,6 +3,7 @@
 #include "Game/Entities/PlayerEntity.h"
 #include "Game/Entities/PetEntity.h"
 #include "GameEngine/EntitySystem/Components/SpriteRenderComponent.h"
+#include "Game/Components/PlayerMovementComponent.h"
 #include <SFML/System/Vector2.hpp>
 #include <vector>
 #include <string>
@@ -37,7 +38,7 @@ namespace Game
 		void UpdateHappinessBar();
 		void CreateFoodButton();
 		void CreateCoin();
-		void HappinessDepletion();
+
 		
 		float boardx;
 		float boardy;
@@ -72,5 +73,6 @@ namespace Game
 
 		GameEngine::SpriteRenderComponent* playerRender;
 		GameEngine::SpriteRenderComponent* petRender;
+
 	};
 }

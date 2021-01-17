@@ -12,11 +12,16 @@ float getDistance(sf::Vector2f vector) {
     return distance;
 }
 
+void PetMovementComponent::GetHappiness(float haps) {
+    happiness = haps;
+}
+
 PetMovementComponent::PetMovementComponent() {
     initialState = true;
     radiusOuter = 400.f;
     radiusInner = 80.f;
     isSitting = false;
+    happiness = 1.f;
 }
 
 PetMovementComponent::~PetMovementComponent()
@@ -41,8 +46,6 @@ void PetMovementComponent::Update() {
     //The amount of speed that we will apply when input is received
     const float inputAmount = 10.0f;
 
-    
-
     if (player != nullptr) {
         distance = (player->GetPos() - GetEntity()->GetPos());
         displacement = (player->GetPos() - GetEntity()->GetPos())*dt;
@@ -55,7 +58,7 @@ void PetMovementComponent::Update() {
         }
      }
     
-    if (getDistance(distance) < radiusOuter && getDistance(distance) > radiusInner) {
+    if (getDistance(distance) < radiusOuter && getDistance(distance) > radiusInner && happiness > 0.3) {
         isSitting = false;
         initialState = false;
          if (abs(displacement.y) > abs(displacement.x)) {
@@ -91,7 +94,7 @@ void PetMovementComponent::Update() {
             //Update the entity position
             GetEntity()->SetPos(GetEntity()->GetPos() + displacement);
     }
-    else if (getDistance(distance) <= radiusInner) {
+    else if (getDistance(distance) <= radiusInner && happiness > 0.3) {
         if (animate && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogIdle && animate->GetCurrentAnimation() != GameEngine::EAnimationId::DogSit && !isSitting) {
             isSitting = true;
             animate->SetIsLooping(false);
