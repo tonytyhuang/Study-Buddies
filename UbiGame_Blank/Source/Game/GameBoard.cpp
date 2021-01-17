@@ -336,7 +336,6 @@ void GameBoard::UpdateMousePosition() {
 				}
 			}
 			if (checkpressed) {
-				score += 10;
 				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(coincounter);
 				coincounter = nullptr;
 				CreateCoinCounter("Coins: " + std::to_string(score), 150.f, 50.f);
