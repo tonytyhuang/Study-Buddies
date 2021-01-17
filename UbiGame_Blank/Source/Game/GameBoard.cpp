@@ -20,7 +20,7 @@ using namespace Game;
 GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1),
 						 init(false), px(500), py(500), hapwidth(208.f), haplength(18.f), pastHappiness(1.f),
 						m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(30.f),
-						lastClicked(time(NULL))
+						lastClicked(time(NULL)), ispressed(false), score(100)
 {
 	CreateBackground();
 
@@ -82,7 +82,7 @@ void GameBoard::CreateBackground() {
 		render->SetTexture(GameEngine::eTexture::BackgroundPet);
 
 		CreateHappinessBar();
-		CreateCoinCounter("Coins: " + std::to_string(m_player->GetScore()), 175.f, 75.f);
+		CreateCoinCounter("Coins: " + std::to_string(score), 175.f, 75.f);
 		CreateText("Feed Pet (10C)", 175.f, 275.f);
 		CreateFoodButton(); 
 		CreateCoin();
@@ -184,6 +184,7 @@ void GameBoard::UpdatePosition() {
 			screen = 2;
 			CreateBackground();
 		}
+		/*
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			float xm = sf::Mouse::getPosition().x;
 			float ym = sf::Mouse::getPosition().y;
@@ -201,6 +202,25 @@ void GameBoard::UpdatePosition() {
 				
 				CreateCoinCounter("Coins: " + std::to_string(m_player->GetScore()), 175.f, 75.f);
 			}
+		}*/
+		while (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+			xm = sf::Mouse::getPosition().x;
+			ym = sf::Mouse::getPosition().y;
+			ispressed = true;
+		}
+		if (ispressed && xm < 650 && xm > 350 && ym > 100 && ym < 500) {
+			score = score - 10;
+			pet->addHappiness();
+			printf("test");
+			ispressed = false;
+			xm = 0;
+			ym = 0;
+			if(coincounter) {
+				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(coincounter);
+				coincounter = nullptr;
+			}
+
+			CreateCoinCounter("Coins: " + std::to_string(score), 175.f, 75.f);
 		}
 	}
 }

@@ -47,6 +47,8 @@ namespace Game
 		int pastscreen;
 		float px;
 		float py;
+		float xm;
+		float ym;
 		int screen;
 		float startx;
 		float starty;
@@ -57,7 +59,9 @@ namespace Game
 		float haplength;
 		float pastHappiness;
 		float happinessTime;
+		int score;
 		time_t lastClicked;
+		bool ispressed;
 		std::vector<std::string> taskList;
 
 		PetEntity* pet;
