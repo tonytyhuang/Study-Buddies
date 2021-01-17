@@ -212,6 +212,7 @@ void GameBoard::UpdateMousePosition() {
 			}
 		}
 		else if (check) {
+			bool checkpressed = false;
 			while (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 				float xmcur = sf::Mouse::getPosition().x;
 				float ymcur = sf::Mouse::getPosition().y;
@@ -220,15 +221,18 @@ void GameBoard::UpdateMousePosition() {
 				if (xmcur > 600 && xmcur < 1300) {
 					for (int i = 0; i < taskLength; ++i) {
 						if (ymcur > (410 + i * 90) && ymcur < (460 + i * 90)) {
-							score += 10;
 							completed[i] = true;
 							//GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checks[i]);
 							CreateCheck(completed[i], i);
+							checkpressed = true;
 							//checks[i] = nullptr;
 							
 						}
 					}
 				}
+			}
+			if (checkpressed) {
+				score += 10;
 			}
 			
 		}
@@ -389,7 +393,7 @@ void GameBoard::CreateCheck(bool complete, int id) {
 	
 	if (complete) {
 		render->SetTexture(GameEngine::eTexture::Check);
-		render->SetFillColor(sf::Color::Color(36, 80, 45));
+		render->SetFillColor(sf::Color::Color(16, 112, 6));
 	}
 	else {
 		render->SetTexture(GameEngine::eTexture::Cross);
