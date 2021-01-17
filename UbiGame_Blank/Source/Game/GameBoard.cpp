@@ -671,7 +671,7 @@ void GameBoard::UpdateHappinessBar() {
 }
 
 void GameBoard::UpdateLevel() {
-	if (screen == 1) {
+	if (screen == 1 && screen == 4) {
 		if (m_player->GetPos().y < (pet->GetPos().y - 12.f)) {
 			playerRender->SetZLevel(99);
 			petRender->SetZLevel(100);
@@ -698,7 +698,7 @@ void GameBoard::UpdateHappiness() {
 }
 
 void GameBoard::UpdatePetHappiness() {
-	if (screen == 1) {
+	if (screen == 1 && screen == 4) {
 		Game::PetMovementComponent* temp = pet->GetComponent<Game::PetMovementComponent>();
 		temp->GetHappiness(happiness);
 	}
