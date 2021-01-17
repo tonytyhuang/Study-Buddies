@@ -106,7 +106,7 @@ void GameBoard::SpawnBackgroundObstacles(int id) {
 	}
 	else if (id == 202) {
 		obst->SetPos(sf::Vector2f(0, 0.f));
-		obst->SetSize(sf::Vector2f(1.0f, 1800.0f));
+		obst->SetSize(sf::Vector2f(1.0f, 3000.0f));
 	}else if (id == 100){
 		obst->SetPos(sf::Vector2f(0, 0.f));
 		obst->SetSize(sf::Vector2f(450.0f, 1000.0f));
