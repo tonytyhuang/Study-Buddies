@@ -21,7 +21,7 @@ using namespace Game;
 GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1), agendaHover(false),
 init(false), px(500), py(500), hapwidth(416.0), haplength(32.0), pastHappiness(1.f),
 m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(15.0),
-ispressed(false), score(100), happiness(0.6), taskLength(3)
+ispressed(false), score(100), happiness(0.6), taskLength(3), enteredwith(false)
 
 {
 	sf::Time time1 = clock.restart();
@@ -64,19 +64,26 @@ void GameBoard::CreateBackground() {
 		//CreateObstacle();
 		if (!init) {
 			CreatePlayer(px, py);
-			CreateText("Welcome to StudyBuddies! Use the arrow keys to move around.", 250.f, 825.f, 25, "pokemon.ttf");
+			CreateText("Welcome to StudyBuddies! Use the arrow keys to move around.", 200.f, 825.f, 25, "pokemon.ttf");
 			init = true;
+			CreatePet(1390.0f, 410.0f);
 		}
 		else if (pastscreen == 2) {
 			CreatePlayer(0.f, py);
+			CreatePet(1390.0f, 410.0f);
 		}
 		else if (pastscreen == 4) {
 			CreatePlayer(boardx, py);
+			if (enteredwith) {
+				CreatePet(boardx, py);
+			}
+			else {
+				CreatePet(1390.0f, 410.0f);
+			}
+			
 		}
-		CreatePet(1390.0f, 410.0f);
+		
 		CreateHappinessBar();
-		CreateCoinCounter("Coins: " + std::to_string(score), 150.f, 50.f);
-		CreateCoin(true);
 		pastscreen = 1;
 	}
 	else if (screen == 2) {
@@ -91,8 +98,6 @@ void GameBoard::CreateBackground() {
 			CreatePlayer(880.f, 500.f);
 		}
 		CreateHappinessBar();
-		CreateCoinCounter("Coins: " + std::to_string(score), 150.f, 50.f);
-		CreateCoin(true);
 		pastscreen = 2;
 	}
 	else if (screen == 3) {
@@ -115,8 +120,9 @@ void GameBoard::CreateBackground() {
 		pastscreen = 4;
 		if (happiness > 0.3f) {
 			CreatePet(0.f, py - 75.f);
-			CreateHappinessBar();
+			enteredwith = true;
 		}
+		CreateHappinessBar();
 	}
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetZLevel(-1);
@@ -224,6 +230,8 @@ void GameBoard::UpdateMousePosition() {
 			if (agendaHover) {
 				if (!check) {
 					CreateChecklist();
+					CreateCoinCounter("Coins: " + std::to_string(score), 150.f, 50.f);
+					CreateCoin(true);
 					for (int i = 0; i < taskLength; ++i) {
 						CreateTasks(i);
 						CreateCheck(completed[i], i);
@@ -235,6 +243,8 @@ void GameBoard::UpdateMousePosition() {
 
 		if (check && sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)) {
 			GameEngine::GameEngineMain::GetInstance()->RemoveEntity(checklist);
+			GameEngine::GameEngineMain::GetInstance()->RemoveEntity(coincounter);
+			GameEngine::GameEngineMain::GetInstance()->RemoveEntity(coinicon);
 			checklist = nullptr;
 			check = false;
 			for (std::vector<GameEngine::Entity*>::iterator it = tasks.begin(); it != tasks.end();) {
@@ -269,7 +279,6 @@ void GameBoard::UpdateMousePosition() {
 				}
 			}
 			if (checkpressed) {
-				score += 10;
 				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(coincounter);
 				coincounter = nullptr;
 				CreateCoinCounter("Coins: " + std::to_string(score), 150.f, 50.f);
