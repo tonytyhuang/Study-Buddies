@@ -78,6 +78,7 @@ namespace Game
 		float happinessTime;
 		int score;
 		bool ispressed;
+		bool enteredwith;
 		std::vector<std::string> taskList;
 
 		sf::Clock clock;
