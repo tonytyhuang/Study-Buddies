@@ -638,10 +638,6 @@ void GameBoard::UpdateLevel() {
 	}
 
 }
-/*
-void GameBoard::StartText() {
-
-
 void GameBoard::delHappiness() {
 	if (happiness > 0.39) {
 		happiness -= 0.2;
@@ -655,8 +651,12 @@ void GameBoard::UpdateHappiness() {
 		clock.restart();
 	}
 }
+//void GameBoard::StartText() {
 
-=======
+
+
+
+/*
 	if (!enter2) {
 		CreateText("Welcome to VPets! Use the arrow keys to move around.", 250.f, 825.f, 25, "pokemon.ttf");
 		//CreateText("Your pet tired and sleeping. Move left of the screen to feed it.", 200.f, 850.f, 25, "pokemon.ttf");
