@@ -41,7 +41,7 @@ namespace GameEngine
 		case eTexture::Dog: return "George.png";
 		case eTexture::HallObstacle: return "Hallwayobstacle.png";
 		case eTexture::DogFood: return "DogFood.png";
-		case eTexture::Checklist: return "checklist.png";
+		case eTexture::Checklist: return "chalkboard.png";
 		case eTexture::HappinessBar: return "Bar.png";
 		case eTexture::Coin: return "Coin.png";
 		case eTexture::Agenda: return "Agenda.png";

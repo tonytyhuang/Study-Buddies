@@ -30,7 +30,7 @@ namespace Game
 		void UpdatePosition();
 		void CreateChecklist();
 		void CreatePet();
-		void CreateText(std::string text, int xpos, int ypos);
+		void CreateText(std::string text, float xpos, float ypos, int size, std::string font);
 		void CreateTasks(int id);
 		void UpdateLevel();
 		void SpawnBackgroundObstacles(int room);
@@ -41,7 +41,8 @@ namespace Game
 		void addHapiness();
 		void MouseClick();
 		void CreateCoinCounter(std::string text, int xpos, int ypos);
-		
+		void StartText();
+
 		float boardx;
 		float boardy;
 		int pastscreen;
@@ -61,7 +62,9 @@ namespace Game
 		float pastHappiness;
 		float happinessTime;
 		int score;
-		time_t lastClicked;
+		bool enter2;
+		bool enter3;
+		time_t lastrecord;
 		bool ispressed;
 		std::vector<std::string> taskList;
 
@@ -75,6 +78,7 @@ namespace Game
 		GameEngine::Entity* coinicon;
 		GameEngine::Entity* happinessBar;
 		GameEngine::Entity* happinessMeter;
+		GameEngine::Entity* curText;
 
 		std::vector<GameEngine::Entity*> tasks;
 

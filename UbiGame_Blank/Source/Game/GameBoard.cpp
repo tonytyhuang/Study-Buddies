@@ -5,22 +5,19 @@
 #include "Game/Components/PlayerMovementComponent.h"
 #include "Game/Components/PetMovementComponent.h"
 #include "GameEngine/EntitySystem/Components/SpriteRenderComponent.h"
-#include <string>
 #include "GameEngine\EntitySystem\Components\AnimationComponent.h"
 #include "GameEngine/EntitySystem/Components/CollidablePhysicsComponent.h"
 
 #include "GameEngine/EntitySystem/Components/CollidableComponent.h"
 #include "GameEngine/EntitySystem/Components/TextRenderComponent.h"
 
-#include <iostream>
-#include <ctime>
 
 using namespace Game;
 
 GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1),
 init(false), px(500), py(500), hapwidth(416.0), haplength(32.0), pastHappiness(1.f),
 m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(30.f),
-lastClicked(time(NULL)), ispressed(false), score(100), happiness(0.2)
+lastrecord(time(NULL)), ispressed(false), score(100), happiness(0.2), enter2(false)
 
 {
 	CreateBackground();
@@ -49,6 +46,7 @@ void GameBoard::CreateBackground() {
 
 	GameEngine::SpriteRenderComponent* render = background->AddComponent<GameEngine::SpriteRenderComponent>();
 	if (screen == 1) {
+		lastrecord = time(NULL);
 		render->SetTexture(GameEngine::eTexture::BackgroundHome);
 		for (int i = 0; i < 4; ++i) {
 			SpawnBackgroundObstacles(100 + i);
@@ -66,6 +64,7 @@ void GameBoard::CreateBackground() {
 		pastscreen = 1;
 	}
 	else if (screen == 2) {
+		enter2 = true;
 		render->SetTexture(GameEngine::eTexture::BackgroundHall);
 		for (int i = 0; i < 3; ++i) {
 			SpawnBackgroundObstacles(200 + i);
@@ -84,7 +83,7 @@ void GameBoard::CreateBackground() {
 
 		CreateHappinessBar();
 		CreateCoinCounter("Coins: " + std::to_string(score), 175.f, 75.f);
-		CreateText("Feed Pet (10C)", 175.f, 275.f);
+		CreateText("Feed Pet (10C)", 175.f, 275.f, 35, "joystix.ttf");
 		CreateFoodButton();
 		CreateCoin();
 		pastscreen = 3;
@@ -171,7 +170,6 @@ void GameBoard::UpdatePosition() {
 		}
 	}
 	else if (screen == 2) {
-
 		if (px > boardx) {
 			screen = 1;
 			CreateBackground();
@@ -186,44 +184,31 @@ void GameBoard::UpdatePosition() {
 			screen = 2;
 			CreateBackground();
 		}
-		/*
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			float xm = sf::Mouse::getPosition().x;
-			float ym = sf::Mouse::getPosition().y;
-			time_t ntime = time(NULL);
 
-			if (xm < 650 && xm > 350 && ym > 100 && ym < 500 && difftime(ntime, lastClicked) > 2.f) {
-				lastClicked = ntime;
-				m_player->SetScore(m_player->GetScore() - 1);
+		while (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+			xm = sf::Mouse::getPosition().x;
+			ym = sf::Mouse::getPosition().y;
+			std::cout << xm << std::endl;
+			std::cout << ym << std::endl;
+			ispressed = true;
+		}
+		if (ispressed && xm < 650 && xm > 100 && ym > 300 && ym < 500) {
+			if (score > 0) {
+				score = score - 10;
 				addHapiness();
-				printf("%f", happiness);-
-				std::cout << m_player->GetScore() << std::endl;
+				ispressed = false;
+				xm = 0;
+				ym = 0;
 				if (coincounter) {
 					GameEngine::GameEngineMain::GetInstance()->RemoveEntity(coincounter);
 					coincounter = nullptr;
 				}
 
-				CreateCoinCounter("Coins: " + std::to_string(m_player->GetScore()), 175.f, 75.f);
+				CreateCoinCounter("Coins: " + std::to_string(score), 175.f, 75.f);
 			}
-		}*/
-		while (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-			xm = sf::Mouse::getPosition().x;
-			ym = sf::Mouse::getPosition().y;
-			ispressed = true;
-		}
-		if (ispressed && xm < 650 && xm > 350 && ym > 100 && ym < 500) {
-			score = score - 10;
-			addHapiness();
-			printf("test");
-			ispressed = false;
-			xm = 0;
-			ym = 0;
-			if (coincounter) {
-				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(coincounter);
-				coincounter = nullptr;
+			else {
+				CreateText("Not enough coins! Complete more tasks :)", 200.f, 850.f, 25, "joystix.ttf");
 			}
-
-			CreateCoinCounter("Coins: " + std::to_string(score), 175.f, 75.f);
 		}
 	}
 }
@@ -356,18 +341,19 @@ void GameBoard::CreateCoinCounter(std::string text, int xpos, int ypos) {
 	render->SetCharacterSizePixels(35);
 }
 
-void GameBoard::CreateText(std::string text, int xpos, int ypos) {
-	GameEngine::Entity* ptscounter = new GameEngine::Entity();
-	GameEngine::GameEngineMain::GetInstance()->AddEntity(ptscounter);
+void GameBoard::CreateText(std::string text, float xpos, float ypos, int size, std::string font) {
+	curText = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(curText);
 
-	ptscounter->SetPos(sf::Vector2f(xpos, ypos));
-	GameEngine::TextRenderComponent* render = ptscounter->AddComponent<GameEngine::TextRenderComponent>();
+	curText->SetPos(sf::Vector2f(xpos, ypos));
+	GameEngine::TextRenderComponent* render = curText->AddComponent<GameEngine::TextRenderComponent>();
 	render->SetString(text);
-	render->SetFont("joystix.ttf");
+	render->SetFont(font);
 	render->SetColor(sf::Color::Black);
 	render->SetFillColor(sf::Color::Transparent);
-	render->SetCharacterSizePixels(35);
+	render->SetCharacterSizePixels(size);
 }
+
 
 void GameBoard::CreateHappinessBar() {
 	happinessBar = new GameEngine::Entity();
@@ -467,6 +453,37 @@ void GameBoard::UpdateLevel() {
 
 }
 
+void GameBoard::StartText() {
+
+	if (!enter2) {
+		CreateText("Welcome to VPets! Use the arrow keys to move around.", 250.f, 800.f, 25, "pokemon.ttf");
+		//CreateText("Your pet tired and sleeping. Move left of the screen to feed it.", 200.f, 850.f, 25, "pokemon.ttf");
+	}
+	/*
+	else if (passed < 16 && !enter2) {
+		CreateText("Your pet tired and sleeping. Move left of the screen to feed it.", 200.f, 825.f, 25, "pokemon.ttf");
+	}
+	else if (enter2 && init2) {
+		if (passed > 24) {
+			init2 = false;
+		}
+		CreateText("Move to the door and press Enter to feed your pet!", 100.f, 825.f, 25, "pokemon.ttf");
+	}
+	else if (enter3 && init3) {
+		if (passed > 32) {
+			init3 = false;
+		}
+		init2 = false;
+		CreateText("Click Feed to restore your pet's energy.", 100.f, 825.f, 25, "pokemon.ttf");
+	}
+	else if (enter4 && init4) {
+		if (passed > 40) {
+			init4 = false;
+		}
+		init3 = false;
+		CreateText("Check your pet :)", 300.f, 825.f, 25, "pokemon.ttf");
+	}*/
+}
 
 void GameBoard::MouseClick() {
 
@@ -477,6 +494,7 @@ void GameBoard::Update()
 	UpdateHappinessBar();
 	UpdateLevel();
 	UpdatePosition();
+	StartText();
 }
 
 GameEngine::Entity* GameBoard::getPlayer() {
