@@ -19,7 +19,7 @@ using namespace Game;
 sf::Event event;
 
 GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1),
-						 init(false), px(150), py(150), hapwidth(208.f), haplength(18.f), pastHappiness(1.f),
+						 init(false), px(500), py(500), hapwidth(208.f), haplength(18.f), pastHappiness(1.f),
 						m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(30.f)
 {
 	CreateBackground();
@@ -49,7 +49,10 @@ void GameBoard::CreateBackground() {
 	GameEngine::SpriteRenderComponent* render = background->AddComponent<GameEngine::SpriteRenderComponent>();
 	if (screen == 1) {
 		render->SetTexture(GameEngine::eTexture::BackgroundHome);
-		CreateObstacle();
+		for (int i = 0; i < 4; ++i) {
+			SpawnBackgroundObstacles(100 + i);
+		}
+		//CreateObstacle();
 		if (!init) {
 			CreatePlayer(px, py);
 			init = true;
@@ -81,7 +84,7 @@ void GameBoard::CreateBackground() {
 		CreateHappinessBar();
 		CreateText("Coins: " + std::to_string(m_player->GetScore()), 175.f, 75.f);
 		CreateText("Feed Pet (10C)", 175.f, 275.f);
-		CreateFoodButton();
+		CreateFoodButton(); 
 		CreateCoin();
 		pastscreen = 3;
 	}
@@ -106,7 +109,19 @@ void GameBoard::SpawnBackgroundObstacles(int id) {
 		obst->SetSize(sf::Vector2f(1.0f, 1800.0f));
 	}else if (id == 100){
 		obst->SetPos(sf::Vector2f(0, 0.f));
-		obst->SetSize(sf::Vector2f(1.0f, 700.0f));
+		obst->SetSize(sf::Vector2f(450.0f, 1000.0f));
+	}
+	else if (id == 101) {
+		obst->SetPos(sf::Vector2f(450.f, 0.f));
+		obst->SetSize(sf::Vector2f(2300.0f, 550.0f));
+	}
+	else if (id == 102) {
+		obst->SetPos(sf::Vector2f(1780.f, 0.f));
+		obst->SetSize(sf::Vector2f(450.0f, 1000.0f));
+	}
+	else if (id == 103) {
+		obst->SetPos(sf::Vector2f(0.f, 960.f));
+		obst->SetSize(sf::Vector2f(4000.0f, 10.0f));
 	}
 
 	// Render
@@ -114,6 +129,9 @@ void GameBoard::SpawnBackgroundObstacles(int id) {
 
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetTexture(GameEngine::eTexture::HallObstacle);
+
+	//comment out to show the obstacle
+	render->SetZLevel(-8);
 
 	obst->AddComponent<GameEngine::CollidableComponent>();
 	//roomObstacles.push_back(obst);
@@ -234,7 +252,7 @@ void GameBoard::CreatePet() {
 	pet = new PetEntity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(pet);
 
-	pet->SetPos(sf::Vector2f(700.0f, 150.0f));
+	pet->SetPos(sf::Vector2f(700.0f, 600.0f));
 	pet->SetSize(sf::Vector2f(100.0f, 100.0f));
 
 	petRender = static_cast<GameEngine::SpriteRenderComponent*>(pet->AddComponent<GameEngine::SpriteRenderComponent>());

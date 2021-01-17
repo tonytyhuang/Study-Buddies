@@ -13,6 +13,8 @@ namespace GameEngine
 		{
 			None = -1,
 			Player,
+			Agenda,
+			AgendaHover,
 			Obstacle,
 			HallObstacle,
 			BackgroundHome,
@@ -42,6 +44,8 @@ namespace GameEngine
 		case eTexture::Checklist: return "checklist.png";
 		case eTexture::HappinessBar: return "Bar.png";
 		case eTexture::Coin: return "Coin.png";
+		case eTexture::Agenda: return "Agenda.png";
+		case eTexture::AgendaHover: return "AgendaHover.png";
 		}
 		return "UnknownTexType";
 	}
