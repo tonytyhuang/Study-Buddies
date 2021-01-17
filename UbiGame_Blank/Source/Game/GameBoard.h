@@ -10,6 +10,7 @@
 #include <iostream>
 #include <ctime>
 
+
 namespace Game
 {
 	//Used for storing and controlling all game related entities, as well as providing an entry point for the "game" side of application	
@@ -30,7 +31,7 @@ namespace Game
 		void UpdatePosition();
 		void CreateChecklist();
 		void CreatePet();
-		void CreateText(std::string text, int xpos, int ypos);
+		void CreateText(std::string text, float xpos, float ypos, int size, std::string font);
 		void CreateTasks(int id);
 		void UpdateLevel();
 		void SpawnBackgroundObstacles(int room);
@@ -38,27 +39,40 @@ namespace Game
 		void UpdateHappinessBar();
 		void CreateFoodButton();
 		void CreateCoin();
-		void HappinessDepletion();
+		void addHapiness();
 		void MouseClick();
+		void CreateAgenda(bool highlight);
+		void UpdateMousePosition();
 		void CreateCoinCounter(std::string text, int xpos, int ypos);
+		void StartText();
+
+
 		void CreateRoom1Obstacles();
-		
+
 		float boardx;
 		float boardy;
 		int pastscreen;
 		float px;
 		float py;
+		float xm;
+		float ym;
 		int screen;
 		float startx;
 		float starty;
 		bool init;
 		bool check;
+		bool agendaHover;
 		int taskLength;
 		float hapwidth;
 		float haplength;
+		float happiness;
 		float pastHappiness;
 		float happinessTime;
-		time_t lastClicked;
+		int score;
+		bool enter2;
+		bool enter3;
+		time_t lastrecord;
+		bool ispressed;
 		std::vector<std::string> taskList;
 
 		PetEntity* pet;
@@ -71,10 +85,13 @@ namespace Game
 		GameEngine::Entity* coinicon;
 		GameEngine::Entity* happinessBar;
 		GameEngine::Entity* happinessMeter;
+		GameEngine::Entity* curText;
+		GameEngine::Entity* agenda;
 
 		std::vector<GameEngine::Entity*> tasks;
 
 		GameEngine::SpriteRenderComponent* playerRender;
 		GameEngine::SpriteRenderComponent* petRender;
+
 	};
 }
