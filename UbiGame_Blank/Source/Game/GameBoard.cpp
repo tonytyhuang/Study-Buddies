@@ -247,6 +247,7 @@ void GameBoard::CreatePet() {
 	Game::PetMovementComponent* temp =  pet->AddComponent<Game::PetMovementComponent>();
 
 	temp->SetPlayerEntity(m_player);
+	temp->GetHappiness(pet->GetHappiness());
 }
 
 
