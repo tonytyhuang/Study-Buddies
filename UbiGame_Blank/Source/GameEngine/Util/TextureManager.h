@@ -32,6 +32,7 @@ namespace GameEngine
 			Table2,
 			Table3,
 			Desk,
+			DogPillow,
 			Check,
 			Cross,
 
@@ -65,6 +66,8 @@ namespace GameEngine
 		case eTexture::Table2: return "table2.png";
 		case eTexture::Table3: return "table3.png";
 		case eTexture::Desk: return "desk.png";
+
+		case eTexture::DogPillow: return "DogPillow.png";
 
 		}
 		return "UnknownTexType";
