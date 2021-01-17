@@ -4,6 +4,7 @@
 
 #include "Game/Components/PlayerMovementComponent.h"
 #include "Game/Components/PetMovementComponent.h"
+#include "Game/Components/BigDogComponent.h"
 #include "GameEngine/EntitySystem/Components/SpriteRenderComponent.h"
 #include <string>
 #include "GameEngine\EntitySystem\Components\AnimationComponent.h"
@@ -13,16 +14,19 @@
 #include "GameEngine/EntitySystem/Components/TextRenderComponent.h"
 
 #include <iostream>
-#include <ctime>
+#include <chrono>
+#include <thread>
 
 using namespace Game;
 
+
 GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1),
 init(false), px(500), py(500), hapwidth(416.0), haplength(32.0), pastHappiness(1.f),
-m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(30.f),
-lastClicked(time(NULL)), ispressed(false), score(100), happiness(0.2)
+m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(5.f),
+lastClicked(time(NULL)), ispressed(false), score(100), happiness(1.f)
 
 {
+	sf::Time time1 = clock.restart();
 	CreateBackground();
 
 	// set tasks
@@ -87,6 +91,7 @@ void GameBoard::CreateBackground() {
 		CreateText("Feed Pet (10C)", 175.f, 275.f);
 		CreateFoodButton();
 		CreateCoin();
+		CreateBigDog();
 		pastscreen = 3;
 	}
 	render->SetFillColor(sf::Color::Transparent);
@@ -302,6 +307,25 @@ void GameBoard::CreatePet() {
 	temp->GetHappiness(happiness);
 }
 
+void GameBoard::CreateBigDog() {
+	bigDog = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(bigDog);
+
+	bigDog->SetPos(sf::Vector2f(1150.f, 400.f));
+	bigDog->SetSize(sf::Vector2f(450.f, 750.f));
+
+	bigDogRender = static_cast<GameEngine::SpriteRenderComponent*>(bigDog->AddComponent<GameEngine::SpriteRenderComponent>());
+
+	bigDogRender->SetFillColor(sf::Color::Transparent);
+	bigDogRender->SetTexture(GameEngine::eTexture::BigDog);
+	bigDogRender->SetZLevel(200);
+
+	bigDog->AddComponent<GameEngine::AnimationComponent>();
+	Game::BigDogComponent* temp = bigDog->AddComponent<Game::BigDogComponent>();
+
+	temp->SetHappiness(happiness);
+}
+
 
 
 void GameBoard::CreateObstacle() {
@@ -467,6 +491,20 @@ void GameBoard::UpdateLevel() {
 
 }
 
+void GameBoard::delHappiness() {
+	if (happiness > 0.39) {
+		happiness -= 0.2;
+	}
+}
+
+void GameBoard::UpdateHappiness() {
+	sf::Time time1 = clock.getElapsedTime();
+	if (time1.asSeconds() > happinessTime) {
+		delHappiness();
+		clock.restart();
+	}
+}
+
 
 void GameBoard::MouseClick() {
 
@@ -474,6 +512,7 @@ void GameBoard::MouseClick() {
 
 void GameBoard::Update()
 {
+	UpdateHappiness();
 	UpdateHappinessBar();
 	UpdateLevel();
 	UpdatePosition();

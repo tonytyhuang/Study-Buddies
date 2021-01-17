@@ -25,6 +25,7 @@ namespace GameEngine
 			Checklist,
 			HappinessBar,
 			Coin,
+			BigDog,
 			Count
 		};
 	}	
@@ -46,6 +47,7 @@ namespace GameEngine
 		case eTexture::Coin: return "Coin.png";
 		case eTexture::Agenda: return "Agenda.png";
 		case eTexture::AgendaHover: return "AgendaHover.png";
+		case eTexture::BigDog: return "bigdog.png";
 		}
 		return "UnknownTexType";
 	}
