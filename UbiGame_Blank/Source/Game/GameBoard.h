@@ -49,6 +49,7 @@ namespace Game
 
 		void CreateBigDog();
 		void UpdateHappiness();
+		void UpdatePetHappiness();
 		
 
 		void CreateCheck(bool complete, int id);
