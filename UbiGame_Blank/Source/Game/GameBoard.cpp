@@ -16,11 +16,11 @@
 #include <ctime>
 
 using namespace Game;
-sf::Event event;
 
 GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1),
 						 init(false), px(500), py(500), hapwidth(208.f), haplength(18.f), pastHappiness(1.f),
-						m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(30.f)
+						m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(30.f),
+						lastClicked(time(NULL))
 {
 	CreateBackground();
 
@@ -82,7 +82,7 @@ void GameBoard::CreateBackground() {
 		render->SetTexture(GameEngine::eTexture::BackgroundPet);
 
 		CreateHappinessBar();
-		CreateText("Coins: " + std::to_string(m_player->GetScore()), 175.f, 75.f);
+		CreateCoinCounter("Coins: " + std::to_string(m_player->GetScore()), 175.f, 75.f);
 		CreateText("Feed Pet (10C)", 175.f, 275.f);
 		CreateFoodButton(); 
 		CreateCoin();
@@ -188,16 +188,27 @@ void GameBoard::UpdatePosition() {
 			screen = 2;
 			CreateBackground();
 		}
-		if (event.type == sf::Event::MouseButtonPressed) {
-			if (event.mouseButton.button == sf::Mouse::Left) {
-				printf((char*)event.mouseButton.x);
-				printf((char*)event.mouseButton.y);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+			float xm = sf::Mouse::getPosition().x;
+			float ym = sf::Mouse::getPosition().y;
+			time_t ntime = time(NULL);
+
+			if (xm < 650 && xm > 350 && ym > 100 && ym < 500 && difftime(ntime, lastClicked) > 2.f) {
+				lastClicked = ntime;
+				m_player->SetScore(m_player->GetScore() - 1);
+				pet->addHappiness();
+				std::cout << m_player->GetScore() << std::endl;
+				if (coincounter) {
+					GameEngine::GameEngineMain::GetInstance()->RemoveEntity(coincounter);
+					coincounter = nullptr;
+				}
+				
+				CreateCoinCounter("Coins: " + std::to_string(m_player->GetScore()), 175.f, 75.f);
 			}
 		}
 	}
-	
 }
-
+	
 
 void GameBoard::CreateChecklist() {
 	checklist = new GameEngine::Entity();
@@ -313,6 +324,18 @@ void GameBoard::CreateCoin() {
 	render->SetTexture(GameEngine::eTexture::Coin);
 }
 
+void GameBoard::CreateCoinCounter(std::string text, int xpos, int ypos) {
+	coincounter = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(coincounter);
+
+	coincounter->SetPos(sf::Vector2f(xpos, ypos));
+	GameEngine::TextRenderComponent* render = coincounter->AddComponent<GameEngine::TextRenderComponent>();
+	render->SetString(text);
+	render->SetFont("joystix.ttf");
+	render->SetColor(sf::Color::Black);
+	render->SetFillColor(sf::Color::Transparent);
+	render->SetCharacterSizePixels(35);
+}
 
 void GameBoard::CreateText(std::string text, int xpos, int ypos) {
 	GameEngine::Entity* ptscounter = new GameEngine::Entity();

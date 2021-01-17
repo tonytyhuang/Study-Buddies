@@ -40,6 +40,7 @@ namespace Game
 		void CreateCoin();
 		void HappinessDepletion();
 		void MouseClick();
+		void CreateCoinCounter(std::string text, int xpos, int ypos);
 		
 		float boardx;
 		float boardy;
@@ -56,13 +57,14 @@ namespace Game
 		float haplength;
 		float pastHappiness;
 		float happinessTime;
+		time_t lastClicked;
 		std::vector<std::string> taskList;
 
 		PetEntity* pet;
 		GameEngine::Entity* obstacle;
 		PlayerEntity* m_player;
 		GameEngine::Entity* background;
-		
+		GameEngine::Entity* coincounter;
 		GameEngine::Entity* checklist;
 		GameEngine::Entity* foodbutton;
 		GameEngine::Entity* coinicon;
