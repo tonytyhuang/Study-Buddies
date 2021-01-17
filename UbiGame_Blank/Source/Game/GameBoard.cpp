@@ -16,11 +16,11 @@
 #include <ctime>
 
 using namespace Game;
-sf::Event event;
 
 GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1),
-init(false), px(150), py(150), hapwidth(416.f), haplength(32.f), pastHappiness(1.f),
-m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(30.f), happiness(0.8f)
+						 init(false), px(500), py(500), hapwidth(416.0), haplength(32.0), pastHappiness(1.f),
+						m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(30.f),
+						lastClicked(time(NULL)), happiness(0.2)
 {
 	CreateBackground();
 
@@ -49,7 +49,10 @@ void GameBoard::CreateBackground() {
 	GameEngine::SpriteRenderComponent* render = background->AddComponent<GameEngine::SpriteRenderComponent>();
 	if (screen == 1) {
 		render->SetTexture(GameEngine::eTexture::BackgroundHome);
-		CreateObstacle();
+		for (int i = 0; i < 4; ++i) {
+			SpawnBackgroundObstacles(100 + i);
+		}
+		//CreateObstacle();
 		if (!init) {
 			CreatePlayer(px, py);
 			init = true;
@@ -78,11 +81,11 @@ void GameBoard::CreateBackground() {
 	else if (screen == 3) {
 		render->SetTexture(GameEngine::eTexture::BackgroundPet);
 
-		CreateText("Coins: " + std::to_string(m_player->GetScore()), 175.f, 75.f);
-		CreateText("Feed Pet (10C)", 175.f, 275.f);
-		CreateFoodButton();
-		CreateCoin();
 		CreateHappinessBar();
+		CreateCoinCounter("Coins: " + std::to_string(m_player->GetScore()), 175.f, 75.f);
+		CreateText("Feed Pet (10C)", 175.f, 275.f);
+		CreateFoodButton(); 
+		CreateCoin();
 		pastscreen = 3;
 	}
 	render->SetFillColor(sf::Color::Transparent);
@@ -103,10 +106,22 @@ void GameBoard::SpawnBackgroundObstacles(int id) {
 	}
 	else if (id == 202) {
 		obst->SetPos(sf::Vector2f(0, 0.f));
-		obst->SetSize(sf::Vector2f(1.0f, 1800.0f));
+		obst->SetSize(sf::Vector2f(1.0f, 3000.0f));
 	}else if (id == 100){
 		obst->SetPos(sf::Vector2f(0, 0.f));
-		obst->SetSize(sf::Vector2f(1.0f, 700.0f));
+		obst->SetSize(sf::Vector2f(450.0f, 1000.0f));
+	}
+	else if (id == 101) {
+		obst->SetPos(sf::Vector2f(450.f, 0.f));
+		obst->SetSize(sf::Vector2f(2300.0f, 550.0f));
+	}
+	else if (id == 102) {
+		obst->SetPos(sf::Vector2f(1780.f, 0.f));
+		obst->SetSize(sf::Vector2f(450.0f, 1000.0f));
+	}
+	else if (id == 103) {
+		obst->SetPos(sf::Vector2f(0.f, 960.f));
+		obst->SetSize(sf::Vector2f(4000.0f, 10.0f));
 	}
 
 	// Render
@@ -114,6 +129,9 @@ void GameBoard::SpawnBackgroundObstacles(int id) {
 
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetTexture(GameEngine::eTexture::HallObstacle);
+
+	//comment out to show the obstacle
+	render->SetZLevel(-8);
 
 	obst->AddComponent<GameEngine::CollidableComponent>();
 	//roomObstacles.push_back(obst);
@@ -166,16 +184,28 @@ void GameBoard::UpdatePosition() {
 			screen = 2;
 			CreateBackground();
 		}
-		if (event.type == sf::Event::MouseButtonPressed) {
-			if (event.mouseButton.button == sf::Mouse::Left) {
-				printf((char*)event.mouseButton.x);
-				printf((char*)event.mouseButton.y);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+			float xm = sf::Mouse::getPosition().x;
+			float ym = sf::Mouse::getPosition().y;
+			time_t ntime = time(NULL);
+
+			if (xm < 650 && xm > 350 && ym > 100 && ym < 500 && difftime(ntime, lastClicked) > 2.f) {
+				lastClicked = ntime;
+				m_player->SetScore(m_player->GetScore() - 1);
+				addHapiness();
+				printf("%f", happiness);
+				std::cout << m_player->GetScore() << std::endl;
+				if (coincounter) {
+					GameEngine::GameEngineMain::GetInstance()->RemoveEntity(coincounter);
+					coincounter = nullptr;
+				}
+				
+				CreateCoinCounter("Coins: " + std::to_string(m_player->GetScore()), 175.f, 75.f);
 			}
 		}
 	}
-	
 }
-
+	
 
 void GameBoard::CreateChecklist() {
 	checklist = new GameEngine::Entity();
@@ -234,7 +264,7 @@ void GameBoard::CreatePet() {
 	pet = new PetEntity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(pet);
 
-	pet->SetPos(sf::Vector2f(700.0f, 150.0f));
+	pet->SetPos(sf::Vector2f(700.0f, 600.0f));
 	pet->SetSize(sf::Vector2f(100.0f, 100.0f));
 
 	petRender = static_cast<GameEngine::SpriteRenderComponent*>(pet->AddComponent<GameEngine::SpriteRenderComponent>());
@@ -291,6 +321,18 @@ void GameBoard::CreateCoin() {
 	render->SetTexture(GameEngine::eTexture::Coin);
 }
 
+void GameBoard::CreateCoinCounter(std::string text, int xpos, int ypos) {
+	coincounter = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(coincounter);
+
+	coincounter->SetPos(sf::Vector2f(xpos, ypos));
+	GameEngine::TextRenderComponent* render = coincounter->AddComponent<GameEngine::TextRenderComponent>();
+	render->SetString(text);
+	render->SetFont("joystix.ttf");
+	render->SetColor(sf::Color::Black);
+	render->SetFillColor(sf::Color::Transparent);
+	render->SetCharacterSizePixels(35);
+}
 
 void GameBoard::CreateText(std::string text, int xpos, int ypos) {
 	GameEngine::Entity* ptscounter = new GameEngine::Entity();
@@ -311,16 +353,16 @@ void GameBoard::CreateHappinessBar() {
 
 	happinessMeter = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(happinessMeter);
-	printf("%f", happiness);
+
 	happinessBar->SetPos(sf::Vector2f(1550.f, 40.f));
 	happinessBar->SetSize(sf::Vector2f(hapwidth, haplength));
 	GameEngine::SpriteRenderComponent* render = happinessBar->AddComponent<GameEngine::SpriteRenderComponent>();
+
 	if (happiness > 0.99) {
 		happinessMeter->SetPos(sf::Vector2f(1550.f, 40.f));
 		happinessMeter->SetSize(sf::Vector2f(hapwidth, haplength));
 	}
 	else if (happiness > 0.79) {
-		printf("entered");
 		happinessMeter->SetPos(sf::Vector2f(1510.f, 40.f));
 		happinessMeter->SetSize(sf::Vector2f(hapwidth * 0.8, haplength));
 	}
@@ -340,54 +382,58 @@ void GameBoard::CreateHappinessBar() {
 		happinessMeter->SetPos(sf::Vector2f(1550.f, 40.f));
 		happinessMeter->SetSize(sf::Vector2f(0, haplength));
 	}
-	else {
-		printf("none");
-	}
 
 	GameEngine::RenderComponent* meter = static_cast<GameEngine::RenderComponent*>(happinessMeter->AddComponent<GameEngine::RenderComponent>());
-	
+
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetTexture(GameEngine::eTexture::HappinessBar);
 	render->SetZLevel(300);
 
 	meter->SetFillColor(sf::Color::Green);
-	meter->SetZLevel(200);
+	render->SetZLevel(200);
+}
+
+void GameBoard::addHapiness() {
+	if (happiness >= 0.8) {
+		happiness = 1.f;
+	}
+	else {
+		happiness += 0.2;
+	}
 }
 
 void GameBoard::UpdateHappinessBar() {
-	if (pet->GetHappiness() != pastHappiness) {
-		
+
 		if (happiness > 0.99) {
 			happinessMeter->SetPos(sf::Vector2f(1550.f, 40.f));
 			happinessMeter->SetSize(sf::Vector2f(hapwidth, haplength));
 		}
 		else if (happiness > 0.79) {
 			happinessMeter->SetPos(sf::Vector2f(1510.f, 40.f));
-			happinessMeter->SetSize(sf::Vector2f(hapwidth*0.8, haplength));
+			happinessMeter->SetSize(sf::Vector2f(hapwidth * 0.8, haplength));
 		}
-		else if(happiness > 0.59){
+		else if (happiness > 0.59) {
 			happinessMeter->SetPos(sf::Vector2f(1470.f, 40.f));
-			happinessMeter->SetSize(sf::Vector2f(hapwidth*0.6, haplength));
+			happinessMeter->SetSize(sf::Vector2f(hapwidth * 0.6, haplength));
 		}
 		else if (happiness > 0.39) {
 			happinessMeter->SetPos(sf::Vector2f(1430.f, 40.f));
-			happinessMeter->SetSize(sf::Vector2f(hapwidth*0.4, haplength));
+			happinessMeter->SetSize(sf::Vector2f(hapwidth * 0.4, haplength));
 		}
 		else if (happiness > 0.19) {
 			happinessMeter->SetPos(sf::Vector2f(1390.f, 40.f));
-			happinessMeter->SetSize(sf::Vector2f(hapwidth*0.2, haplength));
+			happinessMeter->SetSize(sf::Vector2f(hapwidth * 0.2, haplength));
 		}
 		else if (happiness == 0) {
 			happinessMeter->SetPos(sf::Vector2f(1550.f, 40.f));
 			happinessMeter->SetSize(sf::Vector2f(0, haplength));
 		}
-		pastHappiness = happiness;
-	}
+	
 }
 
 void GameBoard::UpdateLevel() {
 	if (screen == 1) {
-	if (m_player->GetPos().y < (pet->GetPos().y - 12.f)) {
+if (m_player->GetPos().y < (pet->GetPos().y - 12.f)) {
 		playerRender->SetZLevel(99);
 		petRender->SetZLevel(100);
 	}
@@ -396,6 +442,7 @@ void GameBoard::UpdateLevel() {
 		petRender->SetZLevel(99);
 	}
 	}
+	
 }
 
 
