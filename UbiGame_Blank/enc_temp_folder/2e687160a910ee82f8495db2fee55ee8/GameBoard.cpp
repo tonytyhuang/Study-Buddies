@@ -92,10 +92,6 @@ void GameBoard::CreateBackground() {
 	render->SetZLevel(-1);
 }
 
-void CreateRoom1Obstacles() {
-
-}
-
 void GameBoard::SpawnBackgroundObstacles(int id) {
 	GameEngine::Entity* obst = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(obst);
