@@ -12,11 +12,14 @@
 #include "GameEngine/EntitySystem/Components/CollidableComponent.h"
 #include "GameEngine/EntitySystem/Components/TextRenderComponent.h"
 
+#include <iostream>
+#include <ctime>
+
 using namespace Game;
 
 GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1),
 						 init(false), px(150), py(150), hapwidth(208.f), haplength(18.f), pastHappiness(1.f),
-						 m_player(nullptr), pet(nullptr), check{false}, checklist{nullptr}
+						m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(30.f)
 {
 	CreateBackground();
 
