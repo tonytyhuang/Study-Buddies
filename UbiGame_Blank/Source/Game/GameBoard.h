@@ -30,6 +30,7 @@ namespace Game
 		void CreatePtsCounter();
 		void CreateTasks(int id);
 		void UpdateLevel();
+		void SpawnBackgroundObstacles(int room);
 		
 		float boardx;
 		float boardy;
@@ -48,6 +49,7 @@ namespace Game
 		GameEngine::Entity* obstacle;
 		PlayerEntity* m_player;
 		GameEngine::Entity* background;
+		
 		GameEngine::Entity* checklist;
 		GameEngine::Entity* ptscounter;
 		std::vector<GameEngine::Entity*> tasks;

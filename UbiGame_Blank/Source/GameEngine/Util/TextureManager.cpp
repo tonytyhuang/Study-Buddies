@@ -54,6 +54,7 @@ namespace TextureHelper
 		case eTexture::Obstacle: return sf::Vector2f(280.0f, 275.0f);
 		case eTexture::Dog: return sf::Vector2f(96.f, 96.f);
 		case eTexture::Checklist: return sf::Vector2f(0.f, 0.f);
+		case eTexture::HallObstacle: return sf::Vector2f(0.f, 0.f);
 		}
 		return sf::Vector2f(-1.f, -1.f);
 	}

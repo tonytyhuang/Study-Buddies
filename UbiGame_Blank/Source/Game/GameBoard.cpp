@@ -53,12 +53,15 @@ void GameBoard::CreateBackground() {
 		}
 		else {
 			CreatePlayer(0.f, py);
-		}
+		} 
 		CreatePet();
 		pastscreen = 1;
 	}
 	else if (screen == 2) {
 		render->SetTexture(GameEngine::eTexture::BackgroundHall);
+		for (int i = 0; i < 3; ++i) {
+			SpawnBackgroundObstacles(200 + i);
+		}
 		if (pastscreen == 1) {
 			CreatePlayer(boardx, py);
 		}
@@ -76,6 +79,36 @@ void GameBoard::CreateBackground() {
 
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetZLevel(-1);
+}
+
+void GameBoard::SpawnBackgroundObstacles(int id) {
+	GameEngine::Entity* obst = new GameEngine::Entity();
+	GameEngine::GameEngineMain::GetInstance()->AddEntity(obst);
+
+	if (id == 200) {
+		obst->SetPos(sf::Vector2f(0, 0.f));
+		obst->SetSize(sf::Vector2f(1800.0f, 255.0f));
+	}
+	else if (id == 201) {
+		obst->SetPos(sf::Vector2f(0, 420.f));
+		obst->SetSize(sf::Vector2f(1800.0f, 255.0f));
+	}
+	else if (id == 202) {
+		obst->SetPos(sf::Vector2f(0, 0.f));
+		obst->SetSize(sf::Vector2f(1.0f, 700.0f));
+	}else if (id == 100){
+		obst->SetPos(sf::Vector2f(0, 0.f));
+		obst->SetSize(sf::Vector2f(1.0f, 700.0f));
+	}
+
+	// Render
+	GameEngine::SpriteRenderComponent* render = obst->AddComponent<GameEngine::SpriteRenderComponent>();
+
+	render->SetFillColor(sf::Color::Transparent);
+	render->SetTexture(GameEngine::eTexture::HallObstacle);
+
+	obst->AddComponent<GameEngine::CollidableComponent>();
+	//roomObstacles.push_back(obst);
 }
 
 void GameBoard::UpdatePosition() {
