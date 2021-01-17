@@ -20,8 +20,8 @@ using namespace Game;
 
 GameBoard::GameBoard() : boardx(1800.f), boardy(900.f), pastscreen(1), screen(1), agendaHover(false),
 init(false), px(500), py(500), hapwidth(416.0), haplength(32.0), pastHappiness(1.f),
-m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(30.f),
-ispressed(false), score(100), happiness(0.2), taskLength(3)
+m_player(nullptr), pet(nullptr), check{ false }, checklist{ nullptr }, happinessTime(15.0),
+ispressed(false), score(100), happiness(0.6), taskLength(3)
 
 {
 	sf::Time time1 = clock.restart();
@@ -75,6 +75,8 @@ void GameBoard::CreateBackground() {
 		}
 		CreatePet(1390.0f, 410.0f);
 		CreateHappinessBar();
+		CreateCoinCounter("Coins: " + std::to_string(score), 150.f, 50.f);
+		CreateCoin(true);
 		pastscreen = 1;
 	}
 	else if (screen == 2) {
@@ -89,6 +91,8 @@ void GameBoard::CreateBackground() {
 			CreatePlayer(880.f, 500.f);
 		}
 		CreateHappinessBar();
+		CreateCoinCounter("Coins: " + std::to_string(score), 150.f, 50.f);
+		CreateCoin(true);
 		pastscreen = 2;
 	}
 	else if (screen == 3) {
@@ -98,7 +102,7 @@ void GameBoard::CreateBackground() {
 		CreateCoinCounter("Coins: " + std::to_string(score), 175.f, 75.f);
 		CreateText("Feed Pet (10C)", 175.f, 275.f, 35, "joystix.ttf");
 		CreateFoodButton();
-		CreateCoin();
+		CreateCoin(false);
 		CreateBigDog();
 		pastscreen = 3;
 	}
@@ -315,9 +319,16 @@ void GameBoard::UpdateMousePosition() {
 							firstpressed[i] = false;
 							completed[i] = true;
 							CreateCheck(completed[i], i);
+							checkpressed = true;
 						}
 					}
 				}
+			}
+			if (checkpressed) {
+				score += 10;
+				GameEngine::GameEngineMain::GetInstance()->RemoveEntity(coincounter);
+				coincounter = nullptr;
+				CreateCoinCounter("Coins: " + std::to_string(score), 150.f, 50.f);
 			}
 		}
 	}
@@ -531,11 +542,17 @@ void GameBoard::CreateFoodButton() {
 }
 
 
-void GameBoard::CreateCoin() {
+void GameBoard::CreateCoin(bool main) {
 	coinicon = new GameEngine::Entity();
 	GameEngine::GameEngineMain::GetInstance()->AddEntity(coinicon);
-	coinicon->SetPos(sf::Vector2f(100.f, 100.f));
-	coinicon->SetSize(sf::Vector2f(175.f, 175.f));
+	if (!main) {
+		coinicon->SetPos(sf::Vector2f(100.f, 100.f));
+		coinicon->SetSize(sf::Vector2f(175.f, 175.f));
+	}
+	else {
+		coinicon->SetPos(sf::Vector2f(90.f, 75.f));
+		coinicon->SetSize(sf::Vector2f(100.f, 100.f));
+	}
 	GameEngine::SpriteRenderComponent* render = static_cast<GameEngine::SpriteRenderComponent*>(coinicon->AddComponent<GameEngine::SpriteRenderComponent>());
 	render->SetFillColor(sf::Color::Transparent);
 	render->SetTexture(GameEngine::eTexture::Coin);
@@ -678,6 +695,17 @@ void GameBoard::UpdateHappiness() {
 		clock.restart();
 	}
 }
+
+void GameBoard::UpdatePetHappiness() {
+	if (screen == 1) {
+		Game::PetMovementComponent* temp = pet->GetComponent<Game::PetMovementComponent>();
+		temp->GetHappiness(happiness);
+	}
+	else if (screen == 3) {
+		Game::BigDogComponent* temp2 = bigDog->GetComponent<Game::BigDogComponent>();
+		temp2->SetHappiness(happiness);
+	}
+}
 //void GameBoard::StartText() {
 
 
@@ -719,6 +747,9 @@ void GameBoard::MouseClick() {
 
 void GameBoard::Update()
 {
+	
+	UpdatePetHappiness();
+	
 	UpdateHappiness();
 	UpdateHappinessBar();
 	UpdateLevel();

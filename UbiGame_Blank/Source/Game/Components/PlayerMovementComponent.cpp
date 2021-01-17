@@ -32,7 +32,7 @@ void PlayerMovementComponent::Update() {
     sf::Vector2f displacement{ 0.0f,0.0f };
 
     //The amount of speed that we will apply when input is received
-    const float inputAmount = 500.0f;
+    const float inputAmount = 300.0f;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
